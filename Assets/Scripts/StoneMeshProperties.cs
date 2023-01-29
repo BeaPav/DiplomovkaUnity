@@ -1,0 +1,70 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using PropertiesCounter;
+
+public class StoneMeshProperties : MonoBehaviour
+{
+    public float Volume;
+    public float FractionNumber;
+    public float Length;
+    public float Width;
+
+    //Mesh StoneMesh;
+
+    #region METHODS FOR GET & SET PROPERTIES 
+
+    public void SetVolume(float v)
+    {
+        Volume = v;
+    }
+    
+    public float GetVolume()
+    {
+        return Volume;
+    }
+
+    public void SetWidth(float w)
+    {
+        Width = w;
+    }
+
+    public float GetWidth()
+    {
+        return Width;
+    }
+
+    public void SetLength(float l)
+    {
+        Length = l;
+    }
+
+    public float GetLength()
+    {
+        return Length;
+    }
+
+    #endregion
+
+    //METHOD TO SCALE STONE`S MESH AND ITS PROPERTIES
+    public void ScaleStone(float ScaleMin, float ScaleMax)
+    {
+        if (ScaleMin > ScaleMax)
+        {
+            (ScaleMin, ScaleMax) = (ScaleMax, ScaleMin);
+        }
+        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! tu treba pridat skalovanie podla fraction number
+        float scaleFactor = Random.Range(ScaleMin, ScaleMax);
+
+        transform.localScale *= scaleFactor;
+
+        Volume *= scaleFactor * scaleFactor * scaleFactor;
+        FractionNumber *= scaleFactor;
+        Length *= scaleFactor;
+        Width *= scaleFactor;
+
+    }
+
+
+
+}
