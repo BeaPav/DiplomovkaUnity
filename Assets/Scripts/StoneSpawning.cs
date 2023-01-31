@@ -9,8 +9,14 @@ public class StoneSpawning : MonoBehaviour
     [SerializeField] List<GameObject> Prefabs;
     [SerializeField] GameObject StoneParent;
 
-    [SerializeField] Vector3 SpawnPoint;
-    [SerializeField] float SpawnOffset;
+    [SerializeField] float DensityOfStoneMaterial = 2600;
+    float[] MassOfStones;
+
+    [SerializeField] float SpawnPointYOffset;
+    Vector3 SpawnPoint;
+
+    [SerializeField] float SpawnRelativeOffset;
+    float SpawnOffset;
 
     [SerializeField] float ScaleMin;
     [SerializeField] float ScaleMax;
@@ -40,11 +46,18 @@ public class StoneSpawning : MonoBehaviour
         #region INITIALIZE VARIABLES
 
         noPrefabs = Prefabs.Count;
+        MassOfStones = new float[noPrefabs];
+
         ProcessPaused = false;
 
-        BoxVolume = 1f;
+        BoxVolume = 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z;
         BoxEmptyVolume = BoxVolume;
         StonesVolume = 0;
+
+        SpawnPoint = Vector3.zero;
+        SpawnPoint.y += transform.localScale.y + SpawnPointYOffset;
+
+        SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
 
         #endregion
 
@@ -54,16 +67,21 @@ public class StoneSpawning : MonoBehaviour
         {
             Prefabs[i].SetActive(true);
 
-            Vector2 lengthWidth = f.GetLengthAndWidthOfFragment(Prefabs[i]);
+            Vector2 lengthWidth = f.GetLengthAndWidthOfStone(Prefabs[i]);
             float volume = f.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>().sharedMesh);
+            float frNum = f.FrNumber(Prefabs[i]);
+
+            MassOfStones[i] = volume * DensityOfStoneMaterial;
 
             StoneMeshProperties s = Prefabs[i].GetComponent<StoneMeshProperties>();
             s.SetVolume(volume);
             s.SetLength(lengthWidth.x);
             s.SetWidth(lengthWidth.y);
+            s.SetFractionNumber(frNum);
             Prefabs[i].SetActive(false);
 
-            //Debug.Log(i + ": length:" + s.GetLength() + " width: " + s.GetWidth() + " volume: " + s.GetVolume());
+            Debug.Log(i + ": length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " 
+                        + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + MassOfStones[i]);
         }
         #endregion
 
@@ -87,6 +105,7 @@ public class StoneSpawning : MonoBehaviour
                 //Creating a new stone with random rotation, scale and position above the box
                 GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Random.rotation, StoneParent.transform);
                 stone.SetActive(true);
+                stone.GetComponent<Rigidbody>().mass = MassOfStones[prefabIndex];
                 StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
                 s.ScaleStone(ScaleMin, ScaleMax);
 

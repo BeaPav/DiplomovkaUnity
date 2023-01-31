@@ -44,6 +44,16 @@ public class StoneMeshProperties : MonoBehaviour
         return Length;
     }
 
+    public void SetFractionNumber(float frNum)
+    {
+        FractionNumber = frNum;
+    }
+
+    public float GetFractionNumber()
+    {
+        return FractionNumber;
+    }
+
     #endregion
 
     //METHOD TO SCALE STONE`S MESH AND ITS PROPERTIES
@@ -53,8 +63,9 @@ public class StoneMeshProperties : MonoBehaviour
         {
             (ScaleMin, ScaleMax) = (ScaleMax, ScaleMin);
         }
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! tu treba pridat skalovanie podla fraction number
-        float scaleFactor = Random.Range(ScaleMin, ScaleMax);
+        
+        //Scaling in order FractionNumber belongs to interval [ScaleMin,ScaleMax]
+        float scaleFactor = Random.Range(ScaleMin, ScaleMax)/FractionNumber;
 
         transform.localScale *= scaleFactor;
 
@@ -62,6 +73,8 @@ public class StoneMeshProperties : MonoBehaviour
         FractionNumber *= scaleFactor;
         Length *= scaleFactor;
         Width *= scaleFactor;
+
+        GetComponent<Rigidbody>().mass *= scaleFactor * scaleFactor * scaleFactor;
 
     }
 

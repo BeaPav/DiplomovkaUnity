@@ -39,11 +39,12 @@ namespace PropertiesCounter
         }
         #endregion
 
+        #region LENGTH AND WIDTH    
         //COUNTING OF STONE`S    WIDTH = minimal distance of two paralell planes
         //                       LENGTH = maximal distance of two paralell planes
-        public static Vector2 GetLengthAndWidthOfFragment(GameObject stone)
+        public static Vector2 GetLengthAndWidthOfStone(GameObject stone)
         {
-            Collider col = stone.GetComponentInChildren<Collider>();
+            Renderer meshRenderer = stone.GetComponentInChildren<Renderer>();
 
             //Saving of original transformations for later
             Vector3 originalPos = stone.transform.position;
@@ -51,8 +52,8 @@ namespace PropertiesCounter
             Vector3 originalScale = stone.transform.localScale;
 
             //Inicialization of length and width
-            float width = Mathf.Min(col.bounds.size.x, col.bounds.size.y, col.bounds.size.z);
-            float length = Mathf.Max(col.bounds.size.x, col.bounds.size.y, col.bounds.size.z);
+            float width = Mathf.Min(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
+            float length = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
 
             //Rotations step to create AABB of actual rotation
             Vector3 zrot = new Vector3(0,0,10);
@@ -65,8 +66,8 @@ namespace PropertiesCounter
                 {
                     stone.transform.Rotate(zrot);
                    
-                    float min = Mathf.Min(col.bounds.size.x, col.bounds.size.y, col.bounds.size.z);
-                    float max = Mathf.Max(col.bounds.size.x, col.bounds.size.y, col.bounds.size.z);
+                    float min = Mathf.Min(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
+                    float max = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
 
                     if (min < width)
                         width = min;
@@ -84,6 +85,42 @@ namespace PropertiesCounter
 
             return new Vector2(length, width);
         }
+        #endregion
+
+
+        #region FRACTION NUMBER
+
+        public static float FrNumber(GameObject stone)
+        {
+            Renderer meshRenderer = stone.GetComponentInChildren<Renderer>();
+
+            // Saving of original transformations for later
+            Vector3 originalPos = stone.transform.position;
+            Quaternion originalRot = stone.transform.rotation;
+            Vector3 originalScale = stone.transform.localScale;
+
+            //Inicialization of FrNumber
+            float frNum = float.MaxValue;
+            int numOfRot = 20;
+
+            //Rotating stone and finding the square witch the stone falls through
+            for (int i = 0; i < numOfRot; i++)
+            {
+                stone.transform.rotation = Random.rotation;
+                float max = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.z);
+
+                if (max < frNum) frNum = max;
+            }
+
+            //Return stones original transformations
+            stone.transform.position = originalPos;
+            stone.transform.rotation = originalRot;
+            stone.transform.localScale = originalScale;
+
+            return frNum;
+        }
+
+        #endregion
 
     }
 }
