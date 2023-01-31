@@ -90,7 +90,7 @@ namespace PropertiesCounter
 
         #region FRACTION NUMBER
 
-        public static float FrNumber(GameObject stone)
+        public static float FrNumber(GameObject stone, int numOfRot)
         {
             Renderer meshRenderer = stone.GetComponentInChildren<Renderer>();
 
@@ -101,7 +101,6 @@ namespace PropertiesCounter
 
             //Inicialization of FrNumber
             float frNum = float.MaxValue;
-            int numOfRot = 20;
 
             //Rotating stone and finding the square witch the stone falls through
             for (int i = 0; i < numOfRot; i++)

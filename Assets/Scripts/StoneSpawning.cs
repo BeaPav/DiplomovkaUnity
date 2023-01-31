@@ -11,6 +11,8 @@ public class StoneSpawning : MonoBehaviour
 
     [SerializeField] float DensityOfStoneMaterial = 2600;
     float[] MassOfStones;
+    float[] GradingCurveIndexes;
+    float[] GradingCurveVolumes;
 
     [SerializeField] float SpawnPointYOffset;
     Vector3 SpawnPoint;
@@ -59,6 +61,9 @@ public class StoneSpawning : MonoBehaviour
 
         SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
 
+        GradingCurveIndexes = new float[] { 0.2f, 0.4f, 0.56f, 0.8f, 1.12f, 1.6f, 2.24f, 3.15f };
+        GradingCurveVolumes = new float[GradingCurveIndexes.Length + 1];
+
         #endregion
 
         #region INITIALIZE STONE`S PROPERTIES
@@ -69,7 +74,7 @@ public class StoneSpawning : MonoBehaviour
 
             Vector2 lengthWidth = f.GetLengthAndWidthOfStone(Prefabs[i]);
             float volume = f.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>().sharedMesh);
-            float frNum = f.FrNumber(Prefabs[i]);
+            float frNum = f.FrNumber(Prefabs[i], 20);
 
             MassOfStones[i] = volume * DensityOfStoneMaterial;
 
@@ -80,8 +85,8 @@ public class StoneSpawning : MonoBehaviour
             s.SetFractionNumber(frNum);
             Prefabs[i].SetActive(false);
 
-            Debug.Log(i + ": length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " 
-                        + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + MassOfStones[i]);
+            //Debug.Log(i + ": length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " 
+            //            + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + MassOfStones[i]);
         }
         #endregion
 
@@ -120,7 +125,9 @@ public class StoneSpawning : MonoBehaviour
         //Calculation of propertiesof completed model
         if(ProcessEnded & !PropertiesCalculated)
         {
+            Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
+            Random.InitState(319);
 
             StoneMeshProperties[] AllStonesProperties = StoneParent.GetComponentsInChildren<StoneMeshProperties>();
             for (int i = 0; i < AllStonesProperties.Length; i++)
@@ -129,13 +136,50 @@ public class StoneSpawning : MonoBehaviour
                 StonesVolume += volume;
                 BoxEmptyVolume -= volume;
                 //Debug.Log(i + " volume: " + volume);
+
+                //znovu sa vygeneruje nahodne fraction number pre ziskanie grading curve, povodne sa neprepisuje
+                //float frNum = f.FrNumber(AllStonesProperties[i].transform.gameObject, 10);
+
+                Renderer meshRenderer = AllStonesProperties[i].gameObject.GetComponentInChildren<Renderer>();
+                float frNum = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.z);
+
+                if (frNum < GradingCurveIndexes[0])
+                {
+                    GradingCurveVolumes[0] += volume;
+                }
+                else if(GradingCurveIndexes[GradingCurveIndexes.Length - 1] < frNum)
+                {
+                    GradingCurveVolumes[GradingCurveIndexes.Length] += volume;
+                }
+                else
+                {
+                    for(int j = 1; j < GradingCurveIndexes.Length; j++)
+                    {
+                        if(frNum < GradingCurveIndexes[j])
+                        {
+                            GradingCurveVolumes[j] += volume;
+                            break;
+                        }
+                    }
+                }
+
+                
             }
 
             Voids = BoxEmptyVolume / BoxVolume;
             Debug.Log("StonesVolume: " + StonesVolume);
             Debug.Log("EmptyVolume: " + BoxEmptyVolume);
             Debug.Log("Voids: " + Voids);
-            
+
+
+
+            Debug.Log("GradingCurve: ");
+            Debug.Log("[  - " + GradingCurveIndexes[0] + "] : " + GradingCurveVolumes[0] / StonesVolume);
+            for (int k = 1; k<GradingCurveVolumes.Length-1;k++)
+            {
+                Debug.Log("[" + GradingCurveIndexes[k-1] + " - " + GradingCurveIndexes[k] + "]: "  + GradingCurveVolumes[k] / StonesVolume);
+            }
+            Debug.Log("[" + GradingCurveIndexes[GradingCurveIndexes.Length-1] + " - ]: " + GradingCurveVolumes[0] / StonesVolume);
         }
       
     }
