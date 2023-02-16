@@ -87,7 +87,6 @@ namespace PropertiesCounter
         }
         #endregion
 
-
         #region FRACTION NUMBER
 
         public static float FrNumber(GameObject stone, int numOfRot)

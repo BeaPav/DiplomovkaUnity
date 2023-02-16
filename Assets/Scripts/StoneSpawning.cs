@@ -67,6 +67,7 @@ public class StoneSpawning : MonoBehaviour
         #endregion
 
         #region INITIALIZE STONE`S PROPERTIES
+        /*
         //Counting of essential mesh properties (length, width, volume) for each mesh prototype
         for (int i = 0; i < noPrefabs; i++)
         {
@@ -88,6 +89,7 @@ public class StoneSpawning : MonoBehaviour
             //Debug.Log(i + ": length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " 
             //            + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + MassOfStones[i]);
         }
+        */
         #endregion
 
 
