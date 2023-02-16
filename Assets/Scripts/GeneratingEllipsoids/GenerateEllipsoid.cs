@@ -5,14 +5,13 @@ using GenerateEllipsoidsNamespace;
 
 public class GenerateEllipsoid : MonoBehaviour
 {
-    MeshCollider col;
+    
 
     // Start is called before the first frame update
     void Awake()
     {
-        GetComponentInChildren<MeshFilter>().mesh = genE.GenerateSphere(1f, 5, 3);
-        col = GetComponentInChildren<MeshFilter>().gameObject.AddComponent<MeshCollider>();
-        col.convex = true;
+        genE.GenerateEllipsoid(this.gameObject, 8, 6);
+        //!!!!!!!!! treba zratat vsetky vlastnosti objektu typu objemy a podobne
     }
 
     // Update is called once per frame

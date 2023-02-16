@@ -6,6 +6,7 @@ namespace GenerateEllipsoidsNamespace
 {
     public static class genE
     {
+        #region GENERATE SPHERE
         public static Mesh GenerateSphere(float Radius, int meridians, int parallels)
         {
             Mesh mesh = new Mesh();
@@ -104,6 +105,28 @@ namespace GenerateEllipsoidsNamespace
             mesh.RecalculateNormals();
 
             return mesh;
+        }
+        #endregion
+
+        //!!!!!!!!!!!!! treba doprogramovat ratanie meridians a parallels podla skalovania a daneho optimalu pre jednotkovu gulu
+        public static void GenerateEllipsoid(GameObject parent, int noMeridians, int  noParallels)
+        {
+            GameObject meshObject = parent.GetComponentInChildren<MeshFilter>().gameObject;
+
+            //zistenie kolko treba par a med podla toho ako skalujeme
+
+            //vygenerovanie gule
+            meshObject.GetComponent<MeshFilter>().mesh = GenerateSphere(1f, noMeridians, noParallels);
+
+            //skalovanie
+            meshObject.transform.localScale = new Vector3(0.5f, 2f, 1f);
+
+            //deformacia
+
+            //collider - bude treba urobit nekonvexny pre posunuty mesh
+            MeshCollider col = meshObject.AddComponent<MeshCollider>();
+            col.convex = true;
+
         }
     }
 }

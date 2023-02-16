@@ -112,7 +112,7 @@ public class StoneSpawning : MonoBehaviour
                 //Creating a new stone with random rotation, scale and position above the box
                 GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Random.rotation, StoneParent.transform);
                 stone.SetActive(true);
-                stone.GetComponent<Rigidbody>().mass = MassOfStones[prefabIndex];
+                //stone.GetComponent<Rigidbody>().mass = MassOfStones[prefabIndex];
                 StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
                 s.ScaleStone(ScaleMin, ScaleMax);
 

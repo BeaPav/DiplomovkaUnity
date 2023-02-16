@@ -147,10 +147,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1ef0746b07376fb4aafada1f530ff736, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Volume: 0.022409616
-  FractionNumber: 0.40697762
-  Length: 0.6374849
-  Width: 0.283027
+  Volume: 1
+  FractionNumber: 1
+  Length: 1
+  Width: 1
 --- !u!114 &-7280534978353905845
 MonoBehaviour:
   m_ObjectHideFlags: 0
