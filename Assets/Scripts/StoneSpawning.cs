@@ -9,8 +9,8 @@ public class StoneSpawning : MonoBehaviour
     [SerializeField] List<GameObject> Prefabs;
     [SerializeField] GameObject StoneParent;
 
-    [SerializeField] float DensityOfStoneMaterial = 2600;
-    float[] MassOfStones;
+    //[SerializeField] float DensityOfStoneMaterial = 2600;
+    //float[] MassOfStones;
     float[] GradingCurveIndexes;
     float[] GradingCurveVolumes;
 
@@ -20,8 +20,8 @@ public class StoneSpawning : MonoBehaviour
     [SerializeField] float SpawnRelativeOffset;
     float SpawnOffset;
 
-    [SerializeField] float ScaleMin;
-    [SerializeField] float ScaleMax;
+    [SerializeField] float FractionMin;
+    [SerializeField] float FractionMax;
 
 
     [SerializeField] float TimePause = 1f;
@@ -48,7 +48,7 @@ public class StoneSpawning : MonoBehaviour
         #region INITIALIZE VARIABLES
 
         noPrefabs = Prefabs.Count;
-        MassOfStones = new float[noPrefabs];
+        //MassOfStones = new float[noPrefabs];
 
         ProcessPaused = false;
 
@@ -66,7 +66,7 @@ public class StoneSpawning : MonoBehaviour
 
         #endregion
 
-        #region INITIALIZE STONE`S PROPERTIES
+        #region INITIALIZE STONE`S PROPERTIES - !!!!!!!!!!!!treba vymazat
         /*
         //Counting of essential mesh properties (length, width, volume) for each mesh prototype
         for (int i = 0; i < noPrefabs; i++)
@@ -112,9 +112,8 @@ public class StoneSpawning : MonoBehaviour
                 //Creating a new stone with random rotation, scale and position above the box
                 GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Random.rotation, StoneParent.transform);
                 stone.SetActive(true);
-                //stone.GetComponent<Rigidbody>().mass = MassOfStones[prefabIndex];
                 StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
-                s.ScaleStone(ScaleMin, ScaleMax);
+                s.ScaleStone(FractionMin, FractionMax);
 
                 TimeLastSpawn = Time.time;
             }

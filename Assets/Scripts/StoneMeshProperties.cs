@@ -64,7 +64,7 @@ public class StoneMeshProperties : MonoBehaviour
             (ScaleMin, ScaleMax) = (ScaleMax, ScaleMin);
         }
         
-        //Scaling in order FractionNumber belongs to interval [ScaleMin,ScaleMax]
+        //Scaling in order FractionNumber belongs to interval [FractionMin,FractionMax]
         float scaleFactor = Random.Range(ScaleMin, ScaleMax)/FractionNumber;
 
         transform.localScale *= scaleFactor;

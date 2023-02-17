@@ -1,22 +1,81 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Unity.EditorCoroutines.Editor;
+using UnityEditor;
 using UnityEngine;
+using Object = UnityEngine.Object;
+using MeshProcess;
 using GenerateEllipsoidsNamespace;
+using PropertiesCounter;
 
 public class GenerateEllipsoid : MonoBehaviour
 {
-    
+    [SerializeField] int noParallelsOnSphere = 6;
+    [SerializeField] int noMeridiansOnSphere = 12;
+    [SerializeField] float DensityOfStoneMaterial = 2600;
 
-    // Start is called before the first frame update
+
+    
     void Awake()
     {
-        genE.GenerateEllipsoid(this.gameObject, 8, 6);
-        //!!!!!!!!! treba zratat vsetky vlastnosti objektu typu objemy a podobne
-    }
+        //generate ellipsoid of required shape according to SI and TI
+        genE.GenerateEllipsoid(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, 1f, 1.5f, 0.7f);
+        
+        //create collider
+        GenerateVHACDColliders();
+        
+        //count properties
+        StoneMeshProperties s = GetComponent<StoneMeshProperties>();
+        s.SetVolume(f.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
+        s.SetFractionNumber(f.FrNumber(this.gameObject, 20));
+        Vector2 lengthWidth = f.GetLengthAndWidthOfStone(this.gameObject);
+        s.SetLength(lengthWidth.x);
+        s.SetWidth(lengthWidth.y);
+        GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
 
-    // Update is called once per frame
-    void Update()
-    {
+              /*Debug.Log("properties: " + "length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + GetComponent<Rigidbody>().mass);
+              */
+
+        //scale ellipsoid according to grading curve
         
     }
+
+
+    #region GENERATE VHACD COLLIDERS
+    public void GenerateVHACDColliders()
+    {
+        VHACD.Parameters m_Parameters = VhacdSettings.DefaultParameters();
+        m_Parameters.m_resolution = 200000;
+
+        MeshFilter meshFilter = GetComponentInChildren<MeshFilter>();
+        var child = meshFilter.gameObject;
+
+        var existingColliders = child.GetComponents<MeshCollider>();
+        if (existingColliders.Length > 0)
+        {
+            Debug.Log($"{child.name} had existing colliders; overwriting!");
+            foreach (var coll in existingColliders)
+            {
+                DestroyImmediate(coll);
+            }
+        }
+        
+        var decomposer = child.AddComponent<VHACD>();
+        decomposer.m_parameters = m_Parameters;
+
+        var colliderMeshes = decomposer.GenerateConvexMeshes(meshFilter.sharedMesh);
+
+        foreach (var collider in colliderMeshes)
+        {
+            var current = child.AddComponent<MeshCollider>();
+            current.sharedMesh = collider;
+            current.convex = true;
+        }
+
+        DestroyImmediate(child.GetComponent<VHACD>());
+    }
+    #endregion
 }

@@ -179,3 +179,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 886cf9acbb25a4e4181e7c5d947cb344, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  noMeridiansAndParallelsOnSphere: 6

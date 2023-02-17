@@ -534,8 +534,7 @@ PrefabInstance:
       propertyPath: m_Name
       value: Ellipsoid
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 3583090130715661454, guid: ca8b144083ecdef40aa3fb9fa9377e51, type: 3}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ca8b144083ecdef40aa3fb9fa9377e51, type: 3}
 --- !u!1 &1165584215 stripped
 GameObject:
@@ -927,7 +926,17 @@ PrefabInstance:
     - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: TimePause
-      value: 5
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: FractionMax
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: FractionMin
+      value: 1.6
       objectReference: {fileID: 0}
     - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
