@@ -22,12 +22,12 @@ public class GenerateEllipsoid : MonoBehaviour
     void Awake()
     {
         //generate ellipsoid of required shape according to SI and TI
-        genE.GenerateEllipsoid(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, 1f, 1.5f, 0.7f);
+        genE.GenerateEllipsoid(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, 1f, 1.5f, 0.3f);
         
         //create collider
         GenerateVHACDColliders();
-        
-        //count properties
+
+        //counting ofessential properties of stone (volume, frction number, length, width, mass)
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();
         s.SetVolume(f.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
         s.SetFractionNumber(f.FrNumber(this.gameObject, 20));
@@ -36,8 +36,8 @@ public class GenerateEllipsoid : MonoBehaviour
         s.SetWidth(lengthWidth.y);
         GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
 
-              /*Debug.Log("properties: " + "length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + GetComponent<Rigidbody>().mass);
-              */
+              //Debug.Log("properties: " + "length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + GetComponent<Rigidbody>().mass);
+              
 
         //scale ellipsoid according to grading curve
         
@@ -47,12 +47,14 @@ public class GenerateEllipsoid : MonoBehaviour
     #region GENERATE VHACD COLLIDERS
     public void GenerateVHACDColliders()
     {
+        //inicialization of variables
         VHACD.Parameters m_Parameters = VhacdSettings.DefaultParameters();
         m_Parameters.m_resolution = 200000;
 
         MeshFilter meshFilter = GetComponentInChildren<MeshFilter>();
         var child = meshFilter.gameObject;
 
+        //deleting existing colliders
         var existingColliders = child.GetComponents<MeshCollider>();
         if (existingColliders.Length > 0)
         {
@@ -63,6 +65,7 @@ public class GenerateEllipsoid : MonoBehaviour
             }
         }
         
+        //creating set of convex colliders
         var decomposer = child.AddComponent<VHACD>();
         decomposer.m_parameters = m_Parameters;
 

@@ -110,10 +110,13 @@ public class StoneSpawning : MonoBehaviour
                 int prefabIndex = Random.Range(0, noPrefabs - 1);
 
                 //Creating a new stone with random rotation, scale and position above the box
-                GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Random.rotation, StoneParent.transform);
-                stone.SetActive(true);
+                GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, StoneParent.transform);
+                stone.transform.rotation = Random.rotation;
+                //stone.SetActive(true);
                 StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
-                s.ScaleStone(FractionMin, FractionMax);
+                //s.ScaleStone(FractionMin, FractionMax);
+
+                stone.GetComponent<Rigidbody>().useGravity = true;
 
                 TimeLastSpawn = Time.time;
             }

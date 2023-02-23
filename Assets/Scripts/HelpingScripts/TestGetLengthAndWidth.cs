@@ -6,11 +6,12 @@ using PropertiesCounter;
 public class TestGetLengthAndWidth : MonoBehaviour
 {
     bool b = true;
-
+    int iter = 0;
+    Vector3 step;
     // Start is called before the first frame update
     void Start()
     {
-        
+        step = new Vector3(0f, 10f, 0f);
     }
 
     // Update is called once per frame
@@ -24,6 +25,15 @@ public class TestGetLengthAndWidth : MonoBehaviour
             Debug.Log("Width of cube: " + v.y);
         }
 
-        transform.Rotate(new Vector3(0, 2, 0));
+        if (iter % 20 == 0)
+        {
+            //transform.Rotate(new Vector3(0, 10f, 0));
+            transform.eulerAngles = transform.rotation.eulerAngles + step;
+            //Physics.SyncTransforms();
+
+        }
+        iter++;
     }
+
+    
 }

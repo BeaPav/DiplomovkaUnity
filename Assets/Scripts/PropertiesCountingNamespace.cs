@@ -44,7 +44,8 @@ namespace PropertiesCounter
         //                       LENGTH = maximal distance of two paralell planes
         public static Vector2 GetLengthAndWidthOfStone(GameObject stone)
         {
-            Renderer meshRenderer = stone.GetComponentInChildren<Renderer>();
+            MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
+            Bounds b;
 
             //Saving of original transformations for later
             Vector3 originalPos = stone.transform.position;
@@ -52,8 +53,9 @@ namespace PropertiesCounter
             Vector3 originalScale = stone.transform.localScale;
 
             //Inicialization of length and width
-            float width = Mathf.Min(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
-            float length = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
+            float width = float.MaxValue;
+            float length = float.MinValue;
+
 
             //Rotations step to create AABB of actual rotation
             Vector3 zrot = new Vector3(0,0,10);
@@ -64,24 +66,31 @@ namespace PropertiesCounter
             {
                 for (int j = 1; j <= 36; j++)
                 {
-                    stone.transform.Rotate(zrot);
-                   
-                    float min = Mathf.Min(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
-                    float max = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.y, meshRenderer.bounds.size.z);
+                    //New AABB bounding box of mesh
+                    b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
+                    //Physics.SyncTransforms();
+
+                    float min = Mathf.Min(b.size.x, b.size.y, b.size.z);
+                    float max = Mathf.Max(b.size.x, b.size.y, b.size.z);
 
                     if (min < width)
                         width = min;
                     if (max > length)
                         length = max;
+
+                    stone.transform.Rotate(zrot);
                 }
 
                 stone.transform.Rotate(xrot);
+                //Physics.SyncTransforms();
             }
 
             //Return stones original transformations
             stone.transform.position = originalPos;
             stone.transform.rotation = originalRot;
             stone.transform.localScale = originalScale;
+
+            Debug.Log("width: " + width + " length: " + length);
 
             return new Vector2(length, width);
         }

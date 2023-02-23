@@ -416,8 +416,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color_sphere: {r: 0, g: 0, b: 0, a: 0.5529412}
   color_bounds: {r: 1, g: 0, b: 0.030303001, a: 0.36862746}
+  color_bounds_renderer: {r: 1, g: 0.8620851, b: 0, a: 0.5}
   Hierarchical: 1
   Disable: 0
+--- !u!1 &823291966 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+    type: 3}
+  m_PrefabInstance: {fileID: 1082293012}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &823291972
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 823291966}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3fced59253c4744948c183c7156ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &832575517
 GameObject:
   m_ObjectHideFlags: 0
@@ -474,6 +493,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: -7280534978353905845, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: Disable
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7280534978353905845, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: Hierarchical
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7280534978353905845, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: color_bounds.a
+      value: 0.5529412
+      objectReference: {fileID: 0}
+    - target: {fileID: -7280534978353905845, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: color_bounds.g
+      value: 0.068372086
+      objectReference: {fileID: 0}
+    - target: {fileID: -7280534978353905845, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: color_bounds_renderer.a
+      value: 0.09019608
+      objectReference: {fileID: 0}
+    - target: {fileID: -7280534978353905845, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: color_bounds_renderer.g
+      value: 0.9789965
+      objectReference: {fileID: 0}
+    - target: {fileID: 3583090130715661454, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+        type: 3}
+      propertyPath: m_UseGravity
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6204709674024313209, guid: ca8b144083ecdef40aa3fb9fa9377e51,
         type: 3}
       propertyPath: m_RootOrder
@@ -482,17 +536,17 @@ PrefabInstance:
     - target: {fileID: 6204709674024313209, guid: ca8b144083ecdef40aa3fb9fa9377e51,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 10.18
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 6204709674024313209, guid: ca8b144083ecdef40aa3fb9fa9377e51,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.48
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6204709674024313209, guid: ca8b144083ecdef40aa3fb9fa9377e51,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 1.14
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6204709674024313209, guid: ca8b144083ecdef40aa3fb9fa9377e51,
         type: 3}
@@ -556,6 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color_sphere: {r: 0, g: 0, b: 0, a: 0.5}
   color_bounds: {r: 1, g: 0.03196106, b: 0, a: 0.5}
+  color_bounds_renderer: {r: 1, g: 0, b: 0, a: 0.5}
   Hierarchical: 1
   Disable: 0
 --- !u!114 &1165584218
@@ -926,7 +981,7 @@ PrefabInstance:
     - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: TimePause
-      value: 0.5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
