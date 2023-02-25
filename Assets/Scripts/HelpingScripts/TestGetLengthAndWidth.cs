@@ -21,8 +21,8 @@ public class TestGetLengthAndWidth : MonoBehaviour
         {
             b = !b;
             Vector2 v = f.GetLengthAndWidthOfStone(transform.gameObject);
-            Debug.Log("Length of cube: " + v.x);
-            Debug.Log("Width of cube: " + v.y);
+            //Debug.Log("Length of cube: " + v.x);
+            //Debug.Log("Width of cube: " + v.y);
         }
 
         if (iter % 20 == 0)

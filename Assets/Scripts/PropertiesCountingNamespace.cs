@@ -68,7 +68,6 @@ namespace PropertiesCounter
                 {
                     //New AABB bounding box of mesh
                     b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
-                    //Physics.SyncTransforms();
 
                     float min = Mathf.Min(b.size.x, b.size.y, b.size.z);
                     float max = Mathf.Max(b.size.x, b.size.y, b.size.z);
@@ -82,7 +81,6 @@ namespace PropertiesCounter
                 }
 
                 stone.transform.Rotate(xrot);
-                //Physics.SyncTransforms();
             }
 
             //Return stones original transformations
@@ -90,7 +88,7 @@ namespace PropertiesCounter
             stone.transform.rotation = originalRot;
             stone.transform.localScale = originalScale;
 
-            Debug.Log("width: " + width + " length: " + length);
+            //Debug.Log("width: " + width + " length: " + length);
 
             return new Vector2(length, width);
         }
@@ -100,7 +98,8 @@ namespace PropertiesCounter
 
         public static float FrNumber(GameObject stone, int numOfRot)
         {
-            Renderer meshRenderer = stone.GetComponentInChildren<Renderer>();
+            MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
+            Bounds b;
 
             // Saving of original transformations for later
             Vector3 originalPos = stone.transform.position;
@@ -114,8 +113,11 @@ namespace PropertiesCounter
             for (int i = 0; i < numOfRot; i++)
             {
                 stone.transform.rotation = Random.rotation;
-                float max = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.z);
+                b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
 
+                float max = Mathf.Max(b.size.x, b.size.z);
+
+                //Searching for minimum of all maximums
                 if (max < frNum) frNum = max;
             }
 
