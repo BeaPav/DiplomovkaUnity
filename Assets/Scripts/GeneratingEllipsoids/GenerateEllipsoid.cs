@@ -36,7 +36,7 @@ public class GenerateEllipsoid : MonoBehaviour
         s.SetWidth(lengthWidth.y);
         GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
 
-              Debug.Log("properties: " + "length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + GetComponent<Rigidbody>().mass);
+              //Debug.Log("properties: " + "length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + GetComponent<Rigidbody>().mass);
               
 
         //scale ellipsoid according to grading curve
