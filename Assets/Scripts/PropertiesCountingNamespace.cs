@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PropertiesCounter
 {
-    public static class f
+    public static class Prop
     {
         #region COUNTING OF MESH VOLUME
         private static float SignedVolumeOfTriangle(Vector3 p1, Vector3 p2, Vector3 p3)
@@ -42,7 +42,7 @@ namespace PropertiesCounter
         #region LENGTH AND WIDTH    
         //COUNTING OF STONE`S    WIDTH = minimal distance of two paralell planes
         //                       LENGTH = maximal distance of two paralell planes
-        public static Vector2 GetLengthAndWidthOfStone(GameObject stone)
+        public static Vector2 LengthAndWidthOfStone(GameObject stone)
         {
             MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
             Bounds b;
@@ -132,4 +132,5 @@ namespace PropertiesCounter
         #endregion
 
     }
+
 }

@@ -22,7 +22,7 @@ public class StoneSpawning : MonoBehaviour
 
     [SerializeField] float FractionMin;
     [SerializeField] float FractionMax;
-
+    
 
     [SerializeField] float TimePause = 1f;
     float TimeLastSpawn = 0f;
@@ -73,9 +73,9 @@ public class StoneSpawning : MonoBehaviour
         {
             Prefabs[i].SetActive(true);
 
-            Vector2 lengthWidth = f.GetLengthAndWidthOfStone(Prefabs[i]);
-            float volume = f.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>().sharedMesh);
-            float frNum = f.FrNumber(Prefabs[i], 20);
+            Vector2 lengthWidth = f.LengthAndWidthOfStone(Prefabs[i]);
+            float volume = Prop.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>().sharedMesh);
+            float frNum = Prop.FrNumber(Prefabs[i], 20);
 
             MassOfStones[i] = volume * DensityOfStoneMaterial;
 
@@ -91,7 +91,6 @@ public class StoneSpawning : MonoBehaviour
         }
         */
         #endregion
-
 
 
     }

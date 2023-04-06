@@ -20,7 +20,7 @@ public class TestGetLengthAndWidth : MonoBehaviour
         if(b)
         {
             b = !b;
-            Vector2 v = f.GetLengthAndWidthOfStone(transform.gameObject);
+            Vector2 v = Prop.LengthAndWidthOfStone(transform.gameObject);
             //Debug.Log("Length of cube: " + v.x);
             //Debug.Log("Width of cube: " + v.y);
         }

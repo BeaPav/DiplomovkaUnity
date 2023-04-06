@@ -86,6 +86,7 @@ public class FrNumDeterminationTests : MonoBehaviour
 
                 //tu sa urci frakcia, kam chceme kamen zaradit, a v nej frNum nahodne.
                 #region TEST 2
+
                 //Potom sa opacnym procesom ako hore vypocita, ake bude  ellZ (stredny rozmer) - nahodnym procesom
 
                 //frNum zavisi od toho ci je dlhsi rozmer elipsoidu v uhlopriecke stvorcoveho otvoru alebo rovnobezny s hranou, 
@@ -141,7 +142,7 @@ public class FrNumDeterminationTests : MonoBehaviour
 
                     //frNum cez priemety
                     StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-                    s.SetFractionNumber(f.FrNumber(this.gameObject, 30));
+                    s.SetFractionNumber(Prop.FrNumber(this.gameObject, 30));
 
                     //ratanie chyby - rozdiel dvoch frNum, resp dvoch indexov kam zaraduje frNum kamen
                     float error = Mathf.Abs(s.GetFractionNumber() - frNum);

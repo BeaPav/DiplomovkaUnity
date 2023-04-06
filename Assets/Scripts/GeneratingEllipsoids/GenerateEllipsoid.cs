@@ -22,16 +22,16 @@ public class GenerateEllipsoid : MonoBehaviour
     void Awake()
     {
         //generate ellipsoid of required shape according to SI and TI
-        genE.GenerateEllipsoid(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, 1f, 1.5f, 0.3f);
+        genE.GenerateEllipsoid(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, 1f, 1.1f, 0.3f);
         
         //create collider
         GenerateVHACDColliders();
 
         //counting ofessential properties of stone (volume, frction number, length, width, mass)
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-        s.SetVolume(f.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
-        s.SetFractionNumber(f.FrNumber(this.gameObject, 20));
-        Vector2 lengthWidth = f.GetLengthAndWidthOfStone(this.gameObject);
+        s.SetVolume(Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
+        s.SetFractionNumber(Prop.FrNumber(this.gameObject, 20));
+        Vector2 lengthWidth = Prop.LengthAndWidthOfStone(this.gameObject);
         s.SetLength(lengthWidth.x);
         s.SetWidth(lengthWidth.y);
         GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
