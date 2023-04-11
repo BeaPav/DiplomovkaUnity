@@ -5,23 +5,31 @@ using PropertiesCounter;
 
 public class StoneSpawning : MonoBehaviour
 {
+
+    //!!!!!!!!!!!!!!!!!!!!
+    //  Kamene nemaju VHACD collidre
+
+
     #region VARIABLES
     [SerializeField] List<GameObject> Prefabs;
     [SerializeField] GameObject StoneParent;
 
-    //[SerializeField] float DensityOfStoneMaterial = 2600;
-    //float[] MassOfStones;
+    [SerializeField] float DensityOfStoneMaterial = 2600;
+    float[] MassOfStones;
+    /*
     float[] GradingCurveIndexes;
     float[] GradingCurveVolumes;
+    */
 
-    [SerializeField] float SpawnPointYOffset;
     Vector3 SpawnPoint;
-
+    [SerializeField] float SpawnPointYOffset;
     [SerializeField] float SpawnRelativeOffset;
     float SpawnOffset;
 
+    
     [SerializeField] float FractionMin;
     [SerializeField] float FractionMax;
+    
     
 
     [SerializeField] float TimePause = 1f;
@@ -48,32 +56,36 @@ public class StoneSpawning : MonoBehaviour
         #region INITIALIZE VARIABLES
 
         noPrefabs = Prefabs.Count;
-        //MassOfStones = new float[noPrefabs];
+        MassOfStones = new float[noPrefabs];
 
         ProcessPaused = false;
 
         BoxVolume = 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z;
+            //tu by sa skor hodilo dat naozaj volume of box ratanim aby sa to dalo lahko zamenit
         BoxEmptyVolume = BoxVolume;
         StonesVolume = 0;
 
         SpawnPoint = Vector3.zero;
         SpawnPoint.y += transform.localScale.y + SpawnPointYOffset;
 
+        //aj toto nerobit relativny ofset len ku kocke ale k nadobe akehokolvek tvaru alebo dajaky radius tam dat v percentach rozmeru nadoby
         SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
 
+        /*
         GradingCurveIndexes = new float[] { 0.2f, 0.4f, 0.56f, 0.8f, 1.12f, 1.6f, 2.24f, 3.15f };
         GradingCurveVolumes = new float[GradingCurveIndexes.Length + 1];
+        */
 
         #endregion
 
         #region INITIALIZE STONE`S PROPERTIES - !!!!!!!!!!!!treba vymazat
-        /*
+        
         //Counting of essential mesh properties (length, width, volume) for each mesh prototype
         for (int i = 0; i < noPrefabs; i++)
         {
             Prefabs[i].SetActive(true);
 
-            Vector2 lengthWidth = f.LengthAndWidthOfStone(Prefabs[i]);
+            Vector2 lengthWidth = Prop.LengthAndWidthOfStone(Prefabs[i]);
             float volume = Prop.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>().sharedMesh);
             float frNum = Prop.FrNumber(Prefabs[i], 20);
 
@@ -89,7 +101,7 @@ public class StoneSpawning : MonoBehaviour
             //Debug.Log(i + ": length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " 
             //            + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + MassOfStones[i]);
         }
-        */
+        
         #endregion
 
 
@@ -106,14 +118,15 @@ public class StoneSpawning : MonoBehaviour
                 //Randomness of spawning point and mesh prototype
                 float x = Random.Range(-1f, 1f) * SpawnOffset;
                 float z = Random.Range(-1f, 1f) * SpawnOffset;
+                //toto  ma to zmysel pri kamenoch z databazy
                 int prefabIndex = Random.Range(0, noPrefabs - 1);
 
                 //Creating a new stone with random rotation, scale and position above the box
                 GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, StoneParent.transform);
                 stone.transform.rotation = Random.rotation;
-                //stone.SetActive(true);
+                stone.SetActive(true);
                 StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
-                //s.ScaleStone(FractionMin, FractionMax);
+                s.ScaleStone(FractionMin, FractionMax);
 
                 stone.GetComponent<Rigidbody>().useGravity = true;
 
@@ -142,7 +155,7 @@ public class StoneSpawning : MonoBehaviour
 
                 //znovu sa vygeneruje nahodne fraction number pre ziskanie grading curve, povodne sa neprepisuje
                 //float frNum = f.FrNumber(AllStonesProperties[i].transform.gameObject, 10);
-
+                /*
                 Renderer meshRenderer = AllStonesProperties[i].gameObject.GetComponentInChildren<Renderer>();
                 float frNum = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.z);
 
@@ -166,7 +179,7 @@ public class StoneSpawning : MonoBehaviour
                     }
                 }
 
-                
+                */
             }
 
             Voids = BoxEmptyVolume / BoxVolume;
@@ -175,7 +188,7 @@ public class StoneSpawning : MonoBehaviour
             Debug.Log("Voids: " + Voids);
 
 
-
+            /*
             Debug.Log("GradingCurve: ");
             Debug.Log("[  - " + GradingCurveIndexes[0] + "] : " + GradingCurveVolumes[0] / StonesVolume);
             for (int k = 1; k<GradingCurveVolumes.Length-1;k++)
@@ -183,6 +196,7 @@ public class StoneSpawning : MonoBehaviour
                 Debug.Log("[" + GradingCurveIndexes[k-1] + " - " + GradingCurveIndexes[k] + "]: "  + GradingCurveVolumes[k] / StonesVolume);
             }
             Debug.Log("[" + GradingCurveIndexes[GradingCurveIndexes.Length-1] + " - ]: " + GradingCurveVolumes[0] / StonesVolume);
+            */
         }
       
     }

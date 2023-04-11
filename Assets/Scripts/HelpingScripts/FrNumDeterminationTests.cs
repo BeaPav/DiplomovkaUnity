@@ -62,7 +62,7 @@ public class FrNumDeterminationTests : MonoBehaviour
                     float ellY = Random.Range(ellZ, 4.8f);
 
                     //spravi sa mesh a zrata frNum cez priemety
-                    genE.GenerateEllipsoid(this.gameObject, 12, 6, ellX, ellY, ellZ);
+                    genE.GenerateEllipsoidMesh(this.gameObject, 12, 6, ellX, ellY, ellZ);
 
                     StoneMeshProperties s = GetComponent<StoneMeshProperties>();
                     s.SetFractionNumber(f.FrNumber(this.gameObject, 20));
@@ -127,18 +127,18 @@ public class FrNumDeterminationTests : MonoBehaviour
                     if(dlhy == 1)
                     {
                         //nahodny koeficient pre horne ohr intervalu - treba zmenit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                         ellY = Random.Range(3f * 2f * ellX, 5f * 2f * ellX);
+                         ellY = Random.Range(3f * 2f * ellX, 5f * 2f * ellX) / 2f;
                     }
                     else
                     {
-                         ellY = Random.Range(2f * ellZ, 3f * 2f * ellX);
+                         ellY = Random.Range(2f * ellZ, 3f * 2f * ellX) / 2f;
                     }
 
 
 
 
                     //vygenerovanie meshu
-                    genE.GenerateEllipsoid(this.gameObject, 12, 6, ellX, ellY, ellZ);
+                    genE.GenerateEllipsoidMesh(this.gameObject, 12, 6, new Vector3(ellX, ellY, ellZ));
 
                     //frNum cez priemety
                     StoneMeshProperties s = GetComponent<StoneMeshProperties>();

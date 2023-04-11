@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 2290599100456156375}
   - component: {fileID: -7280534978353905845}
   - component: {fileID: 6910654029551458042}
+  - component: {fileID: 4705338044345292275}
   m_Layer: 0
   m_Name: Ellipsoid
   m_TagString: Stone
@@ -164,9 +165,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   color_sphere: {r: 0, g: 0, b: 0, a: 0}
-  color_bounds: {r: 1, g: 1, b: 0, a: 0.12941177}
-  color_bounds_renderer: {r: 1, g: 0, b: 0, a: 0.5}
-  Hierarchical: 0
+  color_bounds: {r: 1, g: 0.068372086, b: 0, a: 0.5529412}
+  color_bounds_renderer: {r: 1, g: 0.9789965, b: 0, a: 0.09019608}
+  Hierarchical: 1
   Disable: 1
 --- !u!114 &6910654029551458042
 MonoBehaviour:
@@ -182,4 +183,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noParallelsOnSphere: 6
   noMeridiansOnSphere: 12
-  DensityOfStoneMaterial: 2600
+--- !u!114 &4705338044345292275
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723977870690384835}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ea3fced59253c4744948c183c7156ffc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

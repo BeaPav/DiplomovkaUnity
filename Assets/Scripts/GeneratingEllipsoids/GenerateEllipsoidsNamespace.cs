@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using FractionDefinition;
 
 namespace GenerateEllipsoidsNamespace
 {
     public static class genE
     {
-        #region GENERATE SPHERE
-        public static Mesh GenerateSphere(float Radius, int meridians, int parallels)
+        #region GENERATE SPHERE MESH
+        public static Mesh GenerateSphereMesh(float Radius, int meridians, int parallels)
         {
             Mesh mesh = new Mesh();
             List<Vector3> vertices = new List<Vector3>();
@@ -119,25 +120,88 @@ namespace GenerateEllipsoidsNamespace
         }
         #endregion
 
-        
-        public static void GenerateEllipsoid(GameObject parent, int noMeridiansOnSphere, int noParallelsOnSphere, float ellAxeX, float ellAxeY, float ellAxeZ)
+        #region GENERATE ELLIPSOID MESH
+        public static void GenerateEllipsoidMesh(GameObject parent, int noMeridiansOnSphere, int noParallelsOnSphere, Vector3 axes)
         {
+
+            float ellAxeX = axes[0];
+            float ellAxeY = axes[1];
+            float ellAxeZ = axes[2];
+
+
             //number of parallels and meridians according to locale scale of sphere in x,y,z directions
-            int noParallels = Mathf.RoundToInt(ellAxeY) * noParallelsOnSphere;
+            int noParallels = Mathf.Max(Mathf.RoundToInt(ellAxeY) * noParallelsOnSphere, noParallelsOnSphere);
             float ratioEllAxeXZ = ellAxeX > ellAxeZ? ellAxeX / ellAxeZ : ellAxeZ / ellAxeX;
             int noMeridians = Mathf.FloorToInt(ratioEllAxeXZ) * noMeridiansOnSphere;
 
             GameObject meshObject = parent.GetComponentInChildren<MeshFilter>().gameObject;
 
             //generate unit sphere with certain number of meridians ane parallels
-            meshObject.GetComponent<MeshFilter>().mesh = GenerateSphere(1f, noMeridians, noParallels);
+            meshObject.GetComponent<MeshFilter>().mesh = GenerateSphereMesh(1f, noMeridians, noParallels);
 
             //sphere scaling in order to create ellipsoid
             meshObject.transform.localScale = new Vector3(ellAxeX, ellAxeY, ellAxeZ);
 
             //deformation of vertices
 
+            //add mesh collider
+            //meshObject.AddComponent<MeshCollider>(); //asi este convex
 
         }
+        #endregion
+
+        #region DETERMINE AXES AND FRNUM OF ELLIPSOID ACCORDING TO FRACTION PROPERTIES (GRADING CURVE, FLAT INDEX, SHAPE INDEX)
+        public static (Vector3 axes, float frNum) AxesOfEllipsoid(Fraction fraction)
+        {
+            //cista frakcia (oznacujeme i, chapeme d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
+            //frNum a ellZ
+            int fractionGradingIndex = fraction.GradingChoice();
+            float frNum = Random.Range(fraction.GradingFractionBoundaries[fractionGradingIndex], 
+                                       fraction.GradingFractionBoundaries[fractionGradingIndex + 1]);
+
+                    //zatial nie celkom ok vzorec asi, kvoli tomu ze to nesedi s ratanim frNum povodneho
+                    //!!!!!!!!!!!!!!!!!
+            float ellZ = Random.Range(frNum, Mathf.Sqrt(2) * frNum) / 2f;
+
+            //teraz sa urci ci bude plochy podla pravdepodobnosti v danej frakcii
+            (bool isFlat, float flatSieveSize) = fraction.IsFlat(frNum);
+
+            //vygenerujeme ellX podla plochosti
+            //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
+            float ellX = 0f;
+            if (isFlat)
+            {
+                //nahodna konstanta pre dolne ohranicenie intervalu - treba zmenit ???!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+             
+                ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f; //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
+                Debug.Log("Flat");
+            }
+            else
+            {
+                ellX = Random.Range(flatSieveSize, frNum) / 2f;
+            }
+
+            //teraz sa urci ci bude dlhy podla pravdepodobnosti v danej frakcii
+            bool isLong = fraction.IsLong(frNum);
+
+            //vygenerovanie najdlhsieho rozmeru ellY
+            float ellY = 0f;
+            if (isLong)
+            {
+                //nahodny koeficient pre horne ohr intervalu - treba zmenit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                ellY = Random.Range(3f * 2f * ellX, 5f * 2f * ellX) / 2f;
+                Debug.Log("Long");
+            }
+            else
+            {
+                ellY = Random.Range(2f * ellZ, 3f * 2f * ellX) / 2f;
+            }
+
+            //Debug.Log("2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);
+            return (new Vector3(ellX, ellY, ellZ), frNum);
+
+        }
+
+        #endregion
     }
 }

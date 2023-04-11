@@ -53,7 +53,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1909624390998876707}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -221,6 +221,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7801996009893773376}
   - component: {fileID: 3618189326228483713}
+  - component: {fileID: 5685449169036709308}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -270,17 +271,45 @@ MonoBehaviour:
   - {fileID: 3786443005496798912, guid: a9b0e1fcb6693284b93508dfe97f37eb, type: 3}
   - {fileID: 8794868954223539425, guid: 93e6cb7b4f5dd2541a4b9cbec4faebd1, type: 3}
   StoneParent: {fileID: 0}
-  SpawnPoint: {x: 0, y: 3, z: 0}
-  SpawnOffset: 0.4
-  ScaleMin: 0.7
-  ScaleMax: 0.4
-  TimePause: 0.1
+  DensityOfStoneMaterial: 2600
+  SpawnPointYOffset: 4
+  SpawnRelativeOffset: 0.8
+  FractionMin: 1.6
+  FractionMax: 0.8
+  TimePause: 1
   BoxVolume: 1
   BoxEmptyVolume: 1
   StonesVolume: 0
   Voids: 0
   MaxNumberOfAttemptsToFillTopOfTheBox: -1
   MaxNumerOfDestroyedStones: 20
+  NoDestroyedStones: 0
+  ProcessPaused: 0
+  ProcessEnded: 0
+--- !u!114 &5685449169036709308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425752595253926650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dd9f67d29b5764ca4e2ec472533d17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+    type: 3}
+  EllipsoidParent: {fileID: 0}
+  SpawnPointYOffset: 4
+  SpawnRelativeOffset: 0.8
+  TimePause: 1
+  BoxVolume: 0
+  BoxEmptyVolume: 0
+  StonesVolume: 0
+  Voids: 0
+  MaxNumberOfAttemptsToFillTopOfTheBox: 3
+  MaxNumerOfDestroyedStones: 50
   NoDestroyedStones: 0
   ProcessPaused: 0
   ProcessEnded: 0

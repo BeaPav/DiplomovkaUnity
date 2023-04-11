@@ -162,9 +162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Volume: 0.022409616
-  FractionNumber: 0.40697762
-  Length: 0.6374849
-  Width: 0.283027
+  FractionNumber: 0.36506072
+  Length: 0.43003848
+  Width: 0.26734987
 --- !u!114 &-7280534978353905845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -179,5 +179,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   color_sphere: {r: 0, g: 0, b: 0, a: 0}
   color_bounds: {r: 1, g: 1, b: 0, a: 0.12941177}
+  color_bounds_renderer: {r: 1, g: 0, b: 0, a: 0.5}
   Hierarchical: 0
   Disable: 0
