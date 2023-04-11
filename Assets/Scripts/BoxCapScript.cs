@@ -22,7 +22,7 @@ public class BoxCapScript : MonoBehaviour
         {
             if (SpawningScript.ProcessPaused)
             {
-                if (Time.time - DestroyTime > 20f)
+                if (Time.time - DestroyTime > 20f && Time.time - SpawningScript.ProcessPausedTime > 10f)
                 {
                     if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
                     {
@@ -45,7 +45,7 @@ public class BoxCapScript : MonoBehaviour
         {
             if (EllipsoidSpawningScript.ProcessPaused)
             {
-                if (Time.time - DestroyTime > 20f)
+                if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
                 {
                     if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
                     {
@@ -79,7 +79,12 @@ public class BoxCapScript : MonoBehaviour
     //Destroy stones above BoxCap
     private void DestroyStonesAboveBoxCap(Collider other)
     {
-        if (SpawningScript.ProcessPaused)
+        if (SpawningScript.isActiveAndEnabled && SpawningScript.ProcessPaused)
+        {
+            Destroy(other.gameObject);
+            DestroyTime = Time.time;
+        }
+        else if (EllipsoidSpawningScript.isActiveAndEnabled && EllipsoidSpawningScript.ProcessPaused)
         {
             Destroy(other.gameObject);
             DestroyTime = Time.time;

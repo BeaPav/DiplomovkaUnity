@@ -45,6 +45,7 @@ public class StoneSpawning : MonoBehaviour
     public int NoDestroyedStones = 0;
 
     public bool ProcessPaused;
+    [HideInInspector] public float ProcessPausedTime;
     public bool ProcessEnded;
     bool PropertiesCalculated = false;
     int noPrefabs;
@@ -111,35 +112,41 @@ public class StoneSpawning : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (NoDestroyedStones < MaxNumerOfDestroyedStones)
+        if (!ProcessEnded)
         {
-            if (Time.time > TimeLastSpawn + TimePause)
+            if (!ProcessPaused)
             {
-                //Randomness of spawning point and mesh prototype
-                float x = Random.Range(-1f, 1f) * SpawnOffset;
-                float z = Random.Range(-1f, 1f) * SpawnOffset;
-                //toto  ma to zmysel pri kamenoch z databazy
-                int prefabIndex = Random.Range(0, noPrefabs - 1);
+                if (NoDestroyedStones < MaxNumerOfDestroyedStones)
+                {
+                    if (Time.time > TimeLastSpawn + TimePause)
+                    {
+                        //Randomness of spawning point and mesh prototype
+                        float x = Random.Range(-1f, 1f) * SpawnOffset;
+                        float z = Random.Range(-1f, 1f) * SpawnOffset;
+                        //toto  ma to zmysel pri kamenoch z databazy
+                        int prefabIndex = Random.Range(0, noPrefabs - 1);
 
-                //Creating a new stone with random rotation, scale and position above the box
-                GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, StoneParent.transform);
-                stone.transform.rotation = Random.rotation;
-                stone.SetActive(true);
-                StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
-                s.ScaleStone(FractionMin, FractionMax);
+                        //Creating a new stone with random rotation, scale and position above the box
+                        GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, StoneParent.transform);
+                        stone.transform.rotation = Random.rotation;
+                        stone.SetActive(true);
+                        StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
+                        s.ScaleStone(FractionMin, FractionMax);
 
-                stone.GetComponent<Rigidbody>().useGravity = true;
+                        stone.GetComponent<Rigidbody>().useGravity = true;
 
-                TimeLastSpawn = Time.time;
+                        TimeLastSpawn = Time.time;
+                    }
+                }
+                else
+                {
+                    ProcessPaused = true;
+                    ProcessPausedTime = Time.time;
+                }
             }
         }
-        else
-        {
-            ProcessPaused = true;
-        }
-
         //Calculation of propertiesof completed model
-        if(ProcessEnded & !PropertiesCalculated)
+        else if(!PropertiesCalculated)
         {
             Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;

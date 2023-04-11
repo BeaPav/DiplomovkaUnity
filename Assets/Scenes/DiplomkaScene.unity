@@ -1123,7 +1123,7 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: TimePause
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
@@ -1151,6 +1151,16 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
         type: 3}
+    - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: MaxNumerOfDestroyedStones
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 7425752595253926650, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: m_Name

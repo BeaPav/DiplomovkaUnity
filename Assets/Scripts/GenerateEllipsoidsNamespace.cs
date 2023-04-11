@@ -174,7 +174,7 @@ namespace GenerateEllipsoidsNamespace
                 //nahodna konstanta pre dolne ohranicenie intervalu - treba zmenit ???!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
              
                 ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f; //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
-                Debug.Log("Flat");
+                //Debug.Log("Flat");
             }
             else
             {

@@ -39,6 +39,7 @@ public class EllipsoidsSpawning : MonoBehaviour
     public int NoDestroyedStones = 0;
 
     public bool ProcessPaused;
+    [HideInInspector] public float ProcessPausedTime;
     public bool ProcessEnded;
     bool PropertiesCalculated = false;
     
@@ -101,44 +102,50 @@ public class EllipsoidsSpawning : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (NoDestroyedStones < MaxNumerOfDestroyedStones)
+        if (!ProcessEnded)
         {
-            if (Time.time > TimeLastSpawn + TimePause)
+            if (!ProcessPaused)
             {
-                //Randomness of spawning point and mesh prototype
-                float x = Random.Range(-1f, 1f) * SpawnOffset;
-                float z = Random.Range(-1f, 1f) * SpawnOffset;
-                //momentalne je prefabom len elipsoid takze toto nie je nahodne, ma to zmysel pri kamenoch z databazy
+                if (NoDestroyedStones < MaxNumerOfDestroyedStones)
+                {
+                    if (Time.time > TimeLastSpawn + TimePause)
+                    {
+                        //Randomness of spawning point and mesh prototype
+                        float x = Random.Range(-1f, 1f) * SpawnOffset;
+                        float z = Random.Range(-1f, 1f) * SpawnOffset;
+                        //momentalne je prefabom len elipsoid takze toto nie je nahodne, ma to zmysel pri kamenoch z databazy
 
 
-                //Creating a new stone object with random position above the box
-                GameObject stone = Instantiate(Ellipsoid, SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, EllipsoidParent.transform);
+                        //Creating a new stone object with random position above the box
+                        GameObject stone = Instantiate(Ellipsoid, SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, EllipsoidParent.transform);
 
-                //urcenie aku frakciu ideme primiesat
-                //!!!!!!!!!!!!!!!!!!!!!
-                ActiveFractionIndex = 0;
-                //Fraction activeFraction = Fractions[0];
+                        //urcenie aku frakciu ideme primiesat
+                        //!!!!!!!!!!!!!!!!!!!!!
+                        ActiveFractionIndex = 0;
+                        //Fraction activeFraction = Fractions[0];
 
-                //GenerateEllipsoidObject e = stone.GetComponent<GenerateEllipsoidObject>();
-                //e.GenerateEllipsoid(activeFraction);
-                stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[0]);
+                        //GenerateEllipsoidObject e = stone.GetComponent<GenerateEllipsoidObject>();
+                        //e.GenerateEllipsoid(activeFraction);
+                        stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[0]);
 
-                //StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
-                //s.ScaleStone(FractionMin, FractionMax);
+                        //StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
+                        //s.ScaleStone(FractionMin, FractionMax);
 
-                stone.transform.rotation = Random.rotation;
-                stone.GetComponent<Rigidbody>().useGravity = true;
+                        stone.transform.rotation = Random.rotation;
+                        stone.GetComponent<Rigidbody>().useGravity = true;
 
-                TimeLastSpawn = Time.time;
+                        TimeLastSpawn = Time.time;
+                    }
+                }
+                else
+                {
+                    ProcessPaused = true;
+                    ProcessPausedTime = Time.time;
+                }
             }
         }
-        else
-        {
-            ProcessPaused = true;
-        }
-
         //Calculation of propertiesof completed model
-        if (ProcessEnded & !PropertiesCalculated)
+        else if (!PropertiesCalculated)
         {
             Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
@@ -155,6 +162,7 @@ public class EllipsoidsSpawning : MonoBehaviour
             }
 
             Voids = BoxEmptyVolume / BoxVolume;
+            Debug.Log("Box volume: " + 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
             Debug.Log("StonesVolume: " + StonesVolume);
             Debug.Log("EmptyVolume: " + BoxEmptyVolume);
             Debug.Log("Voids: " + Voids);
