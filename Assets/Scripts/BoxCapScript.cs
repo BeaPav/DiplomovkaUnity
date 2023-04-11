@@ -5,6 +5,7 @@ using UnityEngine;
 public class BoxCapScript : MonoBehaviour
 {
     StoneSpawning SpawningScript;
+    EllipsoidsSpawning EllipsoidSpawningScript;
     int NumberOfAttemptsToFillTopOfTheBox = 0;
     float DestroyTime;
 
@@ -12,28 +13,55 @@ public class BoxCapScript : MonoBehaviour
     void Start()
     {
         SpawningScript = transform.parent.gameObject.GetComponent<StoneSpawning>();
+        EllipsoidSpawningScript = GameObject.Find("Box").gameObject.GetComponent<EllipsoidsSpawning>();
     }
 
     private void Update()
     {
-        if(SpawningScript.ProcessPaused)
+        if (SpawningScript.isActiveAndEnabled)
         {
-            if (Time.time - DestroyTime > 20f)
+            if (SpawningScript.ProcessPaused)
             {
-                if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
+                if (Time.time - DestroyTime > 20f)
                 {
-                    Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
-                    NumberOfAttemptsToFillTopOfTheBox++;
-                    SpawningScript.NoDestroyedStones = 0;
-                    SpawningScript.ProcessPaused = false;
+                    if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
+                    {
+                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+                        NumberOfAttemptsToFillTopOfTheBox++;
+                        SpawningScript.NoDestroyedStones = 0;
+                        SpawningScript.ProcessPaused = false;
 
+                    }
+                    else
+                    {
+                        SpawningScript.ProcessEnded = true;
+                    }
                 }
-                else
-                {
-                    SpawningScript.ProcessEnded = true;
-                }
+
             }
+        }
 
+        else if (EllipsoidSpawningScript.isActiveAndEnabled)
+        {
+            if (EllipsoidSpawningScript.ProcessPaused)
+            {
+                if (Time.time - DestroyTime > 20f)
+                {
+                    if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
+                    {
+                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+                        NumberOfAttemptsToFillTopOfTheBox++;
+                        EllipsoidSpawningScript.NoDestroyedStones = 0;
+                        EllipsoidSpawningScript.ProcessPaused = false;
+
+                    }
+                    else
+                    {
+                        EllipsoidSpawningScript.ProcessEnded = true;
+                    }
+                }
+
+            }
         }
     }
 

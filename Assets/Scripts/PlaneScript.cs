@@ -20,7 +20,7 @@ public class PlaneScript : MonoBehaviour
         Destroy(collision.gameObject);
         if (SpawningScript.isActiveAndEnabled)
             SpawningScript.NoDestroyedStones++;
-        else
+        else if (EllipsoidSpawningScript.isActiveAndEnabled)
             EllipsoidSpawningScript.NoDestroyedStones++;
     }
 }
