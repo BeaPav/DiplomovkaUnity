@@ -142,6 +142,7 @@ namespace GenerateEllipsoidsNamespace
             //sphere scaling in order to create ellipsoid
             meshObject.transform.localScale = new Vector3(ellAxeX, ellAxeY, ellAxeZ);
 
+            //meshObject.GetComponent<MeshFilter>().mesh.RecalculateNormals();
             //deformation of vertices
 
             //add mesh collider

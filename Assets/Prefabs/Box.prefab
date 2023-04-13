@@ -220,8 +220,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7801996009893773376}
-  - component: {fileID: 3618189326228483713}
   - component: {fileID: 5685449169036709308}
+  - component: {fileID: 3618189326228483713}
   m_Layer: 0
   m_Name: Box
   m_TagString: Untagged
@@ -247,6 +247,34 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5685449169036709308
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7425752595253926650}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56dd9f67d29b5764ca4e2ec472533d17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+    type: 3}
+  EllipsoidParent: {fileID: 0}
+  SpawnPointYOffset: 4
+  SpawnRelativeOffset: 0.8
+  TimePause: 1
+  BoxVolume: 0
+  BoxEmptyVolume: 0
+  StonesVolume: 0
+  Voids: 0
+  MaxNumberOfAttemptsToFillTopOfTheBox: 3
+  MaxNumerOfDestroyedStones: 50
+  NoDestroyedStones: 0
+  ProcessPaused: 0
+  ProcessPausedTime: 0
+  ProcessEnded: 0
 --- !u!114 &3618189326228483713
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -285,33 +313,7 @@ MonoBehaviour:
   MaxNumerOfDestroyedStones: 20
   NoDestroyedStones: 0
   ProcessPaused: 0
-  ProcessEnded: 0
---- !u!114 &5685449169036709308
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7425752595253926650}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56dd9f67d29b5764ca4e2ec472533d17, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
-    type: 3}
-  EllipsoidParent: {fileID: 0}
-  SpawnPointYOffset: 4
-  SpawnRelativeOffset: 0.8
-  TimePause: 1
-  BoxVolume: 0
-  BoxEmptyVolume: 0
-  StonesVolume: 0
-  Voids: 0
-  MaxNumberOfAttemptsToFillTopOfTheBox: 3
-  MaxNumerOfDestroyedStones: 50
-  NoDestroyedStones: 0
-  ProcessPaused: 0
+  ProcessPausedTime: 0
   ProcessEnded: 0
 --- !u!1001 &7767859941361136449
 PrefabInstance:

@@ -87,7 +87,7 @@ public class StoneSpawning : MonoBehaviour
             Prefabs[i].SetActive(true);
 
             Vector2 lengthWidth = Prop.LengthAndWidthOfStone(Prefabs[i]);
-            float volume = Prop.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>().sharedMesh);
+            float volume = Prop.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>());
             float frNum = Prop.FrNumber(Prefabs[i], 20);
 
             MassOfStones[i] = volume * DensityOfStoneMaterial;

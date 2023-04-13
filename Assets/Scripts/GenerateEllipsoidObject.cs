@@ -55,27 +55,6 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
     }
 
-    /*
-    public void CreateEllipsoid()
-    {
-        Vector3 axes = new Vector3(0.2f, 0.5f, 0.3f);
-        float frNum = 0.43f;
-
-        //vygenerovanie meshu
-        genE.GenerateEllipsoidMesh(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, axes);
-
-        //collider
-        //mozno by sa dalo dat iba obycajny!!!!!!!!!!!!! -- ono to pravdepodobne dava mesh collider
-        GenerateVHACDColliders();
-
-        //nastavenie a vypocet vlastnosti zrna
-        StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-        s.SetVolume(Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
-        s.SetFractionNumber(frNum);
-        s.SetLength(2f * axes[0]);
-        s.SetWidth(2f * axes[1]);
-    }
-    */
 
     public void GenerateEllipsoid(Fraction fraction)
     {
@@ -83,8 +62,8 @@ public class GenerateEllipsoidObject : MonoBehaviour
         (Vector3 axes, float frNum) = genE.AxesOfEllipsoid(fraction);
 
         /*
-        Vector3 axes = new Vector3(0.2f, 0.5f, 0.3f);
-        float frNum = 0.43f;
+        axes = new Vector3(1f, 1f, 1f);
+        frNum = 1f;
         */
 
         //vygenerovanie meshu
@@ -97,11 +76,12 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
         //nastavenie a vypocet vlastnosti zrna
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-        s.SetVolume(Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
+        s.SetVolume(Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>()));
         s.SetFractionNumber(frNum);
         s.SetLength(2f * axes[1]);
         s.SetWidth(2f * axes[0]);
         //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
+
     }
 
 

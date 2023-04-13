@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 using FractionDefinition;
+using PropertiesCounter;
 
 public class EllipsoidsSpawning : MonoBehaviour
 {
@@ -55,8 +56,15 @@ public class EllipsoidsSpawning : MonoBehaviour
 
         ProcessPaused = false;
 
-        BoxVolume = 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z;
+        //BoxVolume = 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z;
         //tu by sa skor hodilo dat naozaj volume of box ratanim aby sa to dalo lahko zamenit
+        GameObject boxVolumeObject = GameObject.Find("ObjemNadoby");
+        MeshFilter mf = boxVolumeObject.GetComponentInChildren<MeshFilter>();
+        BoxVolume = Prop.VolumeOfMesh(mf) * boxVolumeObject.transform.localScale.x * boxVolumeObject.transform.localScale.y * boxVolumeObject.transform.localScale.z;
+        Debug.Log("ObjemNadoby: " + BoxVolume);
+
+
+
         BoxEmptyVolume = BoxVolume;
         StonesVolume = 0;
 
@@ -152,8 +160,10 @@ public class EllipsoidsSpawning : MonoBehaviour
             Random.InitState(319);
 
             StoneMeshProperties[] AllStonesProperties = EllipsoidParent.GetComponentsInChildren<StoneMeshProperties>();
+            int noOfEllipsoids = 0;
             for (int i = 0; i < AllStonesProperties.Length; i++)
             {
+                noOfEllipsoids++;
                 float volume = AllStonesProperties[i].GetVolume();
                 StonesVolume += volume;
                 BoxEmptyVolume -= volume;
@@ -161,11 +171,13 @@ public class EllipsoidsSpawning : MonoBehaviour
 
             }
 
-            Voids = BoxEmptyVolume / BoxVolume;
-            Debug.Log("Box volume: " + 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z);
+            Voids = BoxEmptyVolume / BoxVolume * 100f;
+            Debug.Log("No of ellipsoids: " + noOfEllipsoids);
+            Debug.Log("Objem (pocet * objem gule): " + 3.801935f * noOfEllipsoids);
+            Debug.Log("Box volume: " + BoxVolume);
             Debug.Log("StonesVolume: " + StonesVolume);
             Debug.Log("EmptyVolume: " + BoxEmptyVolume);
-            Debug.Log("Voids: " + Voids);
+            Debug.Log("Voids: " + Voids + "%");
 
 
         }
