@@ -1279,6 +1279,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
+      propertyPath: SpawnRelativeOffset
+      value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
       propertyPath: Prefabs.Array.data[0]
       value: 
       objectReference: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
@@ -1286,12 +1291,12 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: MaxNumerOfDestroyedStones
-      value: 10
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
-      value: 2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7425752593975741968, guid: d1665650a40841a41923124fd57ea865,
         type: 3}

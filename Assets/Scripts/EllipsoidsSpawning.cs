@@ -5,10 +5,13 @@ using UnityEngine;
 using FractionDefinition;
 using PropertiesCounter;
 
+using UnityEditor;
+
 public class EllipsoidsSpawning : MonoBehaviour
 {
 
     #region VARIABLES
+   
 
     [SerializeField] GameObject Ellipsoid;
     [SerializeField] GameObject EllipsoidParent;
@@ -179,6 +182,19 @@ public class EllipsoidsSpawning : MonoBehaviour
             Debug.Log("EmptyVolume: " + BoxEmptyVolume);
             Debug.Log("Voids: " + Voids + "%");
 
+
+            //ulozia sa najprv vygenerovane meshe potom sa ulozi elipsoid parent ako prefab
+            //treba dorobit aby to malo samostatny priecinok a este chceme ukladat objekt aj s nadobou tj treba to preusporiadat v scene
+            //vytvaranie folderov a prefabov tu https://docs.unity3d.com/ScriptReference/PrefabUtility.html
+            //ulozenie assetov tu https://docs.unity3d.com/ScriptReference/AssetDatabase.CreateAsset.html
+            MeshFilter[] mf = EllipsoidParent.GetComponentsInChildren<MeshFilter>();
+            int mfCounter = 0;
+            foreach (MeshFilter childMesh in mf)
+            {
+                AssetDatabase.CreateAsset(childMesh.mesh, "Assets/Saved/Saved" + mfCounter+ ".mesh.asset");
+                mfCounter++;
+            }
+            PrefabUtility.SaveAsPrefabAssetAndConnect(EllipsoidParent, "Assets/Saved/EllipsoidParent.prefab", InteractionMode.UserAction);
 
         }
 
