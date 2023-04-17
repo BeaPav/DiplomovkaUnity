@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Windows;
 
 using FractionDefinition;
 using PropertiesCounter;
@@ -34,9 +35,6 @@ public class EllipsoidsSpawning : MonoBehaviour
     float TimeLastSpawn = 0f;
 
     [HideInInspector] public float BoxVolume;
-    [HideInInspector] public float BoxEmptyVolume;
-    [HideInInspector] public float StonesVolume;
-    [HideInInspector] public float Voids;
 
     public int MaxNumberOfAttemptsToFillTopOfTheBox = 3;
     [SerializeField] int MaxNumerOfDestroyedStones = 50;
@@ -59,17 +57,12 @@ public class EllipsoidsSpawning : MonoBehaviour
 
         ProcessPaused = false;
 
-        //BoxVolume = 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z;
-        //tu by sa skor hodilo dat naozaj volume of box ratanim aby sa to dalo lahko zamenit
-        GameObject boxVolumeObject = GameObject.Find("ObjemNadoby");
-        MeshFilter mf = boxVolumeObject.GetComponentInChildren<MeshFilter>();
-        BoxVolume = Prop.VolumeOfMesh(mf) * boxVolumeObject.transform.localScale.x * boxVolumeObject.transform.localScale.y * boxVolumeObject.transform.localScale.z;
+        //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
+        Transform boxVolumeObject = transform.Find("BoxVolume");
+        BoxVolume = Prop.VolumeOfMesh(boxVolumeObject.GetComponent<MeshFilter>());
         Debug.Log("ObjemNadoby: " + BoxVolume);
 
 
-
-        BoxEmptyVolume = BoxVolume;
-        StonesVolume = 0;
 
         SpawnPoint = Vector3.zero;
         SpawnPoint.y += transform.localScale.y + SpawnPointYOffset;
@@ -160,43 +153,45 @@ public class EllipsoidsSpawning : MonoBehaviour
         {
             Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
-            Random.InitState(319);
 
-            StoneMeshProperties[] AllStonesProperties = EllipsoidParent.GetComponentsInChildren<StoneMeshProperties>();
-            int noOfEllipsoids = 0;
-            for (int i = 0; i < AllStonesProperties.Length; i++)
-            {
-                noOfEllipsoids++;
-                float volume = AllStonesProperties[i].GetVolume();
-                StonesVolume += volume;
-                BoxEmptyVolume -= volume;
-                //Debug.Log(i + " volume: " + volume);
-
-            }
-
-            Voids = BoxEmptyVolume / BoxVolume * 100f;
-            Debug.Log("No of ellipsoids: " + noOfEllipsoids);
-            Debug.Log("Objem (pocet * objem gule): " + 3.801935f * noOfEllipsoids);
-            Debug.Log("Box volume: " + BoxVolume);
-            Debug.Log("StonesVolume: " + StonesVolume);
-            Debug.Log("EmptyVolume: " + BoxEmptyVolume);
-            Debug.Log("Voids: " + Voids + "%");
+            Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume);
 
 
-            //ulozia sa najprv vygenerovane meshe potom sa ulozi elipsoid parent ako prefab
-            //treba dorobit aby to malo samostatny priecinok a este chceme ukladat objekt aj s nadobou tj treba to preusporiadat v scene
-            //vytvaranie folderov a prefabov tu https://docs.unity3d.com/ScriptReference/PrefabUtility.html
-            //ulozenie assetov tu https://docs.unity3d.com/ScriptReference/AssetDatabase.CreateAsset.html
-            MeshFilter[] mf = EllipsoidParent.GetComponentsInChildren<MeshFilter>();
-            int mfCounter = 0;
-            foreach (MeshFilter childMesh in mf)
-            {
-                AssetDatabase.CreateAsset(childMesh.mesh, "Assets/Saved/Saved" + mfCounter+ ".mesh.asset");
-                mfCounter++;
-            }
-            PrefabUtility.SaveAsPrefabAssetAndConnect(EllipsoidParent, "Assets/Saved/EllipsoidParent.prefab", InteractionMode.UserAction);
-
+            //SaveModel(EllipsoidParent.transform);
+            
         }
 
     }
+
+
+    void SaveModel(Transform parent)
+    {
+        //najdenie kolky to je model
+        int folderIter = 1;
+        while(!Directory.Exists("Assets/SavedModels/EllipsoidModels/Model" + folderIter))
+        {
+            folderIter++;
+        }
+
+        //vytvorenie priecinku
+        AssetDatabase.CreateFolder("Assets/SavedModels/EllipsoidModels", "Model" + folderIter);
+        AssetDatabase.CreateFolder("Assets/SavedModels/EllipsoidModels/Model" + folderIter, "Meshes");
+        AssetDatabase.CreateFolder("Assets/SavedModels/EllipsoidModels/Model" + folderIter, "ModelPrefab");
+
+        //ulozenie vsetkych vygenerovanych meshov elipsoidov
+        MeshFilter[] mf = parent.GetComponentsInChildren<MeshFilter>();
+        int mfCounter = 0;
+        foreach (MeshFilter childMesh in mf)
+        {
+            AssetDatabase.CreateAsset(childMesh.mesh, 
+                "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Meshes/Ellipsoid" + mfCounter + ".asset");
+            mfCounter++;
+        }
+
+        //ulozenie modelu ako prefab
+        PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject,
+                "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "ModelPrefab/Model" + folderIter +".prefab", InteractionMode.UserAction);
+    }
+
+
 }

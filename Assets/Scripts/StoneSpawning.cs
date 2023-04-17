@@ -12,10 +12,11 @@ public class StoneSpawning : MonoBehaviour
 
     #region VARIABLES
     [SerializeField] List<GameObject> Prefabs;
+    int noPrefabs;
     [SerializeField] GameObject StoneParent;
 
     [SerializeField] float DensityOfStoneMaterial = 2600;
-    float[] MassOfStones;
+    //float[] MassOfStones;
     /*
     float[] GradingCurveIndexes;
     float[] GradingCurveVolumes;
@@ -35,10 +36,7 @@ public class StoneSpawning : MonoBehaviour
     [SerializeField] float TimePause = 1f;
     float TimeLastSpawn = 0f;
 
-    public float BoxVolume;
-    public float BoxEmptyVolume;
-    public float StonesVolume;
-    public float Voids;
+    [HideInInspector] public float BoxVolume;
 
     public int MaxNumberOfAttemptsToFillTopOfTheBox = 3;
     [SerializeField] int MaxNumerOfDestroyedStones = 50;
@@ -48,7 +46,7 @@ public class StoneSpawning : MonoBehaviour
     [HideInInspector] public float ProcessPausedTime;
     public bool ProcessEnded;
     bool PropertiesCalculated = false;
-    int noPrefabs;
+    
     #endregion
 
     // Start is called before the first frame update
@@ -57,14 +55,15 @@ public class StoneSpawning : MonoBehaviour
         #region INITIALIZE VARIABLES
 
         noPrefabs = Prefabs.Count;
-        MassOfStones = new float[noPrefabs];
+        //MassOfStones = new float[noPrefabs];
 
         ProcessPaused = false;
 
-        BoxVolume = 1f * transform.localScale.x * transform.localScale.y * transform.localScale.z;
-            //tu by sa skor hodilo dat naozaj volume of box ratanim aby sa to dalo lahko zamenit
-        BoxEmptyVolume = BoxVolume;
-        StonesVolume = 0;
+        //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
+        Transform boxVolumeObject = transform.Find("BoxVolume");
+        BoxVolume = Prop.VolumeOfMesh(boxVolumeObject.GetComponent<MeshFilter>());
+        Debug.Log("ObjemNadoby: " + BoxVolume);
+
 
         SpawnPoint = Vector3.zero;
         SpawnPoint.y += transform.localScale.y + SpawnPointYOffset;
@@ -90,7 +89,7 @@ public class StoneSpawning : MonoBehaviour
             float volume = Prop.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>());
             float frNum = Prop.FrNumber(Prefabs[i], 20);
 
-            MassOfStones[i] = volume * DensityOfStoneMaterial;
+            //MassOfStones[i] = volume * DensityOfStoneMaterial;
 
             StoneMeshProperties s = Prefabs[i].GetComponent<StoneMeshProperties>();
             s.SetVolume(volume);
@@ -150,19 +149,22 @@ public class StoneSpawning : MonoBehaviour
         {
             Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
-            Random.InitState(319);
+            
+            Prop.CountPropertiesOfModel(StoneParent, BoxVolume);
 
+            #region COSI S GRADING, MOZNO TO NETREBA -- ZAKOMENTOVANE
+            //tu neviem co sa deje
+            //nejak ratanie grading curve alebo cosi toho stylu
+            /*
+            Random.InitState(319);
             StoneMeshProperties[] AllStonesProperties = StoneParent.GetComponentsInChildren<StoneMeshProperties>();
             for (int i = 0; i < AllStonesProperties.Length; i++)
             {
-                float volume = AllStonesProperties[i].GetVolume();
-                StonesVolume += volume;
-                BoxEmptyVolume -= volume;
-                //Debug.Log(i + " volume: " + volume);
-
+                
                 //znovu sa vygeneruje nahodne fraction number pre ziskanie grading curve, povodne sa neprepisuje
                 //float frNum = f.FrNumber(AllStonesProperties[i].transform.gameObject, 10);
-                /*
+                
+                //tu neviem ci som neriesila cosi v ratani frNum a ineho ze na bounds mam vlastne ratanie a nepouziva sa nic z Unity
                 Renderer meshRenderer = AllStonesProperties[i].gameObject.GetComponentInChildren<Renderer>();
                 float frNum = Mathf.Max(meshRenderer.bounds.size.x, meshRenderer.bounds.size.z);
 
@@ -186,16 +188,9 @@ public class StoneSpawning : MonoBehaviour
                     }
                 }
 
-                */
+                
             }
-
-            Voids = BoxEmptyVolume / BoxVolume;
-            Debug.Log("StonesVolume: " + StonesVolume);
-            Debug.Log("EmptyVolume: " + BoxEmptyVolume);
-            Debug.Log("Voids: " + Voids);
-
-
-            /*
+            
             Debug.Log("GradingCurve: ");
             Debug.Log("[  - " + GradingCurveIndexes[0] + "] : " + GradingCurveVolumes[0] / StonesVolume);
             for (int k = 1; k<GradingCurveVolumes.Length-1;k++)
@@ -204,7 +199,8 @@ public class StoneSpawning : MonoBehaviour
             }
             Debug.Log("[" + GradingCurveIndexes[GradingCurveIndexes.Length-1] + " - ]: " + GradingCurveVolumes[0] / StonesVolume);
             */
+            #endregion
         }
-      
+
     }
 }

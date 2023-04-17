@@ -23,10 +23,11 @@ namespace PropertiesCounter
 
         }
 
+        //objem sa rata z lokalneho meshu na ktory je aplikovana transformacia az po root parentov
         public static float VolumeOfMesh(MeshFilter mf)
         {
-            Transform tr = mf.transform;
-            Mesh mesh = mf.mesh;
+            Transform transformMeshObject = mf.transform;
+            Mesh mesh = mf.sharedMesh;
             float volume = 0;
 
             Vector3[] vertices = mesh.vertices;
@@ -34,16 +35,27 @@ namespace PropertiesCounter
 
             //Vector3 T = new Vector3();
 
+            float xScale = transformMeshObject.localScale.x;
+            float yScale = transformMeshObject.localScale.y;
+            float zScale = transformMeshObject.localScale.z;
+
+            Transform parent = transformMeshObject.parent;
+
+            while (parent != null)
+            {
+                xScale *= parent.localScale.x;
+                yScale *= parent.localScale.y;
+                zScale *= parent.localScale.z;
+                parent = parent.parent;
+            }
+
             for (int i = 0; i < triangles.Length; i += 3)
             {
+
 
                 Vector3 v1 = vertices[triangles[i + 0]];
                 Vector3 v2 = vertices[triangles[i + 1]];
                 Vector3 v3 = vertices[triangles[i + 2]];
-
-                float xScale = tr.localScale.x;
-                float yScale = tr.localScale.y;
-                float zScale = tr.localScale.z;
 
                 v1.x *= xScale;
                 v2.x *= xScale;
@@ -163,6 +175,28 @@ namespace PropertiesCounter
 
         #endregion
 
+        //tu by sa este zislo aby sa tieto hodnoty zapisali do scriptu pre parenta a to sa potom ulozi akoprefab
+        public static void CountPropertiesOfModel(GameObject parent, float boxVolume)
+        {
+            StoneMeshProperties[] AllStonesProperties = parent.GetComponentsInChildren<StoneMeshProperties>();
+            int noOfStones = AllStonesProperties.Length;
+            float stonesVolume = 0f;
+
+            for (int i = 0; i < noOfStones; i++)
+            {
+                float volume = AllStonesProperties[i].GetVolume();
+                stonesVolume += volume;
+                //Debug.Log(i + " volume: " + volume);
+
+            }
+
+            float voids = (boxVolume - stonesVolume) / boxVolume * 100f;
+            Debug.Log("No of ellipsoids: " + noOfStones);
+            Debug.Log("Box volume: " + boxVolume);
+            Debug.Log("StonesVolume: " + stonesVolume);
+            Debug.Log("EmptyVolume: " + (boxVolume - stonesVolume));
+            Debug.Log("Voids: " + voids + "%");
+        }
     }
 
 }
