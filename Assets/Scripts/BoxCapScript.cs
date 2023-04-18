@@ -6,14 +6,20 @@ public class BoxCapScript : MonoBehaviour
 {
     StoneSpawning SpawningScript;
     EllipsoidsSpawning EllipsoidSpawningScript;
+
+    Collider BoxCollider;
+
     int NumberOfAttemptsToFillTopOfTheBox = 0;
-    float DestroyTime;
+    float DestroyTime = 0f;
+    
 
     // Start is called before the first frame update
     void Start()
     {
         SpawningScript = transform.parent.gameObject.GetComponent<StoneSpawning>();
         EllipsoidSpawningScript = GameObject.Find("Box").gameObject.GetComponent<EllipsoidsSpawning>();
+        BoxCollider = GetComponent<Collider>();
+        BoxCollider.enabled = false;
     }
 
     private void Update()
@@ -22,13 +28,16 @@ public class BoxCapScript : MonoBehaviour
         {
             if (SpawningScript.ProcessPaused)
             {
-                if (Time.time - DestroyTime > 20f && Time.time - SpawningScript.ProcessPausedTime > 10f)
+                BoxCollider.enabled = true;
+                if (Time.time - DestroyTime > 10f && Time.time - SpawningScript.ProcessPausedTime > 10f)
                 {
                     if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
                     {
-                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
                         NumberOfAttemptsToFillTopOfTheBox++;
+                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+
                         SpawningScript.NoDestroyedStones = 0;
+                        BoxCollider.enabled = false;
                         SpawningScript.ProcessPaused = false;
 
                     }
@@ -45,13 +54,16 @@ public class BoxCapScript : MonoBehaviour
         {
             if (EllipsoidSpawningScript.ProcessPaused)
             {
+                BoxCollider.enabled = true;
                 if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
                 {
                     if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
                     {
-                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
                         NumberOfAttemptsToFillTopOfTheBox++;
+                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+
                         EllipsoidSpawningScript.NoDestroyedStones = 0;
+                        BoxCollider.enabled = false;
                         EllipsoidSpawningScript.ProcessPaused = false;
 
                     }
@@ -65,30 +77,11 @@ public class BoxCapScript : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnCollisionEnter(Collision collision)
     {
-        DestroyStonesAboveBoxCap(other);
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        DestroyStonesAboveBoxCap(other);
-    }
-
-
-    //Destroy stones above BoxCap
-    private void DestroyStonesAboveBoxCap(Collider other)
-    {
-        if (SpawningScript.isActiveAndEnabled && SpawningScript.ProcessPaused)
-        {
-            Destroy(other.gameObject);
-            DestroyTime = Time.time;
-        }
-        else if (EllipsoidSpawningScript.isActiveAndEnabled && EllipsoidSpawningScript.ProcessPaused)
-        {
-            Destroy(other.gameObject);
-            DestroyTime = Time.time;
-        }
+        //Debug.Log(collision.gameObject.name + " BoxCap");
+        Destroy(collision.gameObject);
+        DestroyTime = Time.time;
     }
 
 

@@ -44,7 +44,9 @@ public class EllipsoidsSpawning : MonoBehaviour
     [HideInInspector] public float ProcessPausedTime;
     public bool ProcessEnded;
     bool PropertiesCalculated = false;
-    
+
+    int iter = 0;
+
     #endregion
 
 
@@ -122,7 +124,8 @@ public class EllipsoidsSpawning : MonoBehaviour
 
                         //Creating a new stone object with random position above the box
                         GameObject stone = Instantiate(Ellipsoid, SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, EllipsoidParent.transform);
-
+                        stone.name = stone.name + iter;
+                        iter++;
                         //urcenie aku frakciu ideme primiesat
                         //!!!!!!!!!!!!!!!!!!!!!
                         ActiveFractionIndex = 0;

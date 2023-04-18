@@ -1001,8 +1001,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 10, y: 0.05, z: 10}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 10, y: 5, z: 10}
+  m_Center: {x: 0, y: -2.5, z: 0}
 --- !u!1 &2144474367
 GameObject:
   m_ObjectHideFlags: 0
@@ -1069,7 +1069,7 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: TimePause
-      value: 1
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
@@ -1094,7 +1094,7 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: SpawnRelativeOffset
-      value: 1.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
@@ -1105,17 +1105,32 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: MaxNumerOfDestroyedStones
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
-      value: 0
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 7425752595253926650, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: m_Name
       value: Box
+      objectReference: {fileID: 0}
+    - target: {fileID: 7479296473704940836, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 7479296473704940836, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_Center.y
+      value: 0.25
+      objectReference: {fileID: 0}
+    - target: {fileID: 7479296473704940836, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_IsTrigger
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7801996008932267178, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
