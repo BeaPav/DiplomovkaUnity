@@ -1,7 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Windows;
+using System.IO;
 
 using FractionDefinition;
 using PropertiesCounter;
@@ -159,28 +159,36 @@ public class EllipsoidsSpawning : MonoBehaviour
 
             Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume);
 
-
-            //SaveModel(EllipsoidParent.transform);
+            
+            SaveModel(EllipsoidParent.transform, CreateDirectoryPath());
             
         }
 
     }
 
 
-    void SaveModel(Transform parent)
+    int CreateDirectoryPath()
     {
         //najdenie kolky to je model
         int folderIter = 1;
-        while(!Directory.Exists("Assets/SavedModels/EllipsoidModels/Model" + folderIter))
+        
+        
+        while(Directory.Exists("Assets/SavedModels/EllipsoidModels/Model" + folderIter))
         {
             folderIter++;
+            Debug.Log("zvysujeme folderIter");
         }
-
+        
         //vytvorenie priecinku
-        AssetDatabase.CreateFolder("Assets/SavedModels/EllipsoidModels", "Model" + folderIter);
-        AssetDatabase.CreateFolder("Assets/SavedModels/EllipsoidModels/Model" + folderIter, "Meshes");
-        AssetDatabase.CreateFolder("Assets/SavedModels/EllipsoidModels/Model" + folderIter, "ModelPrefab");
+        Directory.CreateDirectory("Assets/SavedModels/EllipsoidModels/Model" + folderIter);
+        Directory.CreateDirectory("Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Meshes");
+        AssetDatabase.Refresh();
 
+        return folderIter;
+    }
+
+    void SaveModel(Transform parent, int folderIter)
+    {
         //ulozenie vsetkych vygenerovanych meshov elipsoidov
         MeshFilter[] mf = parent.GetComponentsInChildren<MeshFilter>();
         int mfCounter = 0;
@@ -190,10 +198,12 @@ public class EllipsoidsSpawning : MonoBehaviour
                 "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Meshes/Ellipsoid" + mfCounter + ".asset");
             mfCounter++;
         }
-
+        
+        
         //ulozenie modelu ako prefab
         PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject,
-                "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "ModelPrefab/Model" + folderIter +".prefab", InteractionMode.UserAction);
+                "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Model" + folderIter +".prefab", InteractionMode.UserAction);
+        
     }
 
 
