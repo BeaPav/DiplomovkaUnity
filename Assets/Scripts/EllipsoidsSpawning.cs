@@ -81,11 +81,11 @@ public class EllipsoidsSpawning : MonoBehaviour
                                    new float[2] { 0.4f, 1f },            //sitovy rozbor - zastupenie
 
                                    new float[3] { 0.8f, 1.12f, 1.6f },  //tvarovy index - hranice
-                                   new float[2] { 0f, 0.5f },          //tvarovy index - hodnoty
+                                   new float[2] { 0.3f, 0.2f },          //tvarovy index - hodnoty
 
                                    new float[4] { 0.8f, 1f, 1.25f, 1.6f },  //index plochosti - hranice
                                    new float[3] { 0.5f, 0.63f, 0.8f },      //index plochosti - harfove sita medzery
-                                   new float[3] { 0.3f, 0.21f, 0.9f }      //index plochosti - hodnoty
+                                   new float[3] { 0.3f, 0.13f, 0.1f }      //index plochosti - hodnoty
                                    ));
         
         
