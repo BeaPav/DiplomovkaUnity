@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using PropertiesCounter;
+using System.IO;
+using UnityEditor;
 
 public class StoneSpawning : MonoBehaviour
 {
@@ -42,11 +44,15 @@ public class StoneSpawning : MonoBehaviour
     [SerializeField] int MaxNumerOfDestroyedStones = 50;
     public int NoDestroyedStones = 0;
 
-    public bool ProcessPaused;
+    [ReadOnly] public bool ProcessPaused;
     [HideInInspector] public float ProcessPausedTime;
-    public bool ProcessEnded;
+    [ReadOnly] public bool ProcessEnded;
     bool PropertiesCalculated = false;
-    
+
+    int iterStonesNames = 0;
+    [SerializeField] int folderIterStarter = 0;
+    [SerializeField] bool SaveModel = false;
+
     #endregion
 
     // Start is called before the first frame update
@@ -127,8 +133,13 @@ public class StoneSpawning : MonoBehaviour
 
                         //Creating a new stone with random rotation, scale and position above the box
                         GameObject stone = Instantiate(Prefabs[prefabIndex], SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, StoneParent.transform);
-                        stone.transform.rotation = Random.rotation;
+                        
+                        stone.name = "Stone" + iterStonesNames;
+                        iterStonesNames++;
+
                         stone.SetActive(true);
+
+                        stone.transform.rotation = Random.rotation;
                         StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
                         s.ScaleStone(FractionMin, FractionMax);
 
@@ -200,7 +211,14 @@ public class StoneSpawning : MonoBehaviour
             Debug.Log("[" + GradingCurveIndexes[GradingCurveIndexes.Length-1] + " - ]: " + GradingCurveVolumes[0] / StonesVolume);
             */
             #endregion
+
+            if (SaveModel)
+            {
+                ModelSavingSystem.SaveModel(StoneParent.transform, folderIterStarter, "Assets/SavedModels/StoneModels", false);
+            }
         }
 
     }
+
+
 }

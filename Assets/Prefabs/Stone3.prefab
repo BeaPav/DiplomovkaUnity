@@ -81,12 +81,12 @@ PrefabInstance:
     - target: {fileID: 5061807365744116790, guid: ab7d9d32c16365d4dbcdc1098fe033fd,
         type: 3}
       propertyPath: Width
-      value: 0.246047
+      value: 0.22009477
       objectReference: {fileID: 0}
     - target: {fileID: 5061807365744116790, guid: ab7d9d32c16365d4dbcdc1098fe033fd,
         type: 3}
       propertyPath: Length
-      value: 0.5689575
+      value: 0.40592837
       objectReference: {fileID: 0}
     - target: {fileID: 5061807365744116790, guid: ab7d9d32c16365d4dbcdc1098fe033fd,
         type: 3}
@@ -96,7 +96,7 @@ PrefabInstance:
     - target: {fileID: 5061807365744116790, guid: ab7d9d32c16365d4dbcdc1098fe033fd,
         type: 3}
       propertyPath: FractionNumber
-      value: 0.43425143
+      value: 0.2980858
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 5578050013936126715, guid: ab7d9d32c16365d4dbcdc1098fe033fd, type: 3}

@@ -40,12 +40,14 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] int MaxNumerOfDestroyedStones = 50;
     public int NoDestroyedStones = 0;
 
-    public bool ProcessPaused;
+    [ReadOnly] public bool ProcessPaused;
     [HideInInspector] public float ProcessPausedTime;
-    public bool ProcessEnded;
+    [ReadOnly] public bool ProcessEnded;
     bool PropertiesCalculated = false;
 
-    int iter = 0;
+    int iterStonesNames = 0;
+    [SerializeField] int folderIterStarter = 0;
+    [SerializeField] bool SaveModel = false;
 
     #endregion
 
@@ -119,24 +121,21 @@ public class EllipsoidsSpawning : MonoBehaviour
                         //Randomness of spawning point and mesh prototype
                         float x = Random.Range(-1f, 1f) * SpawnOffset;
                         float z = Random.Range(-1f, 1f) * SpawnOffset;
-                        //momentalne je prefabom len elipsoid takze toto nie je nahodne, ma to zmysel pri kamenoch z databazy
 
 
                         //Creating a new stone object with random position above the box
                         GameObject stone = Instantiate(Ellipsoid, SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, EllipsoidParent.transform);
-                        stone.name = stone.name + iter;
-                        iter++;
+                        stone.name = "Ellipsoid" + iterStonesNames;
+                        iterStonesNames++;
+
+
                         //urcenie aku frakciu ideme primiesat
                         //!!!!!!!!!!!!!!!!!!!!!
                         ActiveFractionIndex = 0;
                         //Fraction activeFraction = Fractions[0];
 
-                        //GenerateEllipsoidObject e = stone.GetComponent<GenerateEllipsoidObject>();
-                        //e.GenerateEllipsoid(activeFraction);
+                       
                         stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[0]);
-
-                        //StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
-                        //s.ScaleStone(FractionMin, FractionMax);
 
                         stone.transform.rotation = Random.rotation;
                         stone.GetComponent<Rigidbody>().useGravity = true;
@@ -159,52 +158,11 @@ public class EllipsoidsSpawning : MonoBehaviour
 
             Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume);
 
-            
-            SaveModel(EllipsoidParent.transform, CreateDirectoryPath());
-            
+            if(SaveModel)
+                ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, "Assets/SavedModels/EllipsoidModels", true);
+
         }
 
     }
-
-
-    int CreateDirectoryPath()
-    {
-        //najdenie kolky to je model
-        int folderIter = 1;
-        
-        
-        while(Directory.Exists("Assets/SavedModels/EllipsoidModels/Model" + folderIter))
-        {
-            folderIter++;
-            Debug.Log("zvysujeme folderIter");
-        }
-        
-        //vytvorenie priecinku
-        Directory.CreateDirectory("Assets/SavedModels/EllipsoidModels/Model" + folderIter);
-        Directory.CreateDirectory("Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Meshes");
-        AssetDatabase.Refresh();
-
-        return folderIter;
-    }
-
-    void SaveModel(Transform parent, int folderIter)
-    {
-        //ulozenie vsetkych vygenerovanych meshov elipsoidov
-        MeshFilter[] mf = parent.GetComponentsInChildren<MeshFilter>();
-        int mfCounter = 0;
-        foreach (MeshFilter childMesh in mf)
-        {
-            AssetDatabase.CreateAsset(childMesh.mesh, 
-                "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Meshes/Ellipsoid" + mfCounter + ".asset");
-            mfCounter++;
-        }
-        
-        
-        //ulozenie modelu ako prefab
-        PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject,
-                "Assets/SavedModels/EllipsoidModels/Model" + folderIter + "/Model" + folderIter +".prefab", InteractionMode.UserAction);
-        
-    }
-
 
 }

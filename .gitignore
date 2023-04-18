@@ -74,3 +74,4 @@ crashlytics-build.properties
 # CreatedModels
 /[Aa]ssets/SavedModels/EllipsoidModels/*
 /[Aa]ssets/SavedModels/StonesModels/*
+/[Aa]ssets/SavedModels/.gitignore

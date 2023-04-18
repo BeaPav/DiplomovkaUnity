@@ -20,42 +20,6 @@ public class GenerateEllipsoidObject : MonoBehaviour
     //[SerializeField] float DensityOfStoneMaterial = 2600;
 
 
-    
-    void Awake()
-    {
-        //GenerateEllipsoid();
-
-
-        #region VYGENEROVANIE ELIPSOIDU HNED PO INSTANTIATE ALE TU NEOVPLYVNUJEME AXES -- ZAKOMENTOVANE
-        /*
-        //generate ellipsoid of required shape according to SI and TI
-        genE.GenerateEllipsoidMesh(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, new Vector3(0.2f, 0.5f, 0.3f));
-
-        //create collider
-        //GenerateVHACDColliders();
-        GetComponentInChildren<MeshFilter>().gameObject.AddComponent<MeshCollider>();
-        GetComponentInChildren<MeshCollider>().convex = true;
-
-        //counting ofessential properties of stone (volume, frction number, length, width, mass)
-        StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-        s.SetVolume(Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>().mesh));
-        s.SetFractionNumber(Prop.FrNumber(this.gameObject, 20));
-        Vector2 lengthWidth = Prop.LengthAndWidthOfStone(this.gameObject);
-        s.SetLength(lengthWidth.x);
-        s.SetWidth(lengthWidth.y);
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
-        //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
-
-        //Debug.Log("properties: " + "length:" + s.GetLength() + " width: " + s.GetWidth() + " frNum: " + s.GetFractionNumber() +  " volume: " + s.GetVolume() + " mass: " + GetComponent<Rigidbody>().mass);
-
-
-        //scale ellipsoid according to grading curve
-        */
-        #endregion
-
-    }
-
-
     public void GenerateEllipsoid(Fraction fraction)
     {
         //urcenie rozmerov podla frakcie

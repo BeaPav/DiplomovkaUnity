@@ -175,9 +175,10 @@ namespace PropertiesCounter
 
         #endregion
 
-        //tu by sa este zislo aby sa tieto hodnoty zapisali do scriptu pre parenta a to sa potom ulozi akoprefab
+        #region MODEL PROPERTIES
         public static void CountPropertiesOfModel(GameObject parent, float boxVolume)
         {
+            ModelProperties mp = parent.GetComponentInParent<ModelProperties>();
             StoneMeshProperties[] AllStonesProperties = parent.GetComponentsInChildren<StoneMeshProperties>();
             int noOfStones = AllStonesProperties.Length;
             float stonesVolume = 0f;
@@ -191,12 +192,21 @@ namespace PropertiesCounter
             }
 
             float voids = (boxVolume - stonesVolume) / boxVolume * 100f;
+            mp.NumberOfStones = noOfStones;
+            mp.BoxVolume = boxVolume;
+            mp.StonesVolume = stonesVolume;
+            mp.EmptyVolume = boxVolume - stonesVolume;
+            mp.Voids = voids;
+
+            /*
             Debug.Log("No of ellipsoids: " + noOfStones);
             Debug.Log("Box volume: " + boxVolume);
             Debug.Log("StonesVolume: " + stonesVolume);
             Debug.Log("EmptyVolume: " + (boxVolume - stonesVolume));
             Debug.Log("Voids: " + voids + "%");
+            */
         }
     }
+    #endregion
 
 }
