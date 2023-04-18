@@ -1094,7 +1094,7 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: SpawnRelativeOffset
-      value: 1.5
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
@@ -1105,7 +1105,7 @@ PrefabInstance:
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: MaxNumerOfDestroyedStones
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5685449169036709308, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
