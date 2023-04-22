@@ -187,7 +187,7 @@ namespace PropertiesCounter
             {
                 float volume = AllStonesProperties[i].GetVolume();
                 stonesVolume += volume;
-                //Debug.Log(i + " volume: " + volume);
+                //Debug.Log(i + " stone volume: " + volume);
 
             }
 

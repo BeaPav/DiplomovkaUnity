@@ -26,7 +26,8 @@ public class GenerateEllipsoidObject : MonoBehaviour
         (Vector3 axes, float frNum) = genE.AxesOfEllipsoid(fraction);
 
         /*
-        axes = new Vector3(1f, 1f, 1f);
+        //gula s priemerom jedna
+        axes = new Vector3(0.5f, 0.5f, 0.5f);
         frNum = 1f;
         */
 

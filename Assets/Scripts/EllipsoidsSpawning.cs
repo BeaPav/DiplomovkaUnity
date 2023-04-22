@@ -75,6 +75,7 @@ public class EllipsoidsSpawning : MonoBehaviour
         SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
 
         Fractions = new List<Fraction>();
+        //uvadzane v cm
         Fractions.Add(new Fraction(new float[2] { 0.8f, 1.6f }, //d/D
 
                                    new float[3] { 0.8f, 1.12f, 1.6f },   //sitovy rozbor - hranice
