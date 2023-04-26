@@ -922,12 +922,12 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: SaveModel
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: TimePause
-      value: 0.5
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -939,6 +939,11 @@ PrefabInstance:
       propertyPath: SpawnPointYOffset
       value: 10
       objectReference: {fileID: 0}
+    - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_RootOrder
@@ -947,17 +952,17 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

@@ -190,7 +190,7 @@ namespace GenerateEllipsoidsNamespace
             if (isLong)
             {
                 //nahodny koeficient pre horne ohr intervalu - treba zmenit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                ellY = Random.Range(3f * 2f * ellX, 5f * 2f * ellX) / 2f;
+                ellY = Random.Range(3f * 2f * ellX, 4f * 2f * ellX) / 2f;
                 //Debug.Log("Long");
             }
             else
