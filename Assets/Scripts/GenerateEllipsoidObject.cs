@@ -23,7 +23,8 @@ public class GenerateEllipsoidObject : MonoBehaviour
     public void GenerateEllipsoid(Fraction fraction)
     {
         //urcenie rozmerov podla frakcie
-        (Vector3 axes, float frNum) = genE.AxesOfEllipsoid(fraction);
+        
+        (Vector3 axes, float frNum, (int, int, int) indGrFlSh, (bool, bool) shapeFlatLong) = genE.AxesOfEllipsoid(fraction);
 
         /*
         //gula s priemerom jedna
@@ -41,13 +42,17 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
         //nastavenie a vypocet vlastnosti zrna
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-        s.SetVolume(Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>()));
+        float volume = Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>());
+        s.SetVolume(volume);
         s.SetFractionNumber(frNum);
         s.SetLength(2f * axes[1]);
         s.SetWidth(2f * axes[0]);
         //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
 
+        fraction.ActualizeVolume(volume, indGrFlSh, shapeFlatLong);
+
     }
+
 
 
     public void GenerateVHACDColliders()

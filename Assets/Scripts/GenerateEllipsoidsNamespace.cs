@@ -152,20 +152,20 @@ namespace GenerateEllipsoidsNamespace
         #endregion
 
         #region DETERMINE AXES AND FRNUM OF ELLIPSOID ACCORDING TO FRACTION PROPERTIES (GRADING CURVE, FLAT INDEX, SHAPE INDEX)
-        public static (Vector3 axes, float frNum) AxesOfEllipsoid(Fraction fraction)
+        public static (Vector3 axes, float frNum, (int,int,int) indGradingFlatShape, (bool, bool) shapeFlatLong) AxesOfEllipsoid(Fraction fraction)
         {
             //cista frakcia (oznacujeme i, chapeme d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
             //frNum a ellZ
-            int fractionGradingIndex = fraction.GradingChoice();
-            float frNum = Random.Range(fraction.GradingFractionBoundaries[fractionGradingIndex], 
-                                       fraction.GradingFractionBoundaries[fractionGradingIndex + 1]);
+            int frGrIndex = fraction.GradingChoice();
+            float frNum = Random.Range(fraction.GradingSubfractions[frGrIndex].FractionBoundaries.Item1, 
+                                       fraction.GradingSubfractions[frGrIndex].FractionBoundaries.Item2);
 
                     //zatial nie celkom ok vzorec asi, kvoli tomu ze to nesedi s ratanim frNum povodneho
                     //!!!!!!!!!!!!!!!!!
             float ellZ = Random.Range(frNum, Mathf.Sqrt(2) * frNum) / 2f;
 
             //teraz sa urci ci bude plochy podla pravdepodobnosti v danej frakcii
-            (bool isFlat, float flatSieveSize) = fraction.IsFlat(frNum);
+            (int frFlIndex, bool isFlat, float flatSieveSize) = fraction.IsFlat(frNum);
 
             //vygenerujeme ellX podla plochosti
             //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
@@ -183,7 +183,7 @@ namespace GenerateEllipsoidsNamespace
             }
 
             //teraz sa urci ci bude dlhy podla pravdepodobnosti v danej frakcii
-            bool isLong = fraction.IsLong(frNum);
+            (int frShIndex, bool isLong) = fraction.IsLong(frNum);
 
             //vygenerovanie najdlhsieho rozmeru ellY
             float ellY = 0f;
@@ -199,7 +199,9 @@ namespace GenerateEllipsoidsNamespace
             }
 
             //Debug.Log("2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);
-            return (new Vector3(ellX, ellY, ellZ), frNum);
+            (int, int, int) indices = (frGrIndex, frFlIndex, frShIndex);
+            (bool, bool) shape = (isFlat, isLong);
+            return (new Vector3(ellX, ellY, ellZ), frNum, indices, shape);
 
         }
 

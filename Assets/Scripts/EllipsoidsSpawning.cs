@@ -49,6 +49,8 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] int folderIterStarter = 0;
     [SerializeField] bool SaveModel = false;
 
+    [ReadOnly] public float EllipsoidsActualVolume = 0f;
+
     #endregion
 
 
@@ -74,25 +76,8 @@ public class EllipsoidsSpawning : MonoBehaviour
         //aj toto nerobit relativny ofset len ku kocke ale k nadobe akehokolvek tvaru alebo dajaky radius tam dat v percentach rozmeru nadoby
         SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
 
-        Fractions = new List<Fraction>();
-        //uvadzane v cm
-        Fractions.Add(new Fraction(new float[2] { 0.8f, 1.6f }, //d/D
-
-                                   new float[3] { 0.8f, 1.12f, 1.6f },   //sitovy rozbor - hranice
-                                   new float[2] { 0.4f, 1f },            //sitovy rozbor - zastupenie
-
-                                   new float[3] { 0.8f, 1.12f, 1.6f },  //tvarovy index - hranice
-                                   new float[2] { 0.3f, 0.2f },          //tvarovy index - hodnoty
-
-                                   new float[4] { 0.8f, 1f, 1.25f, 1.6f },  //index plochosti - hranice
-                                   new float[3] { 0.5f, 0.63f, 0.8f },      //index plochosti - harfove sita medzery
-                                   new float[3] { 0.3f, 0.13f, 0.1f }      //index plochosti - hodnoty
-                                   ));
-        
-        
-        FractionRatios = new float[1] { 1f};
-        //este by bolo fajne dat vektor, kde by sa postupne prvky FractionRatios scitavali, a na konci je jednotka a z toho by sa potom urcovala frakcia podla pravdepodobnmosti
-        //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        //pomery v akych miesame
+        FractionRatios = new float[2] { 0.3f, 0.7f };
 
         float sumOfRatioList = 0f;
         foreach (float f in FractionRatios)
@@ -101,6 +86,39 @@ public class EllipsoidsSpawning : MonoBehaviour
         }
         if (sumOfRatioList != 1f)
             Debug.LogError("suma pomerov, ako chceme miesat frakcie nie je jedna");
+
+        Fractions = new List<Fraction>();
+        //uvadzane v cm
+        Fractions.Add(new Fraction(( 0.4f, 0.8f ), //d/D
+                                   FractionRatios[0],           //chceme 30% tejto frakcie miesat
+
+                                   new float[3] { 0.4f, 0.6f, 0.8f },   //sitovy rozbor - hranice
+                                   new float[2] { 0.8f, 0.2f },            //sitovy rozbor - zastupenie - nechce to byt nascitane do jednotky, je to rozklad 1
+
+                                   new float[3] { 0.4f, 0.5f, 0.8f },  //tvarovy index - hranice
+                                   new float[2] { 0.25f, 0.1f },          //tvarovy index - hodnoty
+
+                                   new float[4] { 0.4f, 0.5f, 0.6f, 0.8f },  //index plochosti - hranice
+                                   new float[3] { 0.25f, 0.3f, 0.4f },      //index plochosti - harfove sita medzery
+                                   new float[3] { 0.2f, 0.13f, 0.1f }      //index plochosti - hodnoty
+                                   ));
+
+        Fractions.Add(new Fraction((0.8f, 1.6f), //d/D
+                                   FractionRatios[1],         //chceme 70% tejto frakcie miesat
+
+                                   new float[3] { 0.8f, 1.12f, 1.6f },   //sitovy rozbor - hranice
+                                   new float[2] { 0.4f, 0.6f },            //sitovy rozbor - zastupenie  - nechce to byt nascitane do jednotky, je to rozklad 1
+
+                                   new float[3] { 0.8f, 1.12f, 1.6f },  //tvarovy index - hranice
+                                   new float[2] { 0.3f, 0.2f },          //tvarovy index - hodnoty
+
+                                   new float[4] { 0.8f, 1f, 1.25f, 1.6f },  //index plochosti - hranice
+                                   new float[3] { 0.5f, 0.63f, 0.8f },      //index plochosti - harfove sita medzery
+                                   new float[3] { 0.3f, 0.13f, 0.1f }      //index plochosti - hodnoty
+                                   ));
+
+
+        
         if (FractionRatios.Length != Fractions.Count)
             Debug.LogError("ina dlzka vektorov pre frakcie a vektora pomerov pre miesanie frakcii");
 
@@ -130,16 +148,16 @@ public class EllipsoidsSpawning : MonoBehaviour
                         iterStonesNames++;
 
 
-                        //urcenie aku frakciu ideme primiesat
-                        //!!!!!!!!!!!!!!!!!!!!!
-                        ActiveFractionIndex = 0;
-                        //Fraction activeFraction = Fractions[0];
+                        //urcenie aku frakciu ideme primiesat podla zelaneho pomeru
+                        ActiveFractionIndex = FractionChoice();
 
                        
-                        stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[0]);
+                        stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[ActiveFractionIndex]);
 
                         stone.transform.rotation = Random.rotation;
                         stone.GetComponent<Rigidbody>().useGravity = true;
+
+                        EllipsoidsActualVolume += stone.GetComponent<StoneMeshProperties>().GetVolume();
 
                         TimeLastSpawn = Time.time;
                     }
@@ -166,4 +184,33 @@ public class EllipsoidsSpawning : MonoBehaviour
 
     }
 
+
+
+    //vráti index frakcie podla pomeru v ktorom miesame, ktorej chceme vygenerovat kamen
+    //vybera sa ta, ktorej zastupenie celkoveho objemu sa najviac vzdaluje od pozadovaneho
+    public int FractionChoice()
+    {
+        int index = -1;
+        
+        if (Fractions != null && Fractions.Count > 0)
+        {
+            if (EllipsoidsActualVolume == 0f)
+            {
+                return 0;
+            }
+
+            float min = float.MaxValue;
+
+            for (int i = 0; i < Fractions.Count; i++)
+            {
+                float dif = Fractions[i].ActualFractionVolume / EllipsoidsActualVolume - Fractions[i].RequiredVolumePart;
+                if (dif < min)
+                {
+                    min = dif;
+                    index = i;
+                }
+            }
+        }
+        return index;
+    }
 }
