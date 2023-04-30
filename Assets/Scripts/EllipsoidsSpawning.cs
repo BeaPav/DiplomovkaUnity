@@ -27,8 +27,8 @@ public class EllipsoidsSpawning : MonoBehaviour
 
 
     Vector3 SpawnPoint;
-    [SerializeField] float SpawnPointYOffset;
-    [SerializeField] float SpawnRelativeOffset;
+    [SerializeField] float SpawnRelativeYOffset;
+    [SerializeField] float SpawnRelativeXZOffset;
     float SpawnOffset;
 
     [SerializeField] float TimePause = 1f;
@@ -70,11 +70,11 @@ public class EllipsoidsSpawning : MonoBehaviour
 
 
 
-        SpawnPoint = Vector3.zero;
-        SpawnPoint.y += transform.localScale.y + SpawnPointYOffset;
+        SpawnPoint = transform.position;
+        SpawnPoint.y = 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
 
         //aj toto nerobit relativny ofset len ku kocke ale k nadobe akehokolvek tvaru alebo dajaky radius tam dat v percentach rozmeru nadoby
-        SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
+        SpawnOffset = transform.localScale.x * SpawnRelativeXZOffset;
 
         //pomery v akych miesame
         FractionRatios = new float[2] { 0.3f, 0.7f };
