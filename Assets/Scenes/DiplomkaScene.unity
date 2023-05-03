@@ -1093,11 +1093,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1617891341}
     m_Modifications:
-    - target: {fileID: 608493973699308125, guid: 85461c3e96ae6ee41b650f6f9fd11187,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: SaveModel
@@ -1136,11 +1131,6 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1287883523903084421, guid: 85461c3e96ae6ee41b650f6f9fd11187,
-        type: 3}
-      propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
@@ -1223,26 +1213,6 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 4912012996280319245, guid: 85461c3e96ae6ee41b650f6f9fd11187,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5433236899703274604, guid: 85461c3e96ae6ee41b650f6f9fd11187,
-        type: 3}
-      propertyPath: m_Name
-      value: BoxMesh
-      objectReference: {fileID: 0}
-    - target: {fileID: 5433236899703274604, guid: 85461c3e96ae6ee41b650f6f9fd11187,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6948474155619359979, guid: 85461c3e96ae6ee41b650f6f9fd11187,
-        type: 3}
-      propertyPath: m_TagString
-      value: BoxMesh
-      objectReference: {fileID: 0}
     - target: {fileID: 7826346350378643887, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: StoneParent
@@ -1263,7 +1233,8 @@ PrefabInstance:
       propertyPath: m_IsKinematic
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7830802899899105519, guid: 85461c3e96ae6ee41b650f6f9fd11187, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 85461c3e96ae6ee41b650f6f9fd11187, type: 3}
 --- !u!4 &1950074675 stripped
 Transform:

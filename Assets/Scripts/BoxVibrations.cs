@@ -18,7 +18,6 @@ public class BoxVibrations : MonoBehaviour
         Debug.Log(Time.fixedDeltaTime + "fixed Delta Time ");
         Rb = GetComponent<Rigidbody>();
         startTime = Time.time;
-        UpVector *= transform.localScale.y;
         StartPosition = transform.position;
     }
 
@@ -28,6 +27,7 @@ public class BoxVibrations : MonoBehaviour
         //Rb.velocity = UpVector * Amplitude * Mathf.Sin(c * t * Frequency);
         //Rb.MovePosition(transform.position + UpVector * 5f * Time.deltaTime);
 
+        //toto sa dobre nasobi 2PI konstantou?
         Vector3 newPos = StartPosition + UpVector * Amplitude * Mathf.Sin(c * t * Frequency);
         Rb.MovePosition(newPos);
     }
