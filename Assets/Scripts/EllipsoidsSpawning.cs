@@ -72,8 +72,6 @@ public class EllipsoidsSpawning : MonoBehaviour
 
         SpawnPoint = transform.position;
         SpawnPoint.y = 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
-
-        //aj toto nerobit relativny ofset len ku kocke ale k nadobe akehokolvek tvaru alebo dajaky radius tam dat v percentach rozmeru nadoby
         SpawnOffset = transform.localScale.x * SpawnRelativeXZOffset;
 
         //pomery v akych miesame

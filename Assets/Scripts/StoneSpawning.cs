@@ -25,8 +25,8 @@ public class StoneSpawning : MonoBehaviour
     */
 
     Vector3 SpawnPoint;
-    [SerializeField] float SpawnPointYOffset;
-    [SerializeField] float SpawnRelativeOffset;
+    [SerializeField] float SpawnRelativeYOffset;
+    [SerializeField] float SpawnRelativeXZOffset;
     float SpawnOffset;
 
     
@@ -71,11 +71,9 @@ public class StoneSpawning : MonoBehaviour
         Debug.Log("ObjemNadoby: " + BoxVolume);
 
 
-        SpawnPoint = Vector3.zero;
-        SpawnPoint.y += transform.localScale.y + SpawnPointYOffset;
-
-        //aj toto nerobit relativny ofset len ku kocke ale k nadobe akehokolvek tvaru alebo dajaky radius tam dat v percentach rozmeru nadoby
-        SpawnOffset = transform.localScale.x / 2f * SpawnRelativeOffset;
+        SpawnPoint = transform.position;
+        SpawnPoint.y = 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
+        SpawnOffset = transform.localScale.x * SpawnRelativeXZOffset;
 
         /*
         GradingCurveIndexes = new float[] { 0.2f, 0.4f, 0.56f, 0.8f, 1.12f, 1.6f, 2.24f, 3.15f };

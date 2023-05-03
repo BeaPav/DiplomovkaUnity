@@ -17,6 +17,46 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 1570661860272808770, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_Name
+      value: BoxMeshVHACD
+      objectReference: {fileID: 0}
+    - target: {fileID: 1570661860272808770, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1909624390998876707, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364772030237673262, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364772030237673262, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364772030237673262, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364772030237673262, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2364772030237673262, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3618189326228483713, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: TimePause
@@ -46,6 +86,16 @@ PrefabInstance:
         type: 3}
       propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4523673280299107269, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_Name
+      value: BoxMesh
+      objectReference: {fileID: 0}
+    - target: {fileID: 4523673280299107269, guid: d1665650a40841a41923124fd57ea865,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4872618934479751093, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
@@ -142,7 +192,7 @@ PrefabInstance:
     - target: {fileID: 7425752595253926650, guid: d1665650a40841a41923124fd57ea865,
         type: 3}
       propertyPath: m_Name
-      value: Box
+      value: BoxCylinder
       objectReference: {fileID: 0}
     - target: {fileID: 7479296473704940836, guid: d1665650a40841a41923124fd57ea865,
         type: 3}

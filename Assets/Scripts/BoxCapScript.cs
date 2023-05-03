@@ -28,7 +28,8 @@ public class BoxCapScript : MonoBehaviour
         {
             if (SpawningScript.ProcessPaused)
             {
-                BoxCollider.enabled = true;
+                if(BoxCollider.enabled == false)
+                    BoxCollider.enabled = true;
                 if (Time.time - DestroyTime > 10f && Time.time - SpawningScript.ProcessPausedTime > 10f)
                 {
                     if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
@@ -54,7 +55,8 @@ public class BoxCapScript : MonoBehaviour
         {
             if (EllipsoidSpawningScript.ProcessPaused)
             {
-                BoxCollider.enabled = true;
+                if (BoxCollider.enabled == false) 
+                    BoxCollider.enabled = true;
                 if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
                 {
                     if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
@@ -79,9 +81,12 @@ public class BoxCapScript : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        //Debug.Log(collision.gameObject.name + " BoxCap");
-        Destroy(collision.gameObject);
-        DestroyTime = Time.time;
+        if (collision.transform.tag != "BoxMesh")
+        {
+            //Debug.Log(collision.gameObject.name + " BoxCap");
+            Destroy(collision.gameObject);
+            DestroyTime = Time.time;
+        }
     }
 
 

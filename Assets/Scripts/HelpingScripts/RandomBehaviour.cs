@@ -40,7 +40,7 @@ public class RandomBehaviour : MonoBehaviour
         
         for (int i = 0; i < 10; i++)
         {
-            Debug.Log("menej ako 0." + i + 1 + ": " + subintervals[i]);
+            Debug.Log("menej ako 0." + (i + 1) + ": " + subintervals[i]);
         }
     }
 
