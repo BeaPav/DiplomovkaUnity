@@ -51,6 +51,9 @@ public class EllipsoidsSpawning : MonoBehaviour
 
     [ReadOnly] public float EllipsoidsActualVolume = 0f;
 
+    //kg/m^3
+    [SerializeField] float DensityOfStoneMaterial;
+
     #endregion
 
 
@@ -60,6 +63,9 @@ public class EllipsoidsSpawning : MonoBehaviour
     void Start()
     {
         #region INITIALIZE VARIABLES
+
+        //zmena gravitacneho zrychlenia kvoli jednotkam, z metrov ideme a cm
+        //Physics.gravity = new Vector3(0f, -980f, 0f);
 
         ProcessPaused = false;
 
@@ -71,7 +77,7 @@ public class EllipsoidsSpawning : MonoBehaviour
 
 
         SpawnPoint = transform.position;
-        SpawnPoint.y = 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
+        SpawnPoint.y += 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
         SpawnOffset = transform.localScale.x * SpawnRelativeXZOffset;
 
         //pomery v akych miesame
@@ -114,9 +120,10 @@ public class EllipsoidsSpawning : MonoBehaviour
                                    new float[3] { 0.5f, 0.63f, 0.8f },      //index plochosti - harfove sita medzery
                                    new float[3] { 0.3f, 0.13f, 0.1f }      //index plochosti - hodnoty
                                    ));
-
-
         
+        
+
+
         if (FractionRatios.Length != Fractions.Count)
             Debug.LogError("ina dlzka vektorov pre frakcie a vektora pomerov pre miesanie frakcii");
 
@@ -154,6 +161,10 @@ public class EllipsoidsSpawning : MonoBehaviour
 
                         stone.transform.rotation = Random.rotation;
                         stone.GetComponent<Rigidbody>().useGravity = true;
+
+
+                        //hlupo meea hmotnost
+                        stone.GetComponent<Rigidbody>().mass = DensityOfStoneMaterial * stone.GetComponent<StoneMeshProperties>().GetVolume();
 
                         EllipsoidsActualVolume += stone.GetComponent<StoneMeshProperties>().GetVolume();
 

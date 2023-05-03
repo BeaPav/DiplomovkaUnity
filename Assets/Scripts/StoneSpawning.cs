@@ -17,7 +17,8 @@ public class StoneSpawning : MonoBehaviour
     int noPrefabs;
     [SerializeField] GameObject StoneParent;
 
-    [SerializeField] float DensityOfStoneMaterial = 2600;
+    //kg/cm^3
+    [SerializeField] float DensityOfStoneMaterial = 0.00263f;
     //float[] MassOfStones;
     /*
     float[] GradingCurveIndexes;
