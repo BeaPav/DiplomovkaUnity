@@ -7,19 +7,31 @@ public class BoxCapScript : MonoBehaviour
     StoneSpawning SpawningScript;
     EllipsoidsSpawning EllipsoidSpawningScript;
 
-    Collider BoxCollider;
+    Collider BoxCapCollider;
 
     int NumberOfAttemptsToFillTopOfTheBox = 0;
     float DestroyTime = 0f;
-    
+
+    Vector3 StartPos;
+    Vector3 TargetPos;
+    Rigidbody Rb;
+    bool MoveToTargetPos = false;
+    float StartOfMovementTime;
+    [SerializeField] float SpeedOfCapCollider;
+    [SerializeField] bool DestroyStones = false;
+
 
     // Start is called before the first frame update
     void Start()
     {
         SpawningScript = transform.parent.gameObject.GetComponent<StoneSpawning>();
-        EllipsoidSpawningScript = GameObject.Find("Box").gameObject.GetComponent<EllipsoidsSpawning>();
-        BoxCollider = GetComponent<Collider>();
-        BoxCollider.enabled = false;
+        EllipsoidSpawningScript = transform.parent.gameObject.GetComponent<EllipsoidsSpawning>();
+        BoxCapCollider = GetComponent<Collider>();
+        BoxCapCollider.enabled = false;
+        StartPos = transform.position;
+        TargetPos = StartPos;
+        TargetPos.x = transform.parent.position.x - transform.localPosition.x * transform.parent.localScale.x;
+        Rb = GetComponent<Rigidbody>();
     }
 
     private void Update()
@@ -28,23 +40,33 @@ public class BoxCapScript : MonoBehaviour
         {
             if (SpawningScript.ProcessPaused)
             {
-                if(BoxCollider.enabled == false)
-                    BoxCollider.enabled = true;
-                if (Time.time - DestroyTime > 10f && Time.time - SpawningScript.ProcessPausedTime > 10f)
+                if (BoxCapCollider.enabled == false)
+                { 
+                    BoxCapCollider.enabled = true;
+                    MoveToTargetPos = true;
+                    StartOfMovementTime = Time.time;
+                }
+                if ((transform.position - TargetPos).magnitude < 0.1f)
                 {
-                    if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
+                    MoveToTargetPos = false;
+                    
+                    if (Time.time - DestroyTime > 10f && Time.time - SpawningScript.ProcessPausedTime > 10f)
                     {
-                        NumberOfAttemptsToFillTopOfTheBox++;
-                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+                        if (NumberOfAttemptsToFillTopOfTheBox < SpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
+                        {
+                            NumberOfAttemptsToFillTopOfTheBox++;
+                            Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
 
-                        SpawningScript.NoDestroyedStones = 0;
-                        BoxCollider.enabled = false;
-                        SpawningScript.ProcessPaused = false;
+                            SpawningScript.NoDestroyedStones = 0;
+                            BoxCapCollider.enabled = false;
+                            transform.position = StartPos;
+                            SpawningScript.ProcessPaused = false;
 
-                    }
-                    else
-                    {
-                        SpawningScript.ProcessEnded = true;
+                        }
+                        else
+                        {
+                            SpawningScript.ProcessEnded = true;
+                        }
                     }
                 }
 
@@ -55,27 +77,52 @@ public class BoxCapScript : MonoBehaviour
         {
             if (EllipsoidSpawningScript.ProcessPaused)
             {
-                if (BoxCollider.enabled == false) 
-                    BoxCollider.enabled = true;
-                if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
+                if (BoxCapCollider.enabled == false)
                 {
-                    if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
-                    {
-                        NumberOfAttemptsToFillTopOfTheBox++;
-                        Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+                    BoxCapCollider.enabled = true;
+                    MoveToTargetPos = true;
+                    StartOfMovementTime = Time.time;
+                }
+                if ((transform.position - TargetPos).magnitude < 0.1f)
+                {
+                    MoveToTargetPos = false;
 
-                        EllipsoidSpawningScript.NoDestroyedStones = 0;
-                        BoxCollider.enabled = false;
-                        EllipsoidSpawningScript.ProcessPaused = false;
-
-                    }
-                    else
+                    if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
                     {
-                        EllipsoidSpawningScript.ProcessEnded = true;
+                        if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
+                        {
+                            NumberOfAttemptsToFillTopOfTheBox++;
+                            Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+
+                            EllipsoidSpawningScript.NoDestroyedStones = 0;
+                            BoxCapCollider.enabled = false;
+                            transform.position = StartPos;
+                            EllipsoidSpawningScript.ProcessPaused = false;
+
+                        }
+                        else
+                        {
+                            EllipsoidSpawningScript.ProcessEnded = true;
+                        }
                     }
                 }
 
             }
+        }
+    }
+
+    private void FixedUpdate()
+    {
+        if(MoveToTargetPos)
+        {
+            float t = Time.time - StartOfMovementTime;
+            Vector3 newPos = StartPos + (TargetPos - StartPos).normalized * SpeedOfCapCollider * t; ;
+            Rb.MovePosition(newPos);
+            if((newPos - TargetPos).magnitude < 0.1f)
+            {
+                MoveToTargetPos = false;
+            }
+            
         }
     }
 
@@ -84,7 +131,8 @@ public class BoxCapScript : MonoBehaviour
         if (collision.transform.tag != "BoxMesh")
         {
             //Debug.Log(collision.gameObject.name + " BoxCap");
-            Destroy(collision.gameObject);
+            if(DestroyStones)
+                Destroy(collision.gameObject);
             DestroyTime = Time.time;
         }
     }
