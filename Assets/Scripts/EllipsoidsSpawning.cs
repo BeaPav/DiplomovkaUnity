@@ -92,7 +92,7 @@ public class EllipsoidsSpawning : MonoBehaviour
             Debug.LogError("suma pomerov, ako chceme miesat frakcie nie je jedna");
 
         Fractions = new List<Fraction>();
-        //uvadzane v cm
+        //uvadzane v cm //?
         Fractions.Add(new Fraction(( 0.4f, 0.8f ), //d/D
                                    FractionRatios[0],           //chceme 30% tejto frakcie miesat
 

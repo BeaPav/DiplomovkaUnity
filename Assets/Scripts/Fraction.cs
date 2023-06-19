@@ -15,9 +15,9 @@ namespace FractionDefinition
         public Fraction[] GradingSubfractions;
         public Fraction[] ShapeSubfractions;
         public Fraction[] FlatSubfractions;
-        
 
-        //constructor
+
+        #region CONSTRUCTOR
         public Fraction((float,float) frBoundaries, float requiredVolumePart, float[] grFrBoundaries, float[] grFrPercentage,
                         float[] shFrBoundaries, float[] shFrPercentage,
                         float[] flFrBoundaries, float[] flSieveSizes, float[] flFrPercentage)
@@ -82,6 +82,7 @@ namespace FractionDefinition
             RequiredVolumePart = reqVolume;
             FlatSieveSize = flSieveSize;
         }
+#endregion
 
 
 
@@ -111,7 +112,7 @@ namespace FractionDefinition
 
         }
         
-        // vrati index zodpovedajucej frakcie, ci je plochy a zodpovedajucu medzeru harfoveho sita
+        // vrati index zodpovedajucej frakcie (pre zoznamy plochych podfrakcii), ci je plochy a zodpovedajucu medzeru harfoveho sita
         // ak je aktualny index plochosti frakcie (podiel objemu plochych a vsetkych) menej ako pozadovany, tak generujeme plochy kamen
         public (int, bool, float) IsFlat(float frNum)
         {
@@ -132,7 +133,7 @@ namespace FractionDefinition
             
         }
 
-        //vrati index zodpovedajucej frakcie, ci je dlhy
+        //vrati index zodpovedajucej frakcie (pre zoznamy dlhych podfrakcii), ci je dlhy
         // ak je aktualny tvarovy index frakcie (podiel objemu dlhych a vsetkych) menej ako pozadovany, tak generujeme dlhy kamen
         public (int, bool) IsLong(float frNum)
         {
@@ -156,8 +157,10 @@ namespace FractionDefinition
 
         public void ActualizeVolume(float volume, (int, int, int) indGrFlSh, (bool, bool) shapeFlatLong)
         {
+            //pridanie elipsoidu do aktualnej frakcie (4/8, 8/16, 16/22)
             ActualFractionVolume += volume;
 
+            //zaratanie objemu do konkretnej ciary zrnitosti v danej frakcii
             if (GradingSubfractions == null)
                 Debug.LogError("chceme pridat volume do neexistujuceho grading subfraction");
             else
@@ -165,6 +168,7 @@ namespace FractionDefinition
                 GradingSubfractions[indGrFlSh.Item1].ActualFractionVolume += volume;
             }
 
+            //pridanie objemu elipsoida do konkretnej podfrakcie pre celkovu hmotnost v zoznamoch plochych a tiez priratanie plocheho ak je to treba
             if (FlatSubfractions == null)
                 Debug.LogError("chceme pridat volume do neexistujuceho flat subfraction");
             else
@@ -177,6 +181,7 @@ namespace FractionDefinition
                 }
             }
 
+            //zaratanie objemu do celkovej hmotnosti podfrakcie v zoznamoch pre dlhe a priratanie objemu k dlhym ak je to treba
             if (ShapeSubfractions == null)
                 Debug.LogError("chceme pridat volume do neexistujuceho shape subfraction");
             else
@@ -191,7 +196,7 @@ namespace FractionDefinition
 
         }
 
-            int IndexFromFractionVector(float num, Fraction[] frac)
+        int IndexFromFractionVector(float num, Fraction[] frac)
         {
             int i = 0;
             if (frac[frac.Length - 1].FractionBoundaries.Item2 < num)

@@ -130,7 +130,7 @@ namespace GenerateEllipsoidsNamespace
 
 
             //number of parallels and meridians according to locale scale of sphere in x,y,z directions
-            int noParallels = Mathf.Max(Mathf.RoundToInt(ellAxeY) * noParallelsOnSphere, noParallelsOnSphere);
+            int noParallels = Mathf.Max(Mathf.FloorToInt(ellAxeY) * noParallelsOnSphere, noParallelsOnSphere);
             float ratioEllAxeXZ = ellAxeX > ellAxeZ? ellAxeX / ellAxeZ : ellAxeZ / ellAxeX;
             int noMeridians = Mathf.FloorToInt(ratioEllAxeXZ) * noMeridiansOnSphere;
 
@@ -154,27 +154,31 @@ namespace GenerateEllipsoidsNamespace
         #region DETERMINE AXES AND FRNUM OF ELLIPSOID ACCORDING TO FRACTION PROPERTIES (GRADING CURVE, FLAT INDEX, SHAPE INDEX)
         public static (Vector3 axes, float frNum, (int,int,int) indGradingFlatShape, (bool, bool) shapeFlatLong) AxesOfEllipsoid(Fraction fraction)
         {
-            //cista frakcia (oznacujeme i, chapeme d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
-            //frNum a ellZ
+            //??????      //cista frakcia (oznacujeme i, chapeme d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
+
+            //generujeme elipsoid z frakcie fraction
+            
+            //volba podfrakcie podla ciary zrnitosti
             int frGrIndex = fraction.GradingChoice();
+
+            //nahodna volba frNum podla podfrakcie zrnitosti
             float frNum = Random.Range(fraction.GradingSubfractions[frGrIndex].FractionBoundaries.Item1, 
                                        fraction.GradingSubfractions[frGrIndex].FractionBoundaries.Item2);
 
-                    //zatial nie celkom ok vzorec asi, kvoli tomu ze to nesedi s ratanim frNum povodneho
-                    //!!!!!!!!!!!!!!!!!
-            float ellZ = Random.Range(frNum, Mathf.Sqrt(2) * frNum) / 2f;
-
             //teraz sa urci ci bude plochy podla pravdepodobnosti v danej frakcii
             (int frFlIndex, bool isFlat, float flatSieveSize) = fraction.IsFlat(frNum);
+
+            //teraz sa urci ci bude dlhy podla pravdepodobnosti v danej frakcii
+            (int frShIndex, bool isLong) = fraction.IsLong(frNum);
 
             //vygenerujeme ellX podla plochosti
             //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
             float ellX = 0f;
             if (isFlat)
             {
-                //nahodna konstanta pre dolne ohranicenie intervalu - treba zmenit ???!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-             
-                ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f; //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
+                //konstanta pre dolne ohranicenie intervalu - nechceme uzsie kamene ako polovica medzery na harfovom site (zvolili sme)
+                ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f; 
+
                 //Debug.Log("Flat");
             }
             else
@@ -182,20 +186,21 @@ namespace GenerateEllipsoidsNamespace
                 ellX = Random.Range(flatSieveSize, frNum) / 2f;
             }
 
-            //teraz sa urci ci bude dlhy podla pravdepodobnosti v danej frakcii
-            (int frShIndex, bool isLong) = fraction.IsLong(frNum);
+            //vygenerujeme ellZ v zavislosti od zvoleneho ellX tak, aby ostala zachovana frakcia zodpovedajuca frNum
+            //(lebo podla ellZ je myslienkovo urcene frNum)
+            float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
 
-            //vygenerovanie najdlhsieho rozmeru ellY
+            //vygenerovanie najdlhsieho rozmeru ellY podla shape indexu
             float ellY = 0f;
             if (isLong)
             {
-                //nahodny koeficient pre horne ohr intervalu - treba zmenit !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                ellY = Random.Range(3f * 2f * ellX, 4f * 2f * ellX) / 2f;
+                //koeficient pre horne ohr intervalu - elipsoidy maju najdlhsi rozmer max 4 krat vacsi ako najkratsi (zvolili sme)
+                ellY = Random.Range(3f * ellX, 4f * ellX);
                 //Debug.Log("Long");
             }
             else
             {
-                ellY = Random.Range(2f * ellZ, 3f * 2f * ellX) / 2f;
+                ellY = Random.Range(ellZ, 3f * ellX);
             }
 
             //Debug.Log("2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);
