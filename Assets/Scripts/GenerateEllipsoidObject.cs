@@ -51,9 +51,25 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
         fraction.ActualizeVolume(volume, indGrFlSh, shapeFlatLong);
 
+
+
+
     }
 
+    int IndexFromFractionVector(float num, Fraction[] frac)
+    {
+        int i = 0;
+        if (frac[frac.Length - 1].FractionBoundaries.Item2 < num)
+            //Debug.Log("prekrocenie hranic pri zaradovani do frakcie");
+            return 1000;
 
+        while (frac[i].FractionBoundaries.Item2 < num)
+        {
+            i++;
+        }
+
+        return i;
+    }
 
     public void GenerateVHACDColliders()
     {

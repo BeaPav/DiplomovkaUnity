@@ -159,16 +159,44 @@ public class EllipsoidsSpawning : MonoBehaviour
                        
                         stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[ActiveFractionIndex]);
 
+
+
+                        #region TESTY ZARADENIA DO FRAKCIE
+                        /////////////////////////////////////////////////////////////////////////////////////////
+                        //testovanie a porovnanie zaradenia do frakcie podla frNum z elipsoidu a podla priemetu
+                        //mozno este dat to inde a porovnavat aj ci sme dobre vramci frakcie a potom az podfrakcie sledovat
+                        int noRotations = 30;
+                        StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
+                        float frNumEllipsoid = s.GetFractionNumber();
+                        float frNumRotation = Prop.FrNumber(stone, noRotations);
+
+                        //ratanie chyby - rozdiel dvoch frNum
+                        float error = Mathf.Abs(frNumEllipsoid - frNumRotation);
+                        //ratanie chyby - rozdiel dvoch dvoch indexov kam zaraduje frNum kamen
+                        int frIndexRotation = IndexFromFractionVector(frNumRotation, Fractions[ActiveFractionIndex].GradingSubfractions);
+                        int frIndexEllipsoid = IndexFromFractionVector(frNumEllipsoid, Fractions[ActiveFractionIndex].GradingSubfractions);
+                        /////// mozno by sa dalo porovnat tu este indexy Fractions (a la 4/8, 8/16...)
+                        int errorIndex = Mathf.Abs(frIndexEllipsoid - frIndexRotation);
+
+                        Debug.Log(" rozdiel indexov: " + errorIndex + ";   frIndex dane: " + frIndexEllipsoid + " frIndex z meshu: " + frIndexRotation);
+                        //Debug.Log(" rozdiel cisel: " + error + "frNum dane: " + frNum + " frNum z meshu: " + s.GetFractionNumber());
+                        #endregion
+
+
                         stone.transform.rotation = Random.rotation;
                         stone.GetComponent<Rigidbody>().useGravity = true;
 
 
-                        //hlupo meea hmotnost
+                        //hlupo mera hmotnost
                         stone.GetComponent<Rigidbody>().mass = DensityOfStoneMaterial * stone.GetComponent<StoneMeshProperties>().GetVolume();
 
                         EllipsoidsActualVolume += stone.GetComponent<StoneMeshProperties>().GetVolume();
 
                         TimeLastSpawn = Time.time;
+
+
+
+
                     }
                 }
                 else
@@ -222,4 +250,21 @@ public class EllipsoidsSpawning : MonoBehaviour
         }
         return index;
     }
+
+    //urcenie indexu zo zoznamu frakcii podla zaradenia cez frNum
+    int IndexFromFractionVector(float num, Fraction[] frac)
+    {
+        int i = 0;
+        if (frac[frac.Length - 1].FractionBoundaries.Item2 < num)
+            //Debug.Log("prekrocenie hranic pri zaradovani do frakcie");
+            return 1000;
+
+        while (frac[i].FractionBoundaries.Item2 < num)
+        {
+            i++;
+        }
+
+        return i;
+    }
+
 }
