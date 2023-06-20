@@ -156,7 +156,7 @@ namespace PropertiesCounter
             //Rotating stone and finding the square witch the stone falls through
             for (int i = 0; i < numOfRot; i++)
             {
-                stone.transform.rotation = Random.rotation;
+                stone.transform.rotation = Random.rotationUniform;
                 b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
 
                 float max = Mathf.Max(b.size.x, b.size.z);

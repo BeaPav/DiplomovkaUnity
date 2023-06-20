@@ -54,6 +54,12 @@ public class EllipsoidsSpawning : MonoBehaviour
     //kg/m^3
     [SerializeField] float DensityOfStoneMaterial;
 
+    int noOfGeneratedStones = 0;
+    int errorFractionStones = 0; //ak sa inak zaradi do frakcie 4/8,8/16,16/22
+    int errorGrFractionStones = 0; //ak sa inak zaradi do grading v danej frakcii
+    int errorShFractionStones = 0; // ak sa inak zaradi do shape v danej frakcii
+    int errorFlFractionStones = 0;// ak sa ink zaradi do flat v danej frakcii
+
     #endregion
 
 
@@ -151,7 +157,7 @@ public class EllipsoidsSpawning : MonoBehaviour
                         GameObject stone = Instantiate(Ellipsoid, SpawnPoint + new Vector3(x, 0, z), Quaternion.identity, EllipsoidParent.transform);
                         stone.name = "Ellipsoid" + iterStonesNames;
                         iterStonesNames++;
-
+                        noOfGeneratedStones++;
 
                         //urcenie aku frakciu ideme primiesat podla zelaneho pomeru
                         ActiveFractionIndex = FractionChoice();
@@ -165,21 +171,57 @@ public class EllipsoidsSpawning : MonoBehaviour
                         /////////////////////////////////////////////////////////////////////////////////////////
                         //testovanie a porovnanie zaradenia do frakcie podla frNum z elipsoidu a podla priemetu
                         //mozno este dat to inde a porovnavat aj ci sme dobre vramci frakcie a potom az podfrakcie sledovat
-                        int noRotations = 30;
+                        int noRotations = 250;
                         StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
                         float frNumEllipsoid = s.GetFractionNumber();
                         float frNumRotation = Prop.FrNumber(stone, noRotations);
-
                         //ratanie chyby - rozdiel dvoch frNum
-                        float error = Mathf.Abs(frNumEllipsoid - frNumRotation);
-                        //ratanie chyby - rozdiel dvoch dvoch indexov kam zaraduje frNum kamen
-                        int frIndexRotation = IndexFromFractionVector(frNumRotation, Fractions[ActiveFractionIndex].GradingSubfractions);
-                        int frIndexEllipsoid = IndexFromFractionVector(frNumEllipsoid, Fractions[ActiveFractionIndex].GradingSubfractions);
-                        /////// mozno by sa dalo porovnat tu este indexy Fractions (a la 4/8, 8/16...)
-                        int errorIndex = Mathf.Abs(frIndexEllipsoid - frIndexRotation);
+                        //float error = frNumEllipsoid - frNumRotation;
 
-                        Debug.Log(" rozdiel indexov: " + errorIndex + ";   frIndex dane: " + frIndexEllipsoid + " frIndex z meshu: " + frIndexRotation);
-                        //Debug.Log(" rozdiel cisel: " + error + "frNum dane: " + frNum + " frNum z meshu: " + s.GetFractionNumber());
+                        //zaradenie do frakcie
+                        int fractionRotation = IndexFromFractionVector(frNumRotation, Fractions.ToArray());
+                        int fractionEllipsoid = ActiveFractionIndex;
+                        //ratanie chyby - rozdiel frakcii
+                        int fractionError = Mathf.Abs(fractionEllipsoid - fractionRotation);
+
+                        if (fractionError == 0)
+                        {
+                            //ratanie chyby - rozdiel dvoch dvoch indexov kam zaraduje frNum kamen v danej frakcii pre grading, shape a flat
+                            int frGrIndexEllipsoid = IndexFromFractionVector(frNumEllipsoid, Fractions[ActiveFractionIndex].GradingSubfractions);
+                            int frGrIndexRotation = IndexFromFractionVector(frNumRotation, Fractions[ActiveFractionIndex].GradingSubfractions);
+                            int frShIndexEllipsoid = IndexFromFractionVector(frNumEllipsoid, Fractions[ActiveFractionIndex].ShapeSubfractions);
+                            int frShIndexRotation = IndexFromFractionVector(frNumRotation, Fractions[ActiveFractionIndex].ShapeSubfractions);
+                            int frFlIndexEllipsoid = IndexFromFractionVector(frNumEllipsoid, Fractions[ActiveFractionIndex].FlatSubfractions);
+                            int frFlIndexRotation = IndexFromFractionVector(frNumRotation, Fractions[ActiveFractionIndex].FlatSubfractions);
+
+                            int errorGrIndex = Mathf.Abs(frGrIndexEllipsoid - frGrIndexRotation);
+                            if (errorGrIndex != 0) errorGrFractionStones++;
+
+                            int errorShIndex = Mathf.Abs(frShIndexEllipsoid - frShIndexRotation);
+                            if (errorShIndex != 0) errorShFractionStones++;
+
+                            int errorFlIndex = Mathf.Abs(frFlIndexEllipsoid - frFlIndexRotation);
+                            if (errorFlIndex != 0) errorFlFractionStones++;
+
+                            /*
+                            Debug.Log("rozdiel frakcii (4/8,8/16,16/22): " + fractionError);
+                            Debug.Log("(pre active fraction a jej grading) rozdiel indexov: " + errorGrIndex + ";   frGrIndexEllipsoid: " + frGrIndexEllipsoid + " frGrIndex z meshu: " + frGrIndexRotation);
+                            Debug.Log("(pre active fraction a jej shapeInd) rozdiel indexov: " + errorShIndex + ";   frShIndexEllipsoid: " + frShIndexEllipsoid + " frShIndex z meshu: " + frShIndexRotation);
+                            Debug.Log("(pre active fraction a jej FlatInd) rozdiel indexov: " + errorFlIndex + ";   frFlIndexEllipsoid: " + frFlIndexEllipsoid + " frFlIndex z meshu: " + frFlIndexRotation);
+                            Debug.Log("rozdiel frNum: " + error + "frNumEllipsoid: " + frNumEllipsoid + " frNum z meshu: " + frNumRotation);
+                            */
+                        }
+                        else
+                        {
+                            errorFractionStones++;
+                        }
+
+                        Debug.Log("aktualna chyba zaradovania do frakcie:");
+                        Debug.Log("zla frakcia %: " + errorFractionStones / (float)noOfGeneratedStones * 100 + " zle: " + errorFractionStones + " vsetky: " + noOfGeneratedStones);
+                        Debug.Log("zle grading %: " + errorGrFractionStones / ((float)noOfGeneratedStones - errorFractionStones) * 100 + " zle: " + errorGrFractionStones + " vsetky: " + (noOfGeneratedStones - errorFractionStones));
+                        Debug.Log("zle shape %: " + errorShFractionStones / ((float)noOfGeneratedStones - errorFractionStones) * 100 + " zle: " + errorShFractionStones + " vsetky: " + (noOfGeneratedStones - errorFractionStones));
+                        Debug.Log("zle flat %: " + errorFlFractionStones / ((float)noOfGeneratedStones - errorFractionStones) * 100 + " zle: " + errorFlFractionStones + " vsetky: " + (noOfGeneratedStones - errorFractionStones));
+
                         #endregion
 
 
