@@ -5,7 +5,14 @@ using GenerateEllipsoidsNamespace;
 using PropertiesCounter;
 
 public class FrNumDeterminationTests : MonoBehaviour
-{
+{    
+    
+    
+    ///////////////////////////
+    //      NEAKTUALNE       //
+    ///////////////////////////
+
+
     [SerializeField] bool DoTest;
     [SerializeField] int NoSamples;
     bool done = false;

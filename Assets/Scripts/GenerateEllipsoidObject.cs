@@ -47,28 +47,13 @@ public class GenerateEllipsoidObject : MonoBehaviour
         s.SetFractionNumber(frNum);
         s.SetLength(2f * axes[1]);
         s.SetWidth(2f * axes[0]);
-        //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial;
+        //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial; //toto neviem ci nie je v hlavnom scripte
 
         fraction.ActualizeVolume(volume, indGrFlSh, shapeFlatLong);
 
 
 
 
-    }
-
-    int IndexFromFractionVector(float num, Fraction[] frac)
-    {
-        int i = 0;
-        if (frac[frac.Length - 1].FractionBoundaries.Item2 < num)
-            //Debug.Log("prekrocenie hranic pri zaradovani do frakcie");
-            return 1000;
-
-        while (frac[i].FractionBoundaries.Item2 < num)
-        {
-            i++;
-        }
-
-        return i;
     }
 
     public void GenerateVHACDColliders()

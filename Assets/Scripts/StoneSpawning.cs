@@ -71,10 +71,10 @@ public class StoneSpawning : MonoBehaviour
         BoxVolume = Prop.VolumeOfMesh(boxVolumeObject.GetComponent<MeshFilter>());
         Debug.Log("ObjemNadoby: " + BoxVolume);
 
-
         SpawnPoint = transform.position;
-        SpawnPoint.y = 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
-        SpawnOffset = transform.localScale.x * SpawnRelativeXZOffset;
+        SpawnPoint.y += 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
+        SpawnOffset = Mathf.Min(transform.localScale.x, transform.localScale.z) * SpawnRelativeXZOffset;
+        
 
         /*
         GradingCurveIndexes = new float[] { 0.2f, 0.4f, 0.56f, 0.8f, 1.12f, 1.6f, 2.24f, 3.15f };
