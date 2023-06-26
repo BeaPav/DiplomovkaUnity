@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using FractionDefinition;
+using UnityEditor;
 
 namespace GenerateEllipsoidsNamespace
 {
@@ -136,8 +137,18 @@ namespace GenerateEllipsoidsNamespace
 
             GameObject meshObject = parent.GetComponentInChildren<MeshFilter>().gameObject;
 
-            //generate unit sphere with certain number of meridians ane parallels
-            meshObject.GetComponent<MeshFilter>().mesh = GenerateSphereMesh(1f, noMeridians, noParallels);
+            //generate/load unit sphere with certain number of meridians ane parallels
+            //meshObject.GetComponent<MeshFilter>().mesh = GenerateSphereMesh(1f, noMeridians, noParallels);
+            Mesh mesh = Resources.Load<Mesh>("Ellipsoids/EllipsoidMesh_" + noParallels + "Parallels_" + noMeridians + "Meridians");
+            if (mesh == null)
+            {
+                mesh = GenerateSphereMesh(1f, noMeridians, noParallels);
+                AssetDatabase.CreateAsset(mesh, "Assets/SavedModels/Meshes/Resources/Ellipsoids/" + 
+                                        "EllipsoidMesh_" + noParallels + "Parallels_" + noMeridians + "Meridians" + ".asset");
+            }
+            
+            meshObject.GetComponent<MeshFilter>().mesh = mesh;
+            
 
             //sphere scaling in order to create ellipsoid
             meshObject.transform.localScale = new Vector3(ellAxeX, ellAxeY, ellAxeZ);

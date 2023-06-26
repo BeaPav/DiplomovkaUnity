@@ -42,7 +42,8 @@ public class EllipsoidsSpawning : MonoBehaviour
 
     [ReadOnly] public bool ProcessPaused;
     [HideInInspector] public float ProcessPausedTime;
-    [ReadOnly] public bool ProcessEnded;
+    //[ReadOnly]
+    [SerializeField] public bool ProcessEnded;
     bool PropertiesCalculated = false;
 
     int iterStonesNames = 0;
@@ -88,7 +89,7 @@ public class EllipsoidsSpawning : MonoBehaviour
         SpawnOffset = Mathf.Min(transform.localScale.x, transform.localScale.z) * SpawnRelativeXZOffset;
 
         //pomery v akych miesame
-        FractionRatios = new float[2] { 0.3f, 0.7f };
+        FractionRatios = new float[3] { 0f, 0.1f, 0.9f };
 
         float sumOfRatioList = 0f;
         foreach (float f in FractionRatios)
@@ -127,8 +128,22 @@ public class EllipsoidsSpawning : MonoBehaviour
                                    new float[3] { 0.5f, 0.63f, 0.8f },      //index plochosti - harfove sita medzery
                                    new float[3] { 0.3f, 0.13f, 0.1f }      //index plochosti - hodnoty
                                    ));
-        
-        
+
+        Fractions.Add(new Fraction((1.6f, 2.2f), //d/D
+                                   FractionRatios[1],         //chceme 70% tejto frakcie miesat
+
+                                   new float[2] { 1.6f, 2.2f },   //sitovy rozbor - hranice
+                                   new float[1] { 1f },            //sitovy rozbor - zastupenie  - nechce to byt nascitane do jednotky, je to rozklad 1
+
+                                   new float[2] { 1.6f, 2.2f },  //tvarovy index - hranice
+                                   new float[1] { 0.2f },          //tvarovy index - hodnoty
+
+                                   new float[2] { 1.6f, 2.2f },  //index plochosti - hranice
+                                   new float[1] { 1.1f },      //index plochosti - harfove sita medzery
+                                   new float[1] { 0.2f }      //index plochosti - hodnoty
+                                   ));
+
+
 
 
         if (FractionRatios.Length != Fractions.Count)

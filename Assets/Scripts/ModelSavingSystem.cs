@@ -24,7 +24,7 @@ public static class ModelSavingSystem
 
         path += "/Model_" + folderIter;
 
-        
+        /*
         //ulozenie vsetkych vygenerovanych meshov (pre elipsoidy)
         if (generatingEllipsoids)
         {
@@ -36,7 +36,7 @@ public static class ModelSavingSystem
                 mfCounter++;
             }
         }
-        
+        */
 
         //ulozenie modelu ako prefab
         PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab", InteractionMode.UserAction);
