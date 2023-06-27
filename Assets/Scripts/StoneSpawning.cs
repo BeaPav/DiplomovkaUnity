@@ -213,7 +213,7 @@ public class StoneSpawning : MonoBehaviour
 
             if (SaveModel)
             {
-                ModelSavingSystem.SaveModel(StoneParent.transform, folderIterStarter, "Assets/SavedModels/StoneModels", false);
+                ModelSavingSystem.SaveModel(StoneParent.transform, folderIterStarter, "Assets/SavedModels/StoneModels", false, false);
             }
         }
 

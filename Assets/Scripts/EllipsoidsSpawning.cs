@@ -40,15 +40,19 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] int MaxNumerOfDestroyedStones = 50;
     public int NoDestroyedStones = 0;
 
-    [ReadOnly] public bool ProcessPaused;
+    [SerializeField] public bool ProcessPaused;
     [HideInInspector] public float ProcessPausedTime;
     //[ReadOnly]
     [SerializeField] public bool ProcessEnded;
-    bool PropertiesCalculated = false;
+    [SerializeField] bool PropertiesCalculated = false;
 
-    int iterStonesNames = 0;
+
+
+    [SerializeField] int iterStonesNames = 0;
     [SerializeField] int folderIterStarter = 0;
+    //int folderIter;
     [SerializeField] bool SaveModel = false;
+    string SavePath = "Assets/SavedModels/EllipsoidModels";
 
     [ReadOnly] public float EllipsoidsActualVolume = 0f;
 
@@ -56,7 +60,7 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] float DensityOfStoneMaterial;
 
     [SerializeField] bool ErrorCounting = false;
-    int noOfGeneratedStones = 0;
+    [SerializeField] public int noOfGeneratedStones = 0;
     int errorFractionStones = 0; //ak sa inak zaradi do frakcie 4/8,8/16,16/22
     int errorGrFractionStones = 0; //ak sa inak zaradi do grading v danej frakcii
     int errorShFractionStones = 0; // ak sa inak zaradi do shape v danej frakcii
@@ -76,6 +80,7 @@ public class EllipsoidsSpawning : MonoBehaviour
         //Physics.gravity = new Vector3(0f, -980f, 0f);
 
         ProcessPaused = false;
+
 
         //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
         Transform boxVolumeObject = transform.Find("BoxVolume");
@@ -273,7 +278,7 @@ public class EllipsoidsSpawning : MonoBehaviour
             Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume);
 
             if(SaveModel)
-                ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, "Assets/SavedModels/EllipsoidModels", true);
+                ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, false, true);
 
         }
 

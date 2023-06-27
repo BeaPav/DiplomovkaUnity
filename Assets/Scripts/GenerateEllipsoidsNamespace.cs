@@ -145,6 +145,7 @@ namespace GenerateEllipsoidsNamespace
                 mesh = GenerateSphereMesh(1f, noMeridians, noParallels);
                 AssetDatabase.CreateAsset(mesh, "Assets/SavedModels/Meshes/Resources/Ellipsoids/" + 
                                         "EllipsoidMesh_" + noParallels + "Parallels_" + noMeridians + "Meridians" + ".asset");
+                //Debug.Log("vytvaram mesh " + "EllipsoidMesh_" + noParallels + "Parallels_" + noMeridians + "Meridians" + ".asset");
             }
             
             meshObject.GetComponent<MeshFilter>().mesh = mesh;

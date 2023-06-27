@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 6910654029551458042}
   - component: {fileID: 4705338044345292275}
   - component: {fileID: 7962594685959840349}
+  - component: {fileID: 181128736979491839}
   m_Layer: 0
   m_Name: Ellipsoid
   m_TagString: Stone
@@ -208,3 +209,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 990e17ac91dc4244e832d491fd12e20d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Drag: 0.5
+--- !u!114 &181128736979491839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723977870690384835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d7de97a47cbb14b91d63385a5b9b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StopTime: 50
+  LowVelocityBeforeStopDuration: 50
+  LowVelocityMagnitudeLevel: 0.2
+  velocityMagnitude: 0
+  DurationOfLowVelocity: 0
+  DurationFromAwake: 0
+  LowVelocityInterval: 0
+  isKinematic: 0
