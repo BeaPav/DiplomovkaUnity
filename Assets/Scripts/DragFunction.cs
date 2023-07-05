@@ -14,10 +14,13 @@ public class DragFunction : MonoBehaviour
 
     private void FixedUpdate()
     {
-        float v = Rb.velocity.magnitude;
-        Vector3 dir = -1f * Rb.velocity.normalized;
-        Vector3 dragForce = dir * v * v * Drag;
-        Rb.AddForce(dragForce);
+        if (!Rb.isKinematic)
+        {
+            float v = Rb.velocity.magnitude;
+            Vector3 dir = -1f * Rb.velocity.normalized;
+            Vector3 dragForce = dir * v * v * Drag;
+            Rb.AddForce(dragForce);
+        }
 
     }
 }

@@ -23,7 +23,6 @@ public class GenerateEllipsoidObject : MonoBehaviour
     public void GenerateEllipsoid(Fraction fraction)
     {
         //urcenie rozmerov podla frakcie
-        
         (Vector3 axes, float frNum, (int, int, int) indGrFlSh, (bool, bool) shapeFlatLong) = genE.AxesOfEllipsoid(fraction);
 
         /*
@@ -35,9 +34,20 @@ public class GenerateEllipsoidObject : MonoBehaviour
         //vygenerovanie meshu
         genE.GenerateEllipsoidMesh(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, axes);
 
+        //vydeletovanie colliderov
+        MeshFilter mf = GetComponentInChildren<MeshFilter>();
+        var existingColliders = mf.gameObject.GetComponents<MeshCollider>();
+        if (existingColliders.Length > 0)
+        {
+            foreach (var coll in existingColliders)
+            {
+                DestroyImmediate(coll);
+            }
+        }
+
         //collider
         //GenerateVHACDColliders();
-        GetComponentInChildren<MeshFilter>().gameObject.AddComponent<MeshCollider>();
+        mf.gameObject.AddComponent<MeshCollider>();
         GetComponentInChildren<MeshCollider>().convex = true;
 
         //nastavenie a vypocet vlastnosti zrna
@@ -47,13 +57,11 @@ public class GenerateEllipsoidObject : MonoBehaviour
         s.SetFractionNumber(frNum);
         s.SetLength(2f * axes[1]);
         s.SetWidth(2f * axes[0]);
+        s.SetIsFlat(shapeFlatLong.Item1);
+        s.SetIsLong(shapeFlatLong.Item2);
         //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial; //toto neviem ci nie je v hlavnom scripte
 
         fraction.ActualizeVolume(volume, indGrFlSh, shapeFlatLong);
-
-
-
-
     }
 
     public void GenerateVHACDColliders()

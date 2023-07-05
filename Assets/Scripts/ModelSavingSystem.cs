@@ -37,6 +37,7 @@ public static class ModelSavingSystem
             }
         }
 
+        /*
         //iba kontrola ci je nieco bez referencie pred ulozenim
         MeshFilter[] meshfiltTemp = parent.GetComponentsInChildren<MeshFilter>();
         foreach (MeshFilter childMesh in meshfiltTemp)
@@ -44,7 +45,7 @@ public static class ModelSavingSystem
             if (childMesh.mesh == null)
                 Debug.Log("nulovy mesh pre elipsoid " + childMesh.transform.parent.name);
         }
-
+        */
 
         //ulozenie modelu ako prefab
         //PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab", InteractionMode.AutomatedAction);
@@ -74,6 +75,33 @@ public static class ModelSavingSystem
             }
         }
         
+
+
+    }
+
+    public static void SaveTestingModel(Transform TestingObject, string path, string name, int modelIter,  string directoryName = "!noName")
+    {
+        //ak chceme vytvorit specialny priecinok
+        if (directoryName != "!noName")
+        {
+            if(!Directory.Exists(path + "/" + directoryName))
+            {
+                Directory.CreateDirectory(path + "/" + directoryName);
+                AssetDatabase.Refresh();
+            }
+
+            path += "/" + directoryName;
+        }
+
+
+        //najdenie kolky to je model
+        while (File.Exists(path + "/" + name + "_" + modelIter))
+        {
+            modelIter++;
+            //Debug.Log("zvysujeme folderIter");
+        }
+
+        PrefabUtility.SaveAsPrefabAsset(TestingObject.gameObject, path + "/" + name + "_" + modelIter + ".prefab");
 
 
     }

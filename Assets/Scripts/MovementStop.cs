@@ -28,28 +28,29 @@ public class MovementStop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        if(rb.velocity.magnitude < LowVelocityMagnitudeLevel)
+        if (!isKinematic)
         {
-            if (!LowVelocityInterval)
+            if (rb.velocity.magnitude < LowVelocityMagnitudeLevel)
             {
-                LowVelocityInterval = true;
-                LowVelocityTimeStart = Time.time;
+                if (!LowVelocityInterval)
+                {
+                    LowVelocityInterval = true;
+                    LowVelocityTimeStart = Time.time;
+                }
+                else
+                {
+                    if (Time.time - LowVelocityTimeStart > LowVelocityBeforeStopDuration && Time.time - InvokeTime > StopTime)
+                    {
+                        rb.isKinematic = true;
+                    }
+                }
             }
             else
             {
-                if(Time.time - LowVelocityTimeStart > LowVelocityBeforeStopDuration && Time.time - InvokeTime > StopTime)
-                {
-                    rb.isKinematic = true;
-                }
+                if (LowVelocityInterval) LowVelocityInterval = false;
             }
-        }
-        else
-        {
-            if (LowVelocityInterval) LowVelocityInterval = false;
-        }
 
-
+        }
         velocityMagnitude = rb.velocity.magnitude;
         DurationOfLowVelocity = Time.time - LowVelocityTimeStart;
         DurationFromAwake = Time.time - InvokeTime;

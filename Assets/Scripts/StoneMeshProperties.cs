@@ -9,10 +9,32 @@ public class StoneMeshProperties : MonoBehaviour
     public float FractionNumber;
     public float Length;
     public float Width;
+    public bool IsLong;
+    public bool IsFlat;
 
     //Mesh StoneMesh;
 
     #region METHODS FOR GET & SET PROPERTIES 
+
+    public void SetIsLong(bool b)
+    {
+        IsLong = b;
+    }
+
+    public bool GetIsLong()
+    {
+        return IsLong;
+    }
+
+    public void SetIsFlat(bool b)
+    {
+        IsFlat = b;
+    }
+
+    public bool GetIsFlat()
+    {
+        return IsFlat;
+    }
 
     public void SetVolume(float v)
     {

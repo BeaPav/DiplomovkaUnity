@@ -67,11 +67,10 @@ namespace FractionDefinition
             FractionBoundaries = frBoundaries;
         }
         
-        public Fraction((float, float) frBoundaries, float reqVolume, float flSieveSize, Fraction[] grSubfr, Fraction[] shSubfr, Fraction[] flatSubfr)
+        public Fraction((float, float) frBoundaries, float reqVolume, Fraction[] grSubfr, Fraction[] shSubfr, Fraction[] flatSubfr)
         {
             FractionBoundaries = frBoundaries;
             RequiredVolumePart = reqVolume;
-            FlatSieveSize = flSieveSize;
             GradingSubfractions = grSubfr;
             ShapeSubfractions = shSubfr;
             FlatSubfractions = flatSubfr;
@@ -117,6 +116,7 @@ namespace FractionDefinition
         public (int, bool, float) IsFlat(float frNum)
         {
             int flIndex = IndexFromFractionVector(frNum, FlatSubfractions);
+
             if (FlatSubfractions[flIndex].ActualFractionVolume == 0)
             {
                 if (FlatSubfractions[flIndex].RequiredVolumePart != 0)
@@ -200,8 +200,11 @@ namespace FractionDefinition
         {
             int i = 0;
             if (frac[frac.Length - 1].FractionBoundaries.Item2 < num)
-                //Debug.Log("prekrocenie hranic pri zaradovani do frakcie");
+
+            {
+                Debug.Log("prekrocenie hranic pri zaradovani do frakcie " + frac[frac.Length - 1].FractionBoundaries);
                 return 1000;
+            }
 
             while (frac[i].FractionBoundaries.Item2 < num)
             {
