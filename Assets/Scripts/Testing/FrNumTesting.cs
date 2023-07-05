@@ -137,8 +137,8 @@ public class FrNumTesting : MonoBehaviour
                 float frNumRotation = Prop.FrNumber(stone, noRotations);
 
                 //ratanie chyby - rozdiel dvoch frNum
-                errorFrNumDifference = Mathf.Abs(frNumEllipsoid - frNumRotation);
-                if (WriteInConsole) Debug.Log("rozdiel dvoch frNum: " + errorFrNumDifference);
+                //errorFrNumDifference = Mathf.Abs(frNumEllipsoid - frNumRotation);
+                //if (WriteInConsole) Debug.Log("rozdiel dvoch frNum: " + errorFrNumDifference);
 
 
                 //ak prekroci frNum cez rotacie najmensiu/najvacsiu hranicu pri grading - zaradili by sme ho do inej frakcie, tj ani nevysetrujeme dalej
@@ -147,13 +147,13 @@ public class FrNumTesting : MonoBehaviour
                 {
                     fractionError = true;
                     errorBiggerFraction++;
-                    Debug.Log("Zaradili by sme kamen do vacsej frakcie");
+                    //Debug.Log("Zaradili by sme kamen do vacsej frakcie");
                 }
                 else if (ActiveFraction.GradingSubfractions[0].FractionBoundaries.Item1 > frNumRotation)
                 {
                     fractionError = true;
                     errorSmallerFraction++;
-                    Debug.Log("Zaradili by sme kamen do mensej frakcie");
+                    //Debug.Log("Zaradili by sme kamen do mensej frakcie");
                 }
 
 
@@ -174,9 +174,13 @@ public class FrNumTesting : MonoBehaviour
                     if (errorGrIndex != 0)
                     {
                         errorGrFractionStones++;
-                        if (frGrIndexEllipsoid > frGrIndexRotation) nesediGrAEllJeViacAkoRot++;
+                        if (frGrIndexEllipsoid > frGrIndexRotation)
+                        {
+                            nesediGrAEllJeViacAkoRot++;                            
+                        }
+
                     }
-                    
+
 
                     int errorShIndex = Mathf.Abs(frShIndexEllipsoid - frShIndexRotation);
                     if (errorShIndex != 0) errorShFractionStones++;

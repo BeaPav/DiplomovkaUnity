@@ -568,11 +568,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
     type: 3}
-  Fraction: '[4,8]'
-  noOfStonesToGenerate: 50
-  noRotations: 50
+  Fraction: '[8,16]'
+  noOfStonesToGenerate: 5000
+  noRotations: 100
   WriteInConsole: 0
   DoneTesting: 0
+  Save: 0
   errorFrNumDifference: 0
   errorBiggerFraction: 0
   errorSmallerFraction: 0
@@ -584,6 +585,8 @@ MonoBehaviour:
   errorGrFractionStonesPercentage: 0
   errorShFractionStonesPercentage: 0
   errorFlFractionStonesPercentage: 0
+  nesediGrAEllJeViacAkoRot: 0
+  nesediGrAEllJeViacAkoRotPercentage: 0
 --- !u!4 &1081986559
 Transform:
   m_ObjectHideFlags: 0
@@ -1163,12 +1166,12 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: SaveModel
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: TimePause
-      value: 0.05
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1253,17 +1256,17 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1318,7 +1321,7 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_ConstrainProportionsScale
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4154344344867866068, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
