@@ -41,6 +41,7 @@ public class FrNumTesting : MonoBehaviour
     [ReadOnly] public float errorFlFractionStonesPercentage = 0;    //% ak sa inak zaradi do flat v danej frakcii
 
     public int nesediGrAEllJeViacAkoRot = 0;
+    public float nesediGrAEllJeViacAkoRotPercentage;
 
     // Start is called before the first frame update
     void Start()
@@ -193,11 +194,16 @@ public class FrNumTesting : MonoBehaviour
             errorBiggerFractionPercentage = errorBiggerFraction / (float)noOfStonesToGenerate * 100;
             errorSmallerFractionPercentage = errorSmallerFraction / (float)noOfStonesToGenerate * 100;
             int errorFractionStones = errorBiggerFraction + errorSmallerFraction;
-            int notErrorFractionStones = noOfStonesToGenerate - errorFlFractionStones;
+            int notErrorFractionStones = noOfStonesToGenerate - errorFractionStones;
 
             errorGrFractionStonesPercentage = errorGrFractionStones / (float)notErrorFractionStones * 100;
             errorShFractionStonesPercentage = errorShFractionStones / (float)notErrorFractionStones * 100;
             errorFlFractionStonesPercentage = errorFlFractionStones / (float)notErrorFractionStones * 100;
+
+
+
+            nesediGrAEllJeViacAkoRotPercentage = nesediGrAEllJeViacAkoRot / (float)errorGrFractionStones * 100;
+
 
             if (WriteInConsole)
             {

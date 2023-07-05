@@ -201,6 +201,7 @@ namespace GenerateEllipsoidsNamespace
             //vygenerujeme ellZ v zavislosti od zvoleneho ellX tak, aby ostala zachovana frakcia zodpovedajuca frNum
             //(lebo podla ellZ je myslienkovo urcene frNum)
             float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
+            //float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX) / 2f);
 
             //vygenerovanie najdlhsieho rozmeru ellY podla shape indexu
             float ellY = 0f;
