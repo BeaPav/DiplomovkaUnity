@@ -145,10 +145,12 @@ namespace PropertiesCounter
             MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
             Bounds b;
 
+            /*
             // Saving of original transformations for later
             Vector3 originalPos = stone.transform.position;
             Quaternion originalRot = stone.transform.rotation;
             Vector3 originalScale = stone.transform.localScale;
+            */
 
             //Inicialization of FrNumber
             float frNum = float.MaxValue;
@@ -157,20 +159,45 @@ namespace PropertiesCounter
             for (int i = 0; i < numOfRot; i++)
             {
                 stone.transform.rotation = Random.rotationUniform;
-                b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
+                //b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
+                //float max = Mathf.Max(b.size.x, b.size.z);
 
-                float max = Mathf.Max(b.size.x, b.size.z);
+                Vector2 xzBoundingBox = AxisAlignesXZBox(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
+                float max = Mathf.Max(xzBoundingBox.x, xzBoundingBox.y);
 
                 //Searching for minimum of all maximums
                 if (max < frNum) frNum = max;
+
+
             }
 
+            /*
             //Return stones original transformations
             stone.transform.position = originalPos;
             stone.transform.rotation = originalRot;
             stone.transform.localScale = originalScale;
+            */
 
             return frNum;
+        }
+
+        public static Vector2 AxisAlignesXZBox(Vector3[] vertices, Matrix4x4 LocToWorld)
+        {
+            float Xmin = float.MaxValue;
+            float Xmax = float.MinValue;
+            float Zmin = float.MaxValue;
+            float Zmax = float.MinValue;
+            
+            foreach(Vector3 v in vertices)
+            {
+                Vector3 p = LocToWorld.MultiplyPoint3x4(v);
+                if (p.x < Xmin) Xmin = p.x;
+                if (p.x > Xmax) Xmax = p.x;
+                if (p.z < Zmin) Zmin = p.z;
+                if (p.z > Zmax) Zmax = p.z;
+            }
+
+            return new Vector2(Xmax - Xmin, Zmax - Zmin);
         }
 
         #endregion

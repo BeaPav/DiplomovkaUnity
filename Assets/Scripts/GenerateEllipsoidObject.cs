@@ -31,6 +31,17 @@ public class GenerateEllipsoidObject : MonoBehaviour
         frNum = 1f;
         */
 
+        /*
+        if(axes == new Vector3(1f,1f,1f))
+        {
+            Debug.Log("frNum " + frNum);
+            Debug.Log("indexes Gr,Fl,Sh " + indGrFlSh);
+            Debug.Log("FlatLong " + shapeFlatLong);
+        }
+        */
+        GetComponent<StoneMeshProperties>().axes = new Vector3(axes.x, axes.y, axes.z);
+        GetComponent<StoneMeshProperties>().indGrFlSh = indGrFlSh;
+
         //vygenerovanie meshu
         genE.GenerateEllipsoidMesh(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, axes);
 

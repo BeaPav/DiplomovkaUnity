@@ -189,33 +189,29 @@ namespace GenerateEllipsoidsNamespace
             if (isFlat)
             {
                 //konstanta pre dolne ohranicenie intervalu - nechceme uzsie kamene ako polovica medzery na harfovom site (zvolili sme)
-                    
-                if (isLong)
-                {
-                    ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f;
-                }
-                else
-                {
-                    ellX = Random.Range(frNum / Mathf.Sqrt(20), flatSieveSize / 2f);
-                }
+                ellX = Random.Range(frNum / (2f*Mathf.Sqrt(5f)), flatSieveSize / 2f);
+                
                 //Debug.Log("Flat");
             }
             else
             {
-                ellX = Random.Range(flatSieveSize, frNum) / 2f;
+                ellX = Random.Range(flatSieveSize / 2f, frNum / 2f);
+
+                //Debug.Log("Not Flat and ox is in interval " + flatSieveSize / 2f + "," + frNum / 2f + " a rovna sa      " + ellX);
             }
 
             //vygenerujeme ellZ v zavislosti od zvoleneho ellX tak, aby ostala zachovana frakcia zodpovedajuca frNum
             //(lebo podla ellZ je myslienkovo urcene frNum)
-            float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
+            //float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
             //float average = (frNum / 2f) / 4f + (Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX)) * 3f / 4f;
             //float ellZ = Random.Range(average, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
-            //float ellZ = Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX);
+            float ellZ = Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX);
 
             //vygenerovanie najdlhsieho rozmeru ellY podla shape indexu
             float ellY = 0f;
             if (isLong)
             {
+                /*
                 //koeficient pre horne ohr intervalu - elipsoidy maju najdlhsi rozmer max 4 krat vacsi ako najkratsi (zvolili sme)
                 if (3f * ellX >= ellZ)
                 {
@@ -227,19 +223,20 @@ namespace GenerateEllipsoidsNamespace
                     ellY = Random.Range(ellZ, upperBoundCoeff * ellX);
                     Debug.Log("horna hranica: " + upperBoundCoeff);
                 }
-                
+                */
+                ellY = Random.Range(3f * ellX, 4.5f * ellX);
                 
                 //Debug.Log("Long");
             }
             else
             {
-                if (ellZ > 3 * ellX) Debug.Log("zle hranice pre Oy, nie je Long");
+                //if (ellZ > 3 * ellX) Debug.Log("zle hranice pre Oy, nie je Long");
                 ellY = Random.Range(ellZ, 3f * ellX);
-
+                //Debug.Log("Not Long and oy is in interval " + ellZ + "," + 3f*ellX + " a rovna sa      " + ellY);
             }
 
             //ellZ = Random.Range(ellZ, 3/4f * ellZ + 1/4f * ellY);
-
+            /*
             string s1 = "Oz < Oy     ";
             string s2 = "Oz < 3*Ox    ";
             string s3 = "Ox > frNum/sqrt(20)    ";
@@ -261,7 +258,7 @@ namespace GenerateEllipsoidsNamespace
                 Debug.Log(s3);
                 Debug.Log("isLong " + isLong + " isFlat " + isFlat);
             }
-
+            */
           //Debug.Log(s3 + s2 + s1);
 
             //Debug.Log("2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);

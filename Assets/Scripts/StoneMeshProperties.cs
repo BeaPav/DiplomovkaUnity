@@ -12,6 +12,10 @@ public class StoneMeshProperties : MonoBehaviour
     public bool IsLong;
     public bool IsFlat;
 
+    public bool EllGrFrIndexIsMoreRotGrFrIndex = false;
+    public Vector3 axes;
+    public (int, int, int) indGrFlSh;
+
     //Mesh StoneMesh;
 
     #region METHODS FOR GET & SET PROPERTIES 

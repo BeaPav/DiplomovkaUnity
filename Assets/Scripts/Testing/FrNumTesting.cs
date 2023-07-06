@@ -176,7 +176,12 @@ public class FrNumTesting : MonoBehaviour
                         errorGrFractionStones++;
                         if (frGrIndexEllipsoid > frGrIndexRotation)
                         {
-                            nesediGrAEllJeViacAkoRot++;                            
+                            nesediGrAEllJeViacAkoRot++;
+                            GameObject kamen = Instantiate(stone, transform.position, Quaternion.identity, transform);
+                            kamen.GetComponent<StoneMeshProperties>().EllGrFrIndexIsMoreRotGrFrIndex = true;
+                            Debug.Log("EllFrNum " + frNumEllipsoid + " RotFrNum " + frNumRotation);
+                            Debug.Log("EllGrIndex " + frGrIndexEllipsoid + " RotGrIndex " + frGrIndexRotation);
+                            Debug.Log("axes " + kamen.GetComponent<StoneMeshProperties>().axes);
                         }
 
                     }
