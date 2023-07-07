@@ -188,7 +188,19 @@ namespace GenerateEllipsoidsNamespace
             float ellX = 0f;
             if (isFlat)
             {
+                /*
+                if (isLong)
+                {
+                    ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f;
+                }
+                else
+                {
+                    ellX = Random.Range(frNum / Mathf.Sqrt(20), flatSieveSize / 2f);
+                }
+                */
                 //konstanta pre dolne ohranicenie intervalu - nechceme uzsie kamene ako polovica medzery na harfovom site (zvolili sme)
+                
+                //generovanie ak ozje len cislonie interval
                 ellX = Random.Range(frNum / (2f*Mathf.Sqrt(5f)), flatSieveSize / 2f);
                 
                 //Debug.Log("Flat");
@@ -203,8 +215,12 @@ namespace GenerateEllipsoidsNamespace
             //vygenerujeme ellZ v zavislosti od zvoleneho ellX tak, aby ostala zachovana frakcia zodpovedajuca frNum
             //(lebo podla ellZ je myslienkovo urcene frNum)
             //float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
+            
             //float average = (frNum / 2f) / 4f + (Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX)) * 3f / 4f;
             //float ellZ = Random.Range(average, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
+            
+            
+            //generovanie ze oz je len cislo nie interval
             float ellZ = Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX);
 
             //vygenerovanie najdlhsieho rozmeru ellY podla shape indexu
@@ -224,6 +240,8 @@ namespace GenerateEllipsoidsNamespace
                     Debug.Log("horna hranica: " + upperBoundCoeff);
                 }
                 */
+                
+                 //generovanie ked oz je dane cislo nie interval
                 ellY = Random.Range(3f * ellX, 4.5f * ellX);
                 
                 //Debug.Log("Long");
@@ -264,7 +282,9 @@ namespace GenerateEllipsoidsNamespace
             //Debug.Log("2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);
             (int, int, int) indices = (frGrIndex, frFlIndex, frShIndex);
             (bool, bool) shape = (isFlat, isLong);
+            //return (new Vector3(ellX * 0.95f, ellY * 0.95f, ellZ * 0.95f), frNum, indices, shape);
             return (new Vector3(ellX, ellY, ellZ), frNum, indices, shape);
+            //return (new Vector3(ellX * 1.05f, ellY * 1.05f, ellZ * 1.05f), frNum, indices, shape);
 
         }
 
