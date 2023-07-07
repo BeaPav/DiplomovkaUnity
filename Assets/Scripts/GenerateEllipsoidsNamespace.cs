@@ -188,7 +188,7 @@ namespace GenerateEllipsoidsNamespace
             float ellX = 0f;
             if (isFlat)
             {
-                /*
+                
                 if (isLong)
                 {
                     ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f;
@@ -197,11 +197,16 @@ namespace GenerateEllipsoidsNamespace
                 {
                     ellX = Random.Range(frNum / Mathf.Sqrt(20), flatSieveSize / 2f);
                 }
+
+                /*
+                Debug.Log("isFlat , m/4 " + flatSieveSize / 4f + " frNum/sqrt20 " + frNum / Mathf.Sqrt(20) + " rozdiel " + (flatSieveSize / 4f- frNum / Mathf.Sqrt(20)));
+                Debug.Log("dlzka intervalu pre m/4 " + (flatSieveSize / 2f - flatSieveSize / 4f));
+                Debug.Log("dlzka intervalu pre sqrt20 " + (flatSieveSize / 2f - frNum / Mathf.Sqrt(20)));
                 */
                 //konstanta pre dolne ohranicenie intervalu - nechceme uzsie kamene ako polovica medzery na harfovom site (zvolili sme)
                 
-                //generovanie ak ozje len cislonie interval
-                ellX = Random.Range(frNum / (2f*Mathf.Sqrt(5f)), flatSieveSize / 2f);
+                //generovanie pre zvysenu hornu hranicu aby nebol problem s plochym aj dlhym zrnom naraz
+                //ellX = Random.Range(frNum / (2f*Mathf.Sqrt(5f)), flatSieveSize / 2f);
                 
                 //Debug.Log("Flat");
             }
@@ -227,8 +232,8 @@ namespace GenerateEllipsoidsNamespace
             float ellY = 0f;
             if (isLong)
             {
-                /*
-                //koeficient pre horne ohr intervalu - elipsoidy maju najdlhsi rozmer max 4 krat vacsi ako najkratsi (zvolili sme)
+                
+                //koeficient pre horne ohr intervalu - elipsoidy maju najdlhsi rozmer max 4,5 krat vacsi ako najkratsi (zvolili sme)
                 if (3f * ellX >= ellZ)
                 {
                     ellY = Random.Range(3f * ellX, 4.5f * ellX);
@@ -239,10 +244,11 @@ namespace GenerateEllipsoidsNamespace
                     ellY = Random.Range(ellZ, upperBoundCoeff * ellX);
                     Debug.Log("horna hranica: " + upperBoundCoeff);
                 }
-                */
                 
-                 //generovanie ked oz je dane cislo nie interval
-                ellY = Random.Range(3f * ellX, 4.5f * ellX);
+                
+                
+                //generovanie ked nie je problem s plochym a dlhym zrnom naraz
+                //ellY = Random.Range(3f * ellX, 4.5f * ellX);
                 
                 //Debug.Log("Long");
             }
