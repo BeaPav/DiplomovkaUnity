@@ -551,10 +551,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
     type: 3}
-  Fraction: '[16,22]'
-  noOfStonesToGenerate: 5000
-  noRotations: 500
-  WriteInConsole: 0
+  Fraction: '[8,16]'
+  noOfStonesToGenerate: 10000
+  noRotations: 50
+  WriteInConsole: 1
   DoneTesting: 0
   Save: 0
   errorFrNumDifference: 0

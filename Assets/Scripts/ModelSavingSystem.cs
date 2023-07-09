@@ -79,7 +79,7 @@ public static class ModelSavingSystem
 
     }
 
-    public static void SaveTestingModel(Transform TestingObject, string path, string name, int modelIter,  string directoryName = "!noName")
+    public static void SaveTestingModel(Transform TestingObject, string path, string name, int modelIter = 0,  string directoryName = "!noName")
     {
         //ak chceme vytvorit specialny priecinok
         if (directoryName != "!noName")
@@ -95,11 +95,17 @@ public static class ModelSavingSystem
 
 
         //najdenie kolky to je model
-        while (File.Exists(path + "/" + name + "_" + modelIter))
+        while (Directory.Exists(path + "/Model_" + modelIter))
         {
             modelIter++;
             //Debug.Log("zvysujeme folderIter");
         }
+
+        //vytvorenie priecinku
+        Directory.CreateDirectory(path + "/Model_" + modelIter);
+        AssetDatabase.Refresh();
+
+        path += "/Model_" + modelIter;
 
         PrefabUtility.SaveAsPrefabAsset(TestingObject.gameObject, path + "/" + name + "_" + modelIter + ".prefab");
 

@@ -92,14 +92,27 @@ namespace FractionDefinition
             int index = -1;
             if (GradingSubfractions != null && GradingSubfractions.Length > 0)
             {
-                if (ActualFractionVolume == 0f)
-                    return 0;
 
+                if (ActualFractionVolume == 0f)
+                {
+                    float max = float.MinValue;
+                    for(int i = 0; i < GradingSubfractions.Length; i++)
+                    {
+                        if(GradingSubfractions[i].RequiredVolumePart > max)
+                        {
+                            max = GradingSubfractions[i].RequiredVolumePart;
+                            index = i;
+                        }
+                    }
+                    return index;
+                }
+                
                 float min = float.MaxValue;
                 
                 for (int i = 0; i < GradingSubfractions.Length; i++)
                 {
                     float dif = GradingSubfractions[i].ActualFractionVolume / ActualFractionVolume - GradingSubfractions[i].RequiredVolumePart;
+                    //float dif = GradingSubfractions[i].ActualFractionVolume  - GradingSubfractions[i].RequiredVolumePart * ActualFractionVolume;
                     if (dif < min)
                     {
                         min = dif;
@@ -167,6 +180,18 @@ namespace FractionDefinition
             {
                 GradingSubfractions[indGrFlSh.Item1].ActualFractionVolume += volume;
             }
+
+            /*
+            Debug.Log("Grading:");
+            for (int i = 0; i < GradingSubfractions.Length; i++)
+            {
+                Debug.Log("d/D:  " + GradingSubfractions[i].FractionBoundaries +
+                         "  reqVol:  " + (GradingSubfractions[i].RequiredVolumePart * 100) + "%" +
+                         "  actVol:  " + (GradingSubfractions[i].ActualFractionVolume / ActualFractionVolume * 100) + "%");
+            }
+            */
+
+
 
             //pridanie objemu elipsoida do konkretnej podfrakcie pre celkovu hmotnost v zoznamoch plochych a tiez priratanie plocheho ak je to treba
             if (FlatSubfractions == null)
