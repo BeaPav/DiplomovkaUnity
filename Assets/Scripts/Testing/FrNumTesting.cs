@@ -297,9 +297,9 @@ public class FrNumTesting : MonoBehaviour
                 for (int i = 0; i < ActiveFraction.GradingSubfractions.Length; i++)
                 {
                     Debug.Log("d/D:  " + GradingCurveFrNames[i] +
-                             "  reqVol:  " + (ActiveFraction.GradingSubfractions[i].RequiredVolumePart * 100) + "%" +
-                             "  EllfrNum:  " + (GradingCurveEllPercentage[i] * 100) + "%" +
-                             "  EllfrNum:  " + (GradingCurveRotPercentage[i] * 100) + "%");
+                             "  reqVol:  " + (ActiveFraction.GradingSubfractions[i].RequiredVolumePart) + "%" +
+                             "  EllfrNum:  " + (GradingCurveEllPercentage[i]) + "%" +
+                             "  EllfrNum:  " + (GradingCurveRotPercentage[i]) + "%");
                 }
             }
 

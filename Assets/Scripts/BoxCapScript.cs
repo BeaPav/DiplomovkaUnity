@@ -199,9 +199,11 @@ public class BoxCapScript : MonoBehaviour
         if (collision.transform.tag != "BoxMesh")
         {
             //Debug.Log(collision.gameObject.name + " BoxCap Collision");
-            if(DestroyStonesWhileSliding)
+            if (DestroyStonesWhileSliding)
+            {
                 Destroy(collision.gameObject);
-            DestroyTime = Time.time;
+                DestroyTime = Time.time;
+            }
         }
     }
 

@@ -544,7 +544,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081986557}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12e3b2e28cd2b434195b5cc3074982fd, type: 3}
   m_Name: 
@@ -568,6 +568,12 @@ MonoBehaviour:
   errorGrFractionStonesPercentage: 0
   errorShFractionStonesPercentage: 0
   errorFlFractionStonesPercentage: 0
+  GradingCurveFrNames: []
+  GradingCurveEllPercentage: []
+  GradingCurveEllVolumes:
+  - 0
+  GradingCurveRotPercentage: []
+  GradingCurveRotVolumes: []
   nesediGrAEllJeViacAkoRot: 0
   nesediGrAEllJeViacAkoRotPercentage: 0
 --- !u!4 &1081986559
@@ -730,6 +736,57 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea3fced59253c4744948c183c7156ffc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1381190226
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1381190228}
+  - component: {fileID: 1381190227}
+  m_Layer: 0
+  m_Name: GeneratingDensityTestingObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1381190227
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381190226}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 782f6b48e028d6f4fb756e90f9602481, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
+    type: 3}
+  noOfStonesToGenerate: 5000
+  DoneTesting: 0
+  Save: 0
+  EllipsoidsActualVolume: 0
+  FrProperties: []
+--- !u!4 &1381190228
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1381190226}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 20, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1425842561
 GameObject:
   m_ObjectHideFlags: 0
@@ -1099,11 +1156,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9c6a60acfdcd9634bb06afb4844b875f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BoxVolume: 0
+  Voids: 0
   NumberOfStones: 0
+  BoxVolume: 0
   StonesVolume: 0
   EmptyVolume: 0
-  Voids: 0
+  FrProperties: []
 --- !u!1 &1629568404
 GameObject:
   m_ObjectHideFlags: 0
@@ -1155,7 +1213,7 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: TimePause
-      value: 0.3
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1180,7 +1238,7 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: SpawnRelativeYOffset
-      value: 0.2
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1240,17 +1298,17 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

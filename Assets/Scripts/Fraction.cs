@@ -210,34 +210,94 @@ namespace FractionDefinition
         }
 
 
-        public void GradingCurve(out string[] gradingCurveFrNames, out float[] gradingCurvePercentage, out float[] gradingCurveVolumes)
+        public void GradingCurve(out string[] frNames, out float[] percentage, out float[] frVolumes)
         {
-            gradingCurveFrNames = new string[GradingSubfractions.Length];
+            frNames = new string[GradingSubfractions.Length];
 
-            gradingCurveVolumes = new float[GradingSubfractions.Length];
-            gradingCurvePercentage = new float[GradingSubfractions.Length];
+            for (int i = 0; i < frNames.Length; i++)
+            {
+                frNames[i] = GradingSubfractions[i].FractionBoundaries.ToString();
+            }
+
+            GradingCurve(out percentage, out frVolumes);
+
+        }
+        public void GradingCurve(out float[] percentage, out float[] frVolumes)
+        {
+            frVolumes = new float[GradingSubfractions.Length];
+            percentage = new float[GradingSubfractions.Length];
 
 
             for (int i = 0; i < GradingSubfractions.Length; i++)
             {
-                gradingCurveFrNames[i] = GradingSubfractions[i].FractionBoundaries.ToString();
-                gradingCurveVolumes[i] = GradingSubfractions[i].ActualFractionVolume;
-                gradingCurvePercentage[i] = GradingSubfractions[i].ActualFractionVolume / ActualFractionVolume;
+                frVolumes[i] = GradingSubfractions[i].ActualFractionVolume;
+                percentage[i] = ActualFractionVolume == 0f ? 0f : frVolumes[i] / ActualFractionVolume * 100f;
             }
 
         }
-        public void GradingCurve(out float[] gradingCurvePercentage, out float[] gradingCurveVolumes)
+
+
+        public void ShapeIndex(out string[] frNames, out float[] longPercentage, out float[] longVolumes, out float[] frVolumes, out float fractionShapeIndex)
         {
-            gradingCurveVolumes = new float[GradingSubfractions.Length];
-            gradingCurvePercentage = new float[GradingSubfractions.Length];
+            frNames = new string[ShapeSubfractions.Length];
 
-
-            for (int i = 0; i < GradingSubfractions.Length; i++)
+            for (int i = 0; i < frNames.Length; i++)
             {
-                gradingCurveVolumes[i] = GradingSubfractions[i].ActualFractionVolume;
-                gradingCurvePercentage[i] = GradingSubfractions[i].ActualFractionVolume / ActualFractionVolume;
+                frNames[i] = ShapeSubfractions[i].FractionBoundaries.ToString();
             }
 
+            ShapeIndex(out longPercentage, out longVolumes, out frVolumes, out fractionShapeIndex);
+        }
+        public void ShapeIndex(out float[] longPercentage, out float[] longVolumes, out float[] frVolumes, out float fractionShapeIndex)
+        {
+            frVolumes = new float[ShapeSubfractions.Length];
+            longVolumes = new float[ShapeSubfractions.Length];
+            longPercentage = new float[ShapeSubfractions.Length];
+
+            float LongEllipsoidsVolumeSum = 0f;
+
+            for (int i = 0; i < ShapeSubfractions.Length; i++)
+            {
+                frVolumes[i] = ShapeSubfractions[i].ActualFractionVolume;
+                longVolumes[i] = ShapeSubfractions[i].LongVolume;
+                longPercentage[i] = frVolumes[i] == 0 ? 0f : longVolumes[i] / frVolumes[i] * 100f;
+                LongEllipsoidsVolumeSum += longVolumes[i];
+            }
+
+            fractionShapeIndex = ActualFractionVolume == 0f ? 0f : LongEllipsoidsVolumeSum / ActualFractionVolume * 100f;
+        }
+
+
+        public void FlatIndex(out string[] frNames, out float[] flatPercentage, out float[] flatVolumes, out float[] frVolumes, out float fractionFlatIndex)
+        {
+            frNames = new string[FlatSubfractions.Length];
+
+            for (int i = 0; i < frNames.Length; i++)
+            {
+                frNames[i] = FlatSubfractions[i].FractionBoundaries.ToString();
+            }
+
+            ShapeIndex(out flatPercentage, out flatVolumes, out frVolumes, out fractionFlatIndex);
+        }
+
+        public void FlatIndex( out float[] flatPercentage, out float[] flatVolumes, out float[] frVolumes, out float fractionFlatIndex)
+        {
+
+            frVolumes = new float[FlatSubfractions.Length];
+            flatVolumes = new float[FlatSubfractions.Length];
+            flatPercentage = new float[FlatSubfractions.Length];
+
+            float FlatEllipsoidsVolumeSum = 0f;
+
+            for (int i = 0; i < FlatSubfractions.Length; i++)
+            {
+                frVolumes[i] = FlatSubfractions[i].ActualFractionVolume;
+                flatVolumes[i] = FlatSubfractions[i].FlatVolume;
+                flatPercentage[i] = frVolumes[i] == 0 ? 0f : flatVolumes[i] / frVolumes[i] * 100f;
+                FlatEllipsoidsVolumeSum += flatVolumes[i];
+            }
+
+            fractionFlatIndex = ActualFractionVolume == 0f ? 0f : FlatEllipsoidsVolumeSum / ActualFractionVolume * 100f;
         }
 
         int IndexFromFractionVector(float num, Fraction[] frac)
