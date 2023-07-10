@@ -186,7 +186,7 @@ public class EllipsoidsSpawning : MonoBehaviour
                         ActiveFractionIndex = FractionChoice();
                        
                         stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[ActiveFractionIndex]);
-
+                        stone.GetComponent<StoneMeshProperties>().fractionIndex = ActiveFractionIndex;
 
 
                         #region TESTY ZARADENIA DO FRAKCIE
@@ -277,6 +277,7 @@ public class EllipsoidsSpawning : MonoBehaviour
             PropertiesCalculated = true;
 
             Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume);
+            Prop.CountPropertiesOfModelFractions(EllipsoidParent, Fractions);
 
             if(SaveModel)
                 ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, false, true);

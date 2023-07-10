@@ -62,19 +62,7 @@ namespace FractionDefinition
             }
 
         }
-        public Fraction((float, float) frBoundaries)
-        {
-            FractionBoundaries = frBoundaries;
-        }
         
-        public Fraction((float, float) frBoundaries, float reqVolume, Fraction[] grSubfr, Fraction[] shSubfr, Fraction[] flatSubfr)
-        {
-            FractionBoundaries = frBoundaries;
-            RequiredVolumePart = reqVolume;
-            GradingSubfractions = grSubfr;
-            ShapeSubfractions = shSubfr;
-            FlatSubfractions = flatSubfr;
-        }
         public Fraction((float, float) frBoundaries, float reqVolume, float flSieveSize = 0f)
         {
             FractionBoundaries = frBoundaries;
@@ -217,6 +205,37 @@ namespace FractionDefinition
                     ShapeSubfractions[indGrFlSh.Item3].LongVolume += volume;
                     LongVolume += volume;
                 }
+            }
+
+        }
+
+
+        public void GradingCurve(out string[] gradingCurveFrNames, out float[] gradingCurvePercentage, out float[] gradingCurveVolumes)
+        {
+            gradingCurveFrNames = new string[GradingSubfractions.Length];
+
+            gradingCurveVolumes = new float[GradingSubfractions.Length];
+            gradingCurvePercentage = new float[GradingSubfractions.Length];
+
+
+            for (int i = 0; i < GradingSubfractions.Length; i++)
+            {
+                gradingCurveFrNames[i] = GradingSubfractions[i].FractionBoundaries.ToString();
+                gradingCurveVolumes[i] = GradingSubfractions[i].ActualFractionVolume;
+                gradingCurvePercentage[i] = GradingSubfractions[i].ActualFractionVolume / ActualFractionVolume;
+            }
+
+        }
+        public void GradingCurve(out float[] gradingCurvePercentage, out float[] gradingCurveVolumes)
+        {
+            gradingCurveVolumes = new float[GradingSubfractions.Length];
+            gradingCurvePercentage = new float[GradingSubfractions.Length];
+
+
+            for (int i = 0; i < GradingSubfractions.Length; i++)
+            {
+                gradingCurveVolumes[i] = GradingSubfractions[i].ActualFractionVolume;
+                gradingCurvePercentage[i] = GradingSubfractions[i].ActualFractionVolume / ActualFractionVolume;
             }
 
         }

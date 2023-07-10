@@ -40,12 +40,20 @@ public class FrNumTesting : MonoBehaviour
     [ReadOnly] public float errorShFractionStonesPercentage = 0;    //% ak sa inak zaradi do shape v danej frakcii
     [ReadOnly] public float errorFlFractionStonesPercentage = 0;    //% ak sa inak zaradi do flat v danej frakcii
 
+
+    [ReadOnly] public string[] GradingCurveFrNames;
+    [ReadOnly] public float[] GradingCurveEllPercentage;
+    [ReadOnly] public float[] GradingCurveEllVolumes;
+    [ReadOnly] public float[] GradingCurveRotPercentage;
+    [ReadOnly] public float[] GradingCurveRotVolumes;
+
     public int nesediGrAEllJeViacAkoRot = 0;
     public float nesediGrAEllJeViacAkoRotPercentage;
 
     // Start is called before the first frame update
     void Start()
     {
+        #region FRACTIONS INICIALIZATION
         float[] FractionRatios = new float[3] { 0f, 0f, 0f};
         FractionIndex = new Dictionary<string, int>()
                 { {"[4,8]", 0 }, {"[8,16]", 1 }, {"[16,22]", 2 } };
@@ -108,8 +116,10 @@ public class FrNumTesting : MonoBehaviour
                                    new float[3] { 1.0f, 1.25f, 1.6f },          //OK        //index plochosti - harfove sita medzery
                                    new float[3] { 0.1f, 0.1f, 0.1f }            //ODHADNUTE //index plochosti - hodnoty
                                    ));
+        #endregion
 
         ActiveFraction = Fractions[FractionIndex[Fraction]];
+
         #region RotFrNumFraction INICIALIZATION
         if (FractionIndex[Fraction] == 0)
         {
@@ -251,7 +261,7 @@ public class FrNumTesting : MonoBehaviour
                     if (errorFlIndex != 0) errorFlFractionStones++;
 
                     //////////////////////////este tto doriesit
-                    RotFrNumFraction.ActualizeVolume(s.GetVolume(), (frGrIndexRotation, frFlIndexRotation, frShIndexRotation), (s.GetIsFlat(), s.GetIsLong()));
+                     RotFrNumFraction.ActualizeVolume(s.GetVolume(), (frGrIndexRotation, frFlIndexRotation, frShIndexRotation), (s.GetIsFlat(), s.GetIsLong()));
                 }
 
             }
@@ -266,10 +276,11 @@ public class FrNumTesting : MonoBehaviour
             errorShFractionStonesPercentage = errorShFractionStones / (float)notErrorFractionStones * 100;
             errorFlFractionStonesPercentage = errorFlFractionStones / (float)notErrorFractionStones * 100;
 
-
-
             nesediGrAEllJeViacAkoRotPercentage = nesediGrAEllJeViacAkoRot / (float)errorGrFractionStones * 100;
 
+            //toto sa rata ze zo vsetkeho co bolo vygenerovane, tu nam to takto nevadi, v modeli treba ratat len z kamenov v nadobe
+            ActiveFraction.GradingCurve(out GradingCurveFrNames, out GradingCurveEllPercentage, out GradingCurveEllVolumes);
+            RotFrNumFraction.GradingCurve(out GradingCurveRotPercentage, out GradingCurveRotVolumes);
 
             if (WriteInConsole)
             {
@@ -281,12 +292,14 @@ public class FrNumTesting : MonoBehaviour
                 Debug.Log("zle flat %: " + errorFlFractionStonesPercentage + " zle: " + errorFlFractionStones + " vsetky: " + notErrorFractionStones);
 
                 Debug.Log("Grading:");
+
+
                 for (int i = 0; i < ActiveFraction.GradingSubfractions.Length; i++)
                 {
-                    Debug.Log("d/D:  " + ActiveFraction.GradingSubfractions[i].FractionBoundaries +
+                    Debug.Log("d/D:  " + GradingCurveFrNames[i] +
                              "  reqVol:  " + (ActiveFraction.GradingSubfractions[i].RequiredVolumePart * 100) + "%" +
-                             "  EllfrNum:  " + (ActiveFraction.GradingSubfractions[i].ActualFractionVolume / ActiveFraction.ActualFractionVolume * 100) + "%" +
-                             "  EllfrNum:  " + (RotFrNumFraction.GradingSubfractions[i].ActualFractionVolume / RotFrNumFraction.ActualFractionVolume * 100) + "%");
+                             "  EllfrNum:  " + (GradingCurveEllPercentage[i] * 100) + "%" +
+                             "  EllfrNum:  " + (GradingCurveRotPercentage[i] * 100) + "%");
                 }
             }
 

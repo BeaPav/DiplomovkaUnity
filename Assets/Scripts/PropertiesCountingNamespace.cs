@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using FractionDefinition;
+
 namespace PropertiesCounter
 {
     public static class Prop
@@ -203,10 +205,10 @@ namespace PropertiesCounter
         #endregion
 
         #region MODEL PROPERTIES
-        public static void CountPropertiesOfModel(GameObject parent, float boxVolume)
+        public static void CountPropertiesOfModel(GameObject ellipsoidsParent, float boxVolume)
         {
-            ModelProperties mp = parent.GetComponentInParent<ModelProperties>();
-            StoneMeshProperties[] AllStonesProperties = parent.GetComponentsInChildren<StoneMeshProperties>();
+            ModelProperties mp = ellipsoidsParent.GetComponentInParent<ModelProperties>();
+            StoneMeshProperties[] AllStonesProperties = ellipsoidsParent.GetComponentsInChildren<StoneMeshProperties>();
             int noOfStones = AllStonesProperties.Length;
             float stonesVolume = 0f;
 
@@ -232,6 +234,103 @@ namespace PropertiesCounter
             Debug.Log("EmptyVolume: " + (boxVolume - stonesVolume));
             Debug.Log("Voids: " + voids + "%");
             */
+        }
+
+        public static void CountPropertiesOfModelFractions(GameObject ellipsoidsParent, List<Fraction> fractions)
+        {
+            ModelProperties mp = ellipsoidsParent.GetComponentInParent<ModelProperties>();
+            StoneMeshProperties[] AllStonesProperties = ellipsoidsParent.GetComponentsInChildren<StoneMeshProperties>();
+            int noOfStones = AllStonesProperties.Length;
+
+            //inicializacia properties pre vsetky frakcie
+            mp.FrProperties = new FractionProperties[fractions.Count];
+
+            //inicializacia premennych ktore ideme ratat
+            float stonesVolume = 0f;
+
+            for(int i = 0; i < fractions.Count; i++)
+            {
+                mp.FrProperties[i] = new FractionProperties();
+                mp.FrProperties[i].FractionName = fractions[i].FractionBoundaries.ToString();
+                mp.FrProperties[i].GradingCurve = new GradingCurve(fractions[i].GradingSubfractions.Length);
+                mp.FrProperties[i].ShapeIndex = new ShapeIndex(fractions[i].ShapeSubfractions.Length);
+                mp.FrProperties[i].FlatIndex = new FlatInex(fractions[i].FlatSubfractions.Length);
+
+                //mena pre hranice frakcii
+                for (int j = 0; j < fractions[i].GradingSubfractions.Length; j++)
+                {
+                    mp.FrProperties[i].GradingCurve.FrNames[j] = new string(fractions[i].GradingSubfractions[j].FractionBoundaries.ToString());
+                }
+                for (int j = 0; j < fractions[i].ShapeSubfractions.Length; j++)
+                {
+                    mp.FrProperties[i].ShapeIndex.FrNames[j] = new string(fractions[i].ShapeSubfractions[j].FractionBoundaries.ToString());
+                }
+                for (int j = 0; j < fractions[i].FlatSubfractions.Length; j++)
+                {
+                    mp.FrProperties[i].FlatIndex.FrNames[j] = new string(fractions[i].FlatSubfractions[j].FractionBoundaries.ToString());
+                }
+            }
+
+            //cyklus cez vsetky kamene, pripocitavaju sa objemy ku grading, shape a flat, kontroluje sa aj plochost a nekubickost
+            for (int i = 0; i < noOfStones; i++)
+            {
+                float volume = AllStonesProperties[i].GetVolume();
+                stonesVolume += volume;
+
+                int frIndex = AllStonesProperties[i].fractionIndex;
+                (int, int, int) indGrFlSh = AllStonesProperties[i].indGrFlSh;
+
+                mp.FrProperties[frIndex].VolumeInModel += volume;
+                mp.FrProperties[frIndex].GradingCurve.FrVolumes[indGrFlSh.Item1] += volume;
+                mp.FrProperties[frIndex].ShapeIndex.FrVolumes[indGrFlSh.Item3] += volume;
+                mp.FrProperties[frIndex].FlatIndex.FrVolumes[indGrFlSh.Item2] += volume;
+
+                if(AllStonesProperties[i].IsLong)
+                {
+                    mp.FrProperties[frIndex].ShapeIndex.LongVolumes[indGrFlSh.Item3] += volume;
+                }
+
+                if(AllStonesProperties[i].IsFlat)
+                {
+                    mp.FrProperties[frIndex].FlatIndex.FlatVolumes[indGrFlSh.Item2] += volume;
+                }
+            }
+
+            //zratanie percent a indexov celkovo pre velke frakcie
+            for (int i = 0; i < fractions.Count; i++)
+            {
+                
+                mp.FrProperties[i].VolumePercentageInModel = stonesVolume == 0f ? 0f : mp.FrProperties[i].VolumeInModel / stonesVolume * 100f;
+                
+                for(int j = 0; j < mp.FrProperties[i].GradingCurve.Percentage.Length; j++)
+                {
+                    mp.FrProperties[i].GradingCurve.Percentage[j] = mp.FrProperties[i].VolumeInModel == 0f? 0f : mp.FrProperties[i].GradingCurve.FrVolumes[j] / mp.FrProperties[i].VolumeInModel * 100f;
+                }
+
+                float LongEllipsoidsVolumeSum = 0f;
+                for(int j = 0; j < mp.FrProperties[i].ShapeIndex.LongPercentage.Length; j++)
+                {
+                    mp.FrProperties[i].ShapeIndex.LongPercentage[j] = mp.FrProperties[i].ShapeIndex.FrVolumes[j] == 0f ? 0f : mp.FrProperties[i].ShapeIndex.LongVolumes[j] / mp.FrProperties[i].ShapeIndex.FrVolumes[j] * 100f;
+                    LongEllipsoidsVolumeSum += mp.FrProperties[i].ShapeIndex.LongVolumes[j];
+                }
+
+                
+                //shape index celej frakcie
+                mp.FrProperties[i].ShapeIndex.FractionShapeIndex = mp.FrProperties[i].VolumeInModel == 0f ? 0f : LongEllipsoidsVolumeSum / mp.FrProperties[i].VolumeInModel * 100f;
+
+
+                float FlatEllipsoidsVolumeSum = 0f;
+                for (int j = 0; j < mp.FrProperties[i].FlatIndex.FlatPercentage.Length; j++)
+                {
+                    mp.FrProperties[i].FlatIndex.FlatPercentage[j] = mp.FrProperties[i].FlatIndex.FrVolumes[j] == 0f ? 0f : mp.FrProperties[i].FlatIndex.FlatVolumes[j] / mp.FrProperties[i].FlatIndex.FrVolumes[j] * 100f;
+                    FlatEllipsoidsVolumeSum += mp.FrProperties[i].FlatIndex.FlatVolumes[j];
+                }
+
+
+                //flat index celej frakcie
+                mp.FrProperties[i].FlatIndex.FractionFlatIndex = mp.FrProperties[i].VolumeInModel == 0f ? 0f : FlatEllipsoidsVolumeSum / mp.FrProperties[i].VolumeInModel * 100f;
+            }
+
         }
     }
     #endregion
