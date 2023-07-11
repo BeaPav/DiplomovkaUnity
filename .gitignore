@@ -75,8 +75,5 @@ crashlytics-build.properties
 /[Aa]ssets/SavedModels/EllipsoidModels/*
 /[Aa]ssets/SavedModels/Meshes/Resources/Ellipsoids*
 /[Aa]ssets/SavedModels/StonesModels/*
-/[Aa]ssets/SavedModels/.gitignore
-/[Aa]ssets/SavedModels/TestingModels/FrNumTest/Fraction[4,8]/*
-/[Aa]ssets/SavedModels/TestingModels/FrNumTest/Fraction[8,16]/*
 /[Aa]ssets/SavedModels/TestingModels/*
-/[Aa]ssets/SavedModels/TestingModels/FrNumTest/Fraction[16,22]/*
+/[Aa]ssets/SavedModels/.gitignore

@@ -306,7 +306,7 @@ public class FrNumTesting : MonoBehaviour
             if (Save)
             {
                 ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction,
-                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations", 1,
+                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations",false, 1,
                                         "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations);
             }
 

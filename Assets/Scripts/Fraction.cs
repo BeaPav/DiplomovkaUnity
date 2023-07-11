@@ -277,7 +277,7 @@ namespace FractionDefinition
                 frNames[i] = FlatSubfractions[i].FractionBoundaries.ToString();
             }
 
-            ShapeIndex(out flatPercentage, out flatVolumes, out frVolumes, out fractionFlatIndex);
+            FlatIndex(out flatPercentage, out flatVolumes, out frVolumes, out fractionFlatIndex);
         }
 
         public void FlatIndex( out float[] flatPercentage, out float[] flatVolumes, out float[] frVolumes, out float fractionFlatIndex)
