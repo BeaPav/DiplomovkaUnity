@@ -194,7 +194,7 @@ AudioListener:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!20 &330585545
 Camera:
   m_ObjectHideFlags: 0
@@ -202,7 +202,7 @@ Camera:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 330585543}
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 2
   m_ClearFlags: 1
   m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
@@ -1298,17 +1298,17 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 2.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 2.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 2.5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

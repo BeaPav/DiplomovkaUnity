@@ -18,7 +18,7 @@ public class GenerateEllipsoidObject : MonoBehaviour
     [SerializeField] int noParallelsOnSphere; //6
     [SerializeField] int noMeridiansOnSphere; //12
     //[SerializeField] float DensityOfStoneMaterial = 2600;
-
+    [SerializeField] PhysicMaterial mat;
 
     public void GenerateEllipsoid(Fraction fraction)
     {
@@ -60,6 +60,7 @@ public class GenerateEllipsoidObject : MonoBehaviour
         //GenerateVHACDColliders();
         mf.gameObject.AddComponent<MeshCollider>();
         GetComponentInChildren<MeshCollider>().convex = true;
+        GetComponentInChildren<MeshCollider>().material = mat;
 
         //nastavenie a vypocet vlastnosti zrna
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();

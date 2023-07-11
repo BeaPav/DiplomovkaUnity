@@ -137,7 +137,7 @@ Rigidbody:
   m_IsKinematic: 0
   m_Interpolate: 0
   m_Constraints: 0
-  m_CollisionDetection: 1
+  m_CollisionDetection: 0
 --- !u!114 &2290599100456156375
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -154,6 +154,10 @@ MonoBehaviour:
   FractionNumber: 1
   Length: 1
   Width: 1
+  IsLong: 0
+  IsFlat: 0
+  axes: {x: 0, y: 0, z: 0}
+  fractionIndex: 0
 --- !u!114 &-7280534978353905845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -171,6 +175,7 @@ MonoBehaviour:
   color_bounds_renderer: {r: 1, g: 0.9789965, b: 0, a: 0.09019608}
   Hierarchical: 1
   Disable: 1
+  DrawRenderer: 0
 --- !u!114 &6910654029551458042
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -185,6 +190,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   noParallelsOnSphere: 6
   noMeridiansOnSphere: 12
+  mat: {fileID: 13400000, guid: 13d11e4a52f259e44bc88bf3e55f78e6, type: 2}
 --- !u!114 &4705338044345292275
 MonoBehaviour:
   m_ObjectHideFlags: 0
