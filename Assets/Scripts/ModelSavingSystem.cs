@@ -51,6 +51,8 @@ public static class ModelSavingSystem
         //PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab", InteractionMode.AutomatedAction);
         PrefabUtility.SaveAsPrefabAsset(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab");
         
+        //kontrola ze na konci maju vsetky meshe referenciu
+        
         if (controlPrefabReference)
         {
             using (var editingScope = new PrefabUtility.EditPrefabContentsScope(path + "/Model" + folderIter + ".prefab"))

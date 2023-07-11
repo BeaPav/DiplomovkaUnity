@@ -148,7 +148,7 @@ namespace GenerateEllipsoidsNamespace
                 //Debug.Log("vytvaram mesh " + "EllipsoidMesh_" + noParallels + "Parallels_" + noMeridians + "Meridians" + ".asset");
             }
             
-            meshObject.GetComponent<MeshFilter>().mesh = mesh;
+            meshObject.GetComponent<MeshFilter>().sharedMesh = mesh;
             
 
             //sphere scaling in order to create ellipsoid
@@ -242,7 +242,7 @@ namespace GenerateEllipsoidsNamespace
                 {
                     float upperBoundCoeff = Mathf.Max(4.5f, Mathf.Ceil(ellZ / ellX));
                     ellY = Random.Range(ellZ, upperBoundCoeff * ellX);
-                    Debug.Log("horna hranica: " + upperBoundCoeff);
+                    //Debug.Log("horna hranica: " + upperBoundCoeff);
                 }
                 
                 
