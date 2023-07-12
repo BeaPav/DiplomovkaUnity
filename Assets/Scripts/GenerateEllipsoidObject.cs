@@ -64,7 +64,7 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
         //nastavenie a vypocet vlastnosti zrna
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();
-        float volume = Prop.VolumeOfMesh(GetComponentInChildren<MeshFilter>());
+        float volume = Prop.VolumeOfEllipsoidMesh(GetComponentInChildren<MeshFilter>());
         s.SetVolume(volume);
         s.SetFractionNumber(frNum);
         s.SetLength(2f * axes[1]);

@@ -26,17 +26,11 @@ namespace PropertiesCounter
         }
 
         //objem sa rata z lokalneho meshu na ktory je aplikovana transformacia az po root parentov
-        public static float VolumeOfMesh(MeshFilter mf)
+        public static float VolumeOfEllipsoidMesh(MeshFilter mf)
         {
             Transform transformMeshObject = mf.transform;
             Mesh mesh = mf.sharedMesh;
-            float volume = 0;
-
-            Vector3[] vertices = mesh.vertices;
-            int[] triangles = mesh.triangles;
-
-            //Vector3 T = new Vector3();
-
+            
             float xScale = transformMeshObject.localScale.x;
             float yScale = transformMeshObject.localScale.y;
             float zScale = transformMeshObject.localScale.z;
@@ -51,10 +45,18 @@ namespace PropertiesCounter
                 parent = parent.parent;
             }
 
+            return VolumeOfMesh(mesh, xScale, yScale, zScale);
+            
+        }
+
+        public static float VolumeOfMesh(Mesh mesh, float xScale = 1f, float yScale = 1f, float zScale = 1f)
+        {
+            float volume = 0;
+            Vector3[] vertices = mesh.vertices;
+            int[] triangles = mesh.triangles;
+
             for (int i = 0; i < triangles.Length; i += 3)
             {
-
-
                 Vector3 v1 = vertices[triangles[i + 0]];
                 Vector3 v2 = vertices[triangles[i + 1]];
                 Vector3 v3 = vertices[triangles[i + 2]];
@@ -76,11 +78,7 @@ namespace PropertiesCounter
 
                 volume += SignedVolumeOfTriangle(v1, v2, v3);
             }
-            /*
-            T = T / vertices.Length;
-            Debug.Log("tazisko: " + T);
-            */
-            
+
             return Mathf.Abs(volume);
         }
         #endregion

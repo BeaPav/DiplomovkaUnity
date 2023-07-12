@@ -84,7 +84,7 @@ public class EllipsoidsSpawning : MonoBehaviour
 
         //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
         Transform boxVolumeObject = transform.Find("BoxVolume");
-        BoxVolume = Prop.VolumeOfMesh(boxVolumeObject.GetComponent<MeshFilter>());
+        BoxVolume = Prop.VolumeOfEllipsoidMesh(boxVolumeObject.GetComponent<MeshFilter>());
         Debug.Log("ObjemNadoby: " + BoxVolume);
 
 

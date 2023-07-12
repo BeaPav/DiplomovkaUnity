@@ -68,7 +68,7 @@ public class StoneSpawning : MonoBehaviour
 
         //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
         Transform boxVolumeObject = transform.Find("BoxVolume");
-        BoxVolume = Prop.VolumeOfMesh(boxVolumeObject.GetComponent<MeshFilter>());
+        BoxVolume = Prop.VolumeOfEllipsoidMesh(boxVolumeObject.GetComponent<MeshFilter>());
         Debug.Log("ObjemNadoby: " + BoxVolume);
 
         SpawnPoint = transform.position;
@@ -91,7 +91,7 @@ public class StoneSpawning : MonoBehaviour
             Prefabs[i].SetActive(true);
 
             Vector2 lengthWidth = Prop.LengthAndWidthOfStone(Prefabs[i]);
-            float volume = Prop.VolumeOfMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>());
+            float volume = Prop.VolumeOfEllipsoidMesh(Prefabs[i].transform.GetComponentInChildren<MeshFilter>());
             float frNum = Prop.FrNumber(Prefabs[i], 20);
 
             //MassOfStones[i] = volume * DensityOfStoneMaterial;
