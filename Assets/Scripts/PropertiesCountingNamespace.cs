@@ -25,29 +25,6 @@ namespace PropertiesCounter
 
         }
 
-        //objem sa rata z lokalneho meshu na ktory je aplikovana transformacia az po root parentov
-        public static float VolumeOfEllipsoidMesh(MeshFilter mf)
-        {
-            Transform transformMeshObject = mf.transform;
-            Mesh mesh = mf.sharedMesh;
-            
-            float xScale = transformMeshObject.localScale.x;
-            float yScale = transformMeshObject.localScale.y;
-            float zScale = transformMeshObject.localScale.z;
-
-            Transform parent = transformMeshObject.parent;
-
-            while (parent != null)
-            {
-                xScale *= parent.localScale.x;
-                yScale *= parent.localScale.y;
-                zScale *= parent.localScale.z;
-                parent = parent.parent;
-            }
-
-            return VolumeOfMesh(mesh, xScale, yScale, zScale);
-            
-        }
 
         public static float VolumeOfMesh(Mesh mesh, float xScale = 1f, float yScale = 1f, float zScale = 1f)
         {
@@ -81,6 +58,31 @@ namespace PropertiesCounter
 
             return Mathf.Abs(volume);
         }
+
+        //objem sa rata z lokalneho meshu na ktory je aplikovana transformacia az po root parentov
+        public static float VolumeOfEllipsoidMesh(MeshFilter mf)
+        {
+            Transform transformMeshObject = mf.transform;
+            Mesh mesh = mf.sharedMesh;
+            
+            float xScale = transformMeshObject.localScale.x;
+            float yScale = transformMeshObject.localScale.y;
+            float zScale = transformMeshObject.localScale.z;
+
+            Transform parent = transformMeshObject.parent;
+
+            while (parent != null)
+            {
+                xScale *= parent.localScale.x;
+                yScale *= parent.localScale.y;
+                zScale *= parent.localScale.z;
+                parent = parent.parent;
+            }
+
+            return VolumeOfMesh(mesh, xScale, yScale, zScale);
+            
+        }
+
         #endregion
 
         #region LENGTH AND WIDTH    
