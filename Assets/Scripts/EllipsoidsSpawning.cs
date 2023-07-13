@@ -276,11 +276,12 @@ public class EllipsoidsSpawning : MonoBehaviour
             Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
 
-            Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume);
-            Prop.CountPropertiesOfModelFractions(EllipsoidParent, Fractions);
+            Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume, out string textModelResults);
+            Prop.CountPropertiesOfModelFractions(EllipsoidParent, Fractions, out string textFractionsResults);
 
             if(SaveModel)
-                ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, false, true);
+                ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, (FractionRatios[0], FractionRatios[1], FractionRatios[2]),
+                                            textModelResults + textFractionsResults, false, true);
 
         }
 

@@ -160,7 +160,9 @@ public class StoneSpawning : MonoBehaviour
             Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
             
-            Prop.CountPropertiesOfModel(StoneParent, BoxVolume);
+            Prop.CountPropertiesOfModel(StoneParent, BoxVolume, out string textModelResults);
+            //Prop.CountPropertiesOfModelFractions(StoneParent, Fractions, out string textFractionsResults);
+            //tu ani nemame fractions
 
             #region COSI S GRADING, MOZNO TO NETREBA -- ZAKOMENTOVANE
             //tu neviem co sa deje
@@ -213,7 +215,8 @@ public class StoneSpawning : MonoBehaviour
 
             if (SaveModel)
             {
-                ModelSavingSystem.SaveModel(StoneParent.transform, folderIterStarter, "Assets/SavedModels/StoneModels", false, false);
+                ModelSavingSystem.SaveModel(StoneParent.transform, folderIterStarter, "Assets/SavedModels/StoneModels",(1f,1f,1f),
+                            textModelResults, false, false);
             }
         }
 

@@ -279,8 +279,10 @@ public class FrNumTesting : MonoBehaviour
             nesediGrAEllJeViacAkoRotPercentage = nesediGrAEllJeViacAkoRot / (float)errorGrFractionStones * 100;
 
             //toto sa rata ze zo vsetkeho co bolo vygenerovane, tu nam to takto nevadi, v modeli treba ratat len z kamenov v nadobe
-            ActiveFraction.GradingCurve(out GradingCurveFrNames, out GradingCurveEllPercentage, out GradingCurveEllVolumes);
-            RotFrNumFraction.GradingCurve(out GradingCurveRotPercentage, out GradingCurveRotVolumes);
+            ActiveFraction.GradingCurve(out GradingCurveFrNames, out GradingCurveEllPercentage, out GradingCurveEllVolumes, out string TextGradingEllipsoidResults);
+            RotFrNumFraction.GradingCurve(out GradingCurveRotPercentage, out GradingCurveRotVolumes, out string TextGradingRotResults);
+
+            string textResults = "FrNum TESTING \n\n\n" + "ELL GRADING CURVE\n\n" + TextGradingEllipsoidResults + "\n\n\n" + "ROT GRADING CURVE\n\n" + TextGradingRotResults;
 
             if (WriteInConsole)
             {
@@ -306,7 +308,7 @@ public class FrNumTesting : MonoBehaviour
             if (Save)
             {
                 ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction,
-                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations",false, 1,
+                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations",textResults, false, 1,
                                         "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations);
             }
 

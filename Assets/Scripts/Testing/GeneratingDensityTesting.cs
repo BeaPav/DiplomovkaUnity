@@ -131,15 +131,20 @@ public class GeneratingDensityTesting : MonoBehaviour
 
             }
 
+            string textResults = "";
+            string textTMPResults;
             for(int i = 0; i< Fractions.Count; i++)
             {
-                Fractions[i].GradingCurve(out FrProperties[i].GradingCurve.FrNames, out FrProperties[i].GradingCurve.Percentage, out FrProperties[i].GradingCurve.FrVolumes);
+                Fractions[i].GradingCurve(out FrProperties[i].GradingCurve.FrNames, out FrProperties[i].GradingCurve.Percentage, out FrProperties[i].GradingCurve.FrVolumes, out textTMPResults);
                 Fractions[i].ShapeIndex(out FrProperties[i].ShapeIndex.FrNames, out FrProperties[i].ShapeIndex.LongPercentage, out FrProperties[i].ShapeIndex.LongVolumes, 
-                                        out FrProperties[i].ShapeIndex.FrVolumes, out FrProperties[i].ShapeIndex.FractionShapeIndex);
+                                        out FrProperties[i].ShapeIndex.FrVolumes, out FrProperties[i].ShapeIndex.FractionShapeIndex, out textTMPResults);
                 Fractions[i].FlatIndex(out FrProperties[i].FlatIndex.FrNames, out FrProperties[i].FlatIndex.FlatPercentage, out FrProperties[i].FlatIndex.FlatVolumes,
-                                        out FrProperties[i].FlatIndex.FrVolumes, out FrProperties[i].FlatIndex.FractionFlatIndex);
+                                        out FrProperties[i].FlatIndex.FrVolumes, out FrProperties[i].FlatIndex.FractionFlatIndex, out textTMPResults);
                 FrProperties[i].VolumeInModel = Fractions[i].ActualFractionVolume;
                 FrProperties[i].VolumePercentageInModel = EllipsoidsActualVolume == 0f ? 0f : Fractions[i].ActualFractionVolume / EllipsoidsActualVolume * 100f;
+
+                textTMPResults = FrProperties[i].ResultsToString();
+                textResults += textTMPResults + "\n\n\n";
             }
 
 
@@ -147,7 +152,7 @@ public class GeneratingDensityTesting : MonoBehaviour
             if (Save)
             {
                 ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/GeneratingDensityTest",
-                                        "Model_" + noOfStonesToGenerate + "stones" ,false, 1);
+                                        "Model_" + noOfStonesToGenerate + "stones", textResults, false, 1);
             }
             
             DoneTesting = true;

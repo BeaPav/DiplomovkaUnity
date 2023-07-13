@@ -6,8 +6,18 @@ using UnityEditor;
 
 public static class ModelSavingSystem
 {
-    public static void SaveModel(Transform parent, int folderIter, string path, bool generatingEllipsoids, bool controlPrefabReference)
+    public static void SaveModel(Transform parent, int folderIter, string path, (float, float, float) fractionsRatios, string textResults, bool generatingEllipsoids, bool controlPrefabReference)
     {
+        string modelTypeName = "Model_" + (fractionsRatios.Item1 * 100f) + "%_[4,8]_" + (fractionsRatios.Item2 * 100f) + "%_[8,16]_" + (fractionsRatios.Item3 * 100f) + "%_[16,22]";
+
+        if(!Directory.Exists(path + "/" + modelTypeName))
+        {
+            Directory.CreateDirectory(path + "/" + modelTypeName);
+            AssetDatabase.Refresh();
+        }
+
+        path += "/" + modelTypeName;
+
         //najdenie kolky to je model
         while (Directory.Exists(path + "/Model_" + folderIter))
         {
@@ -49,13 +59,14 @@ public static class ModelSavingSystem
 
         //ulozenie modelu ako prefab
         //PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab", InteractionMode.AutomatedAction);
-        PrefabUtility.SaveAsPrefabAsset(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab");
-        
+        PrefabUtility.SaveAsPrefabAsset(parent.parent.gameObject, path + "/Model_" + folderIter + ".prefab");
+        SaveTextFile(path, "/Model_" + folderIter + "_TextResults", textResults);
+
         //kontrola ze na konci maju vsetky meshe referenciu
         
         if (controlPrefabReference)
         {
-            using (var editingScope = new PrefabUtility.EditPrefabContentsScope(path + "/Model" + folderIter + ".prefab"))
+            using (var editingScope = new PrefabUtility.EditPrefabContentsScope(path + "/Model_" + folderIter + ".prefab"))
             {
                 var prefabRoot = editingScope.prefabContentsRoot;
                 //Debug.Log("meno root of prefab " + prefabRoot.name);
@@ -81,7 +92,7 @@ public static class ModelSavingSystem
 
     }
 
-    public static void SaveTestingModel(Transform TestingObject, string path, string name, bool createDirForModel, int modelIter = 0,  string directoryName = "!noName")
+    public static void SaveTestingModel(Transform TestingObject, string path, string name, string textResults, bool createDirForModel, int modelIter = 0,  string directoryName = "!noName")
     {
         //ak chceme vytvorit specialny priecinok
         if (directoryName != "!noName")
@@ -120,7 +131,13 @@ public static class ModelSavingSystem
         }
 
         PrefabUtility.SaveAsPrefabAsset(TestingObject.gameObject, path + "/" + name + "_" + modelIter + ".prefab");
+        SaveTextFile(path, name + "_" + modelIter + "_TextResults", textResults);
 
+    }
 
+    public static void SaveTextFile(string path, string name, string text)
+    {
+        File.WriteAllText(path + "/" + name + ".txt", text);
+        AssetDatabase.Refresh();
     }
 }

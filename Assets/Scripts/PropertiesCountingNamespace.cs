@@ -145,7 +145,7 @@ namespace PropertiesCounter
         public static float FrNumber(GameObject stone, int numOfRot)
         {
             MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
-            Bounds b;
+            //Bounds b;
 
             /*
             // Saving of original transformations for later
@@ -205,7 +205,7 @@ namespace PropertiesCounter
         #endregion
 
         #region MODEL PROPERTIES
-        public static void CountPropertiesOfModel(GameObject ellipsoidsParent, float boxVolume)
+        public static void CountPropertiesOfModel(GameObject ellipsoidsParent, float boxVolume, out string textModelResults)
         {
             ModelProperties mp = ellipsoidsParent.GetComponentInParent<ModelProperties>();
             StoneMeshProperties[] AllStonesProperties = ellipsoidsParent.GetComponentsInChildren<StoneMeshProperties>();
@@ -227,6 +227,8 @@ namespace PropertiesCounter
             mp.EmptyVolume = boxVolume - stonesVolume;
             mp.Voids = voids;
 
+            textModelResults = mp.ModelPropertiesToString();
+
             /*
             Debug.Log("No of ellipsoids: " + noOfStones);
             Debug.Log("Box volume: " + boxVolume);
@@ -236,7 +238,7 @@ namespace PropertiesCounter
             */
         }
 
-        public static void CountPropertiesOfModelFractions(GameObject ellipsoidsParent, List<Fraction> fractions)
+        public static void CountPropertiesOfModelFractions(GameObject ellipsoidsParent, List<Fraction> fractions, out string textFractionsResults)
         {
             ModelProperties mp = ellipsoidsParent.GetComponentInParent<ModelProperties>();
             StoneMeshProperties[] AllStonesProperties = ellipsoidsParent.GetComponentsInChildren<StoneMeshProperties>();
@@ -330,6 +332,8 @@ namespace PropertiesCounter
                 //flat index celej frakcie
                 mp.FrProperties[i].FlatIndex.FractionFlatIndex = mp.FrProperties[i].VolumeInModel == 0f ? 0f : FlatEllipsoidsVolumeSum / mp.FrProperties[i].VolumeInModel * 100f;
             }
+
+            textFractionsResults = mp.FractionPropertiesToString();
 
         }
     }
