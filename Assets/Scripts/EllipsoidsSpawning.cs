@@ -66,6 +66,9 @@ public class EllipsoidsSpawning : MonoBehaviour
     int errorShFractionStones = 0; // ak sa inak zaradi do shape v danej frakcii
     int errorFlFractionStones = 0;// ak sa ink zaradi do flat v danej frakcii
 
+    [SerializeField] public bool Vibration = false;
+    public BoxVibrations BoxVibr;
+
     #endregion
 
 
@@ -80,7 +83,8 @@ public class EllipsoidsSpawning : MonoBehaviour
         //Physics.gravity = new Vector3(0f, -980f, 0f);
 
         ProcessPaused = false;
-
+        BoxVibr = GetComponent<BoxVibrations>();
+        BoxVibr.enabled = false;
 
         //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
         Transform boxVolumeObject = transform.Find("BoxVolume");
@@ -267,6 +271,10 @@ public class EllipsoidsSpawning : MonoBehaviour
                 {
                     ProcessPaused = true;
                     ProcessPausedTime = Time.time;
+                    if(Vibration)
+                    {
+                        BoxVibr.enabled = true;
+                    }
                 }
             }
         }
