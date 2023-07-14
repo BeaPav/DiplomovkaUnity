@@ -20,10 +20,10 @@ public class GenerateEllipsoidObject : MonoBehaviour
     //[SerializeField] float DensityOfStoneMaterial = 2600;
     [SerializeField] PhysicMaterial mat;
 
-    public void GenerateEllipsoid(Fraction fraction)
+    public void GenerateEllipsoid(Fraction fraction, float meshScaleFactor = 1f)
     {
         //urcenie rozmerov podla frakcie
-        (Vector3 axes, float frNum, (int, int, int) indGrFlSh, (bool, bool) shapeFlatLong) = genE.AxesOfEllipsoid(fraction);
+        (Vector3 axes, float frNum, (int, int, int) indGrFlSh, (bool, bool) shapeFlatLong) = genE.AxesOfEllipsoid(fraction, meshScaleFactor);
 
         /*
         //gula s priemerom jedna

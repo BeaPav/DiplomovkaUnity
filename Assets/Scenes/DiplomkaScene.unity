@@ -593,7 +593,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1081986557}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 12e3b2e28cd2b434195b5cc3074982fd, type: 3}
   m_Name: 
@@ -601,8 +601,9 @@ MonoBehaviour:
   Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
     type: 3}
   Fraction: '[8,16]'
-  noOfStonesToGenerate: 2000
-  noRotations: 50
+  noOfStonesToGenerate: 10000
+  noRotations: 700
+  meshScaleFactor: 1
   WriteInConsole: 0
   DoneTesting: 0
   Save: 1
@@ -617,6 +618,18 @@ MonoBehaviour:
   errorGrFractionStonesPercentage: 0
   errorShFractionStonesPercentage: 0
   errorFlFractionStonesPercentage: 0
+  GeneratedVolume: 0
+  GeneratedVolumeInRotFraction: 0
+  errorBiggerFractionVolume: 0
+  errorSmallerFractionVolume: 0
+  errorGrFractionStonesVolume: 0
+  errorShFractionStonesVolume: 0
+  errorFlFractionStonesVolume: 0
+  errorBiggerFractionVolumePercentage: 0
+  errorSmallerFractionVolumePercentage: 0
+  errorGrFractionStonesVolumePercentage: 0
+  errorShFractionStonesVolumePercentage: 0
+  errorFlFractionStonesVolumePercentage: 0
   GradingCurveFrNames: []
   GradingCurveEllPercentage: []
   GradingCurveEllVolumes:
@@ -1272,7 +1285,7 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_Enabled
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

@@ -164,7 +164,7 @@ namespace GenerateEllipsoidsNamespace
         #endregion
 
         #region DETERMINE AXES AND FRNUM OF ELLIPSOID ACCORDING TO FRACTION PROPERTIES (GRADING CURVE, FLAT INDEX, SHAPE INDEX)
-        public static (Vector3 axes, float frNum, (int,int,int) indGradingFlatShape, (bool, bool) shapeFlatLong) AxesOfEllipsoid(Fraction fraction)
+        public static (Vector3 axes, float frNum, (int,int,int) indGradingFlatShape, (bool, bool) shapeFlatLong) AxesOfEllipsoid(Fraction fraction, float meshScaleFactor = 1f)
         {
             //??????      //cista frakcia (oznacujeme i, chapeme d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
 
@@ -289,7 +289,7 @@ namespace GenerateEllipsoidsNamespace
             (int, int, int) indices = (frGrIndex, frFlIndex, frShIndex);
             (bool, bool) shape = (isFlat, isLong);
             //return (new Vector3(ellX * 0.95f, ellY * 0.95f, ellZ * 0.95f), frNum, indices, shape);
-            return (new Vector3(ellX, ellY, ellZ), frNum, indices, shape);
+            return (new Vector3(ellX, ellY, ellZ) * meshScaleFactor, frNum, indices, shape);
             //return (new Vector3(ellX * 1.05f, ellY * 1.05f, ellZ * 1.05f), frNum, indices, shape);
 
         }
