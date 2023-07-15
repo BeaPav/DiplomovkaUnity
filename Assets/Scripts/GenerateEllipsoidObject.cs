@@ -58,7 +58,7 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
         //collider
         //GenerateVHACDColliders();
-        mf.gameObject.AddComponent<MeshCollider>();
+        mf.gameObject.AddComponent<MeshCollider>().cookingOptions = MeshColliderCookingOptions.UseFastMidphase | MeshColliderCookingOptions.CookForFasterSimulation;
         GetComponentInChildren<MeshCollider>().convex = true;
         GetComponentInChildren<MeshCollider>().material = mat;
 
