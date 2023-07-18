@@ -15,8 +15,10 @@ public class MovementStop : MonoBehaviour
     [ReadOnly] public float DurationOfLowVelocity;
     [ReadOnly] public float DurationFromAwake;
     [ReadOnly] public bool LowVelocityInterval = false;
-    [ReadOnly] public bool isKinematic;
+    [ReadOnly] public bool isKinematic = false;
     Rigidbody rb;
+
+    int fixedUpdateCounter = 0;
 
 
     private void Awake()
@@ -28,6 +30,8 @@ public class MovementStop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //cez is kinematic
+        /*
         if (!isKinematic)
         {
             if (rb.velocity.magnitude < LowVelocityMagnitudeLevel)
@@ -51,10 +55,44 @@ public class MovementStop : MonoBehaviour
             }
 
         }
+        */
         velocityMagnitude = rb.velocity.magnitude;
         DurationOfLowVelocity = Time.time - LowVelocityTimeStart;
         DurationFromAwake = Time.time - InvokeTime;
         isKinematic = rb.isKinematic;
+        
+    }
 
+    private void FixedUpdate()
+    {
+
+        //cez Sleep
+        if (fixedUpdateCounter % 5 == 0)
+        {
+            if (!rb.IsSleeping())
+            {
+                if (rb.velocity.magnitude < LowVelocityMagnitudeLevel)
+                {
+                    if (!LowVelocityInterval)
+                    {
+                        LowVelocityInterval = true;
+                        LowVelocityTimeStart = Time.time;
+                    }
+                    else
+                    {
+                        if (Time.time - LowVelocityTimeStart > LowVelocityBeforeStopDuration && Time.time - InvokeTime > StopTime)
+                        {
+                            rb.Sleep();
+                        }
+                    }
+                }
+                else
+                {
+                    if (LowVelocityInterval) LowVelocityInterval = false;
+                }
+            }
+            
+        }
+        fixedUpdateCounter = (fixedUpdateCounter + 1) % 5;
     }
 }
