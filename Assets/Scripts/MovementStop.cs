@@ -67,6 +67,7 @@ public class MovementStop : MonoBehaviour
     {
 
         //cez Sleep
+        //kazdy piaty fixed update aby ked sa zobudi mohla sa nabrat rychlost
         if (fixedUpdateCounter % 5 == 0)
         {
             if (!rb.IsSleeping())

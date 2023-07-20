@@ -228,9 +228,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17d7de97a47cbb14b91d63385a5b9b84, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  StopTime: 0
-  LowVelocityBeforeStopDuration: 2
-  LowVelocityMagnitudeLevel: 0.3
+  StopTime: 20
+  LowVelocityBeforeStopDuration: 20
+  LowVelocityMagnitudeLevel: 0.4
   velocityMagnitude: 0
   DurationOfLowVelocity: 0
   DurationFromAwake: 0

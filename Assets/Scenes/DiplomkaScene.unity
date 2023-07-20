@@ -1327,6 +1327,17 @@ PrefabInstance:
       propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1317858835000506370, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1734368902446392795, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: m_Material
+      value: 
+      objectReference: {fileID: 13400000, guid: 96be6ab46d67a6b49a90b69ef36a4d0b,
+        type: 2}
     - target: {fileID: 2072195514558089705, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_CollisionDetection
@@ -1462,6 +1473,11 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 1.9
       objectReference: {fileID: 0}
+    - target: {fileID: 5433236899703274604, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6948474155619359979, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_IsActive
@@ -1505,6 +1521,11 @@ PrefabInstance:
     - target: {fileID: 7830802899899105519, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_IsKinematic
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7830802901812486624, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: m_Convex
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8722562917763987716, guid: 85461c3e96ae6ee41b650f6f9fd11187,
