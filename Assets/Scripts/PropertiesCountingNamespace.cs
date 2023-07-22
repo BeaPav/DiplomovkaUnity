@@ -212,6 +212,12 @@ namespace PropertiesCounter
             int noOfStones = AllStonesProperties.Length;
             float stonesVolume = 0f;
 
+            string materialPropertiesText = "FRICTION \n" + "Dynamic: " + ellipsoidsParent.GetComponentInChildren<MeshCollider>().sharedMaterial.dynamicFriction + "\n"
+                                                          + "Static: " + ellipsoidsParent.GetComponentInChildren<MeshCollider>().sharedMaterial.staticFriction + "\n"
+                                                          + "Bounciness: " + ellipsoidsParent.GetComponentInChildren<MeshCollider>().sharedMaterial.bounciness + "\n" + "\n" + "\n";
+
+
+
             for (int i = 0; i < noOfStones; i++)
             {
                 float volume = AllStonesProperties[i].GetVolume();
@@ -227,7 +233,7 @@ namespace PropertiesCounter
             mp.EmptyVolume = boxVolume - stonesVolume;
             mp.Voids = voids;
 
-            textModelResults = mp.ModelPropertiesToString();
+            textModelResults = materialPropertiesText + mp.ModelPropertiesToString();
 
             /*
             Debug.Log("No of ellipsoids: " + noOfStones);

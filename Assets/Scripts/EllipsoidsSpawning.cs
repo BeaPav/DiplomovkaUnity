@@ -18,7 +18,7 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] GameObject EllipsoidParent;
 
     List<Fraction> Fractions;
-    float[] FractionRatios;
+    [SerializeField] float[] FractionRatios;
     int ActiveFractionIndex;
 
     /*
@@ -40,6 +40,19 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] int MaxNumerOfDestroyedStones = 50;
     public int NoDestroyedStones = 0;
 
+
+    //kg/m^3
+    [SerializeField] float DensityOfStoneMaterial;
+
+    [SerializeField] bool SaveModel = false;
+    [SerializeField] int iterStonesNames = 0;
+    [SerializeField] int folderIterStarter = 0;
+    //int folderIter;
+    string SavePath = "Assets/SavedModels/EllipsoidModels";
+
+    [ReadOnly] public float EllipsoidsActualVolume = 0f;
+
+
     [SerializeField] public bool ProcessPaused;
     [HideInInspector] public float ProcessPausedTime;
     //[ReadOnly]
@@ -48,17 +61,6 @@ public class EllipsoidsSpawning : MonoBehaviour
 
 
 
-    [SerializeField] int iterStonesNames = 0;
-    [SerializeField] int folderIterStarter = 0;
-    //int folderIter;
-    [SerializeField] bool SaveModel = false;
-    string SavePath = "Assets/SavedModels/EllipsoidModels";
-
-    [ReadOnly] public float EllipsoidsActualVolume = 0f;
-
-    //kg/m^3
-    [SerializeField] float DensityOfStoneMaterial;
-
     [SerializeField] bool ErrorCounting = false;
     [SerializeField] public int noOfGeneratedStones = 0;
     int errorFractionStones = 0; //ak sa inak zaradi do frakcie 4/8,8/16,16/22
@@ -66,9 +68,10 @@ public class EllipsoidsSpawning : MonoBehaviour
     int errorShFractionStones = 0; // ak sa inak zaradi do shape v danej frakcii
     int errorFlFractionStones = 0;// ak sa ink zaradi do flat v danej frakcii
 
+    /*
     [SerializeField] public bool Vibration = false;
     public BoxVibrations BoxVibr;
-
+    */
     #endregion
 
 
@@ -83,8 +86,10 @@ public class EllipsoidsSpawning : MonoBehaviour
         //Physics.gravity = new Vector3(0f, -980f, 0f);
 
         ProcessPaused = false;
+        /*
         BoxVibr = GetComponent<BoxVibrations>();
         BoxVibr.enabled = false;
+        */
 
         //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
         Transform boxVolumeObject = transform.Find("BoxVolume");
@@ -98,7 +103,7 @@ public class EllipsoidsSpawning : MonoBehaviour
         SpawnOffset = Mathf.Min(transform.localScale.x, transform.localScale.z) * SpawnRelativeXZOffset;
 
         //pomery v akych miesame
-        FractionRatios = new float[3] { 0.3f, 0.3f, 0.4f };
+        //FractionRatios = new float[3] { 0f, 0.6f, 0.4f };
 
         float sumOfRatioList = 0f;
         foreach (float f in FractionRatios)
@@ -271,10 +276,12 @@ public class EllipsoidsSpawning : MonoBehaviour
                 {
                     ProcessPaused = true;
                     ProcessPausedTime = Time.time;
+                    /*
                     if(Vibration)
                     {
                         BoxVibr.enabled = true;
                     }
+                    */
                 }
             }
         }
@@ -286,6 +293,7 @@ public class EllipsoidsSpawning : MonoBehaviour
 
             Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume, out string textModelResults);
             Prop.CountPropertiesOfModelFractions(EllipsoidParent, Fractions, out string textFractionsResults);
+
 
             if(SaveModel)
                 ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, (FractionRatios[0], FractionRatios[1], FractionRatios[2]),

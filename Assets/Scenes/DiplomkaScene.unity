@@ -600,10 +600,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
     type: 3}
-  Fraction: '[8,16]'
+  Fraction: '[4,8]'
   noOfStonesToGenerate: 10000
-  noRotations: 700
-  meshScaleFactor: 1
+  noRotations: 500
+  meshScaleFactor: 0.92
   WriteInConsole: 0
   DoneTesting: 0
   Save: 1
@@ -1270,7 +1270,7 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: SaveModel
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1305,7 +1305,7 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: SpawnRelativeYOffset
-      value: 0.25
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1319,8 +1319,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
+      propertyPath: FractionRatios.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
       propertyPath: MaxNumerOfDestroyedStones
-      value: 10
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: FractionRatios.Array.data[0]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: FractionRatios.Array.data[1]
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: FractionRatios.Array.data[2]
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1381,17 +1401,17 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 5
+      value: 12
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

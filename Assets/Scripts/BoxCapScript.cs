@@ -163,7 +163,7 @@ public class BoxCapScript : MonoBehaviour
                             NumberOfAttemptsToFillTopOfTheBox++;
                             Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
 
-                            EllipsoidSpawningScript.BoxVibr.enabled = false;
+                            //EllipsoidSpawningScript.BoxVibr.enabled = false;
                             EllipsoidSpawningScript.NoDestroyedStones = 0;
                             BoxCapCollider.enabled = false;
                             EllipsoidSpawningScript.ProcessPaused = false;
@@ -171,7 +171,7 @@ public class BoxCapScript : MonoBehaviour
                         }
                         else
                         {
-                            EllipsoidSpawningScript.BoxVibr.enabled = false;
+                            //EllipsoidSpawningScript.BoxVibr.enabled = false;
                             EllipsoidSpawningScript.ProcessEnded = true;
                         }
                     }

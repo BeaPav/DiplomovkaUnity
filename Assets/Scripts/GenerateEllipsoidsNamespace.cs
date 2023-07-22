@@ -236,7 +236,7 @@ namespace GenerateEllipsoidsNamespace
                 //koeficient pre horne ohr intervalu - elipsoidy maju najdlhsi rozmer max 4,5 krat vacsi ako najkratsi (zvolili sme)
                 if (3f * ellX >= ellZ)
                 {
-                    ellY = Random.Range(3f * ellX, 4.5f * ellX);
+                    ellY = Random.Range(3f * ellX, 4f * ellX);
                 }
                 else
                 {

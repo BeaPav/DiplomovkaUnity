@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+using System.IO;
+using UnityEditor;
 
 using FractionDefinition;
 using PropertiesCounter;
@@ -338,14 +340,14 @@ public class FrNumTesting : MonoBehaviour
             textResults += "ERROR SMALLER FRACTION % \t" + errorSmallerFractionPercentage + "\n";
             textResults += "ERROR GRADING FRACTION % \t" + errorGrFractionStonesPercentage + "\n";
             textResults += "ERROR FLAT FRACTION % \t" + errorFlFractionStonesPercentage + "\n";
-            textResults += "ERROR SHAPE FRACTION % \t" + errorGrFractionStonesPercentage + "\n\n\n";
+            textResults += "ERROR SHAPE FRACTION % \t" + errorShFractionStonesPercentage + "\n\n\n";
 
             textResults += "CHYBY V OBJEMOCH \n\n\n";
             textResults += "ERROR BIGGER FRACTION % \t" + errorBiggerFractionVolumePercentage + "\n";
             textResults += "ERROR SMALLER FRACTION % \t" + errorSmallerFractionVolumePercentage + "\n";
             textResults += "ERROR GRADING FRACTION % \t" + errorGrFractionStonesVolumePercentage + "\n";
             textResults += "ERROR FLAT FRACTION % \t" + errorFlFractionStonesVolumePercentage + "\n";
-            textResults += "ERROR SHAPE FRACTION % \t" + errorGrFractionStonesVolumePercentage + "\n\n\n";
+            textResults += "ERROR SHAPE FRACTION % \t" + errorShFractionStonesVolumePercentage + "\n\n\n";
 
 
 
@@ -374,9 +376,15 @@ public class FrNumTesting : MonoBehaviour
 
             if (Save)
             {
-                ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction,
-                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations",textResults, false, 1,
-                                        "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations);
+                if (!Directory.Exists("Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor))
+                {
+                    Directory.CreateDirectory("Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor);
+                    AssetDatabase.Refresh();
+                }
+
+                ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor,
+                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations_" + meshScaleFactor + "Scale",textResults, false, 1,
+                                        "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations + "_Scale" + meshScaleFactor);
             }
 
             DoneTesting = true;
