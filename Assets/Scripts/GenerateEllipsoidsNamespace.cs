@@ -240,7 +240,7 @@ namespace GenerateEllipsoidsNamespace
                 }
                 else
                 {
-                    float upperBoundCoeff = Mathf.Max(4.5f, Mathf.Ceil(ellZ / ellX));
+                    float upperBoundCoeff = Mathf.Max(4f, Mathf.Ceil(ellZ / ellX));
                     ellY = Random.Range(ellZ, upperBoundCoeff * ellX);
                     //Debug.Log("horna hranica: " + upperBoundCoeff);
                 }
