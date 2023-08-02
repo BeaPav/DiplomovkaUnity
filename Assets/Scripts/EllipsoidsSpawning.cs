@@ -297,7 +297,7 @@ public class EllipsoidsSpawning : MonoBehaviour
 
             if(SaveModel)
                 ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, (FractionRatios[0], FractionRatios[1], FractionRatios[2]),
-                                            textModelResults + textFractionsResults, false, true);
+                                            textModelResults + textFractionsResults, false, false);
 
         }
 

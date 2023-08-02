@@ -9,6 +9,7 @@ public static class ModelSavingSystem
     public static void SaveModel(Transform parent, int folderIter, string path, (float, float, float) fractionsRatios, string textResults, bool generatingEllipsoids, bool controlPrefabReference)
     {
         string modelTypeName = "Model_" + (fractionsRatios.Item1 * 100f) + "%_[4,8]_" + (fractionsRatios.Item2 * 100f) + "%_[8,16]_" + (fractionsRatios.Item3 * 100f) + "%_[16,22]";
+        modelTypeName += "_VypnuteImprovedPatchFriction";
 
         if(!Directory.Exists(path + "/" + modelTypeName))
         {
