@@ -19,7 +19,7 @@ public class FrNumTesting : MonoBehaviour
     [SerializeField] string Fraction = "[4,8]";
     [SerializeField] int noOfStonesToGenerate = 0;
     [SerializeField] int noRotations;
-    [SerializeField] float meshScaleFactor;
+    [ReadOnly] float meshScaleFactor = 1f;
     [SerializeField] bool WriteInConsole = false;
     [SerializeField] bool DoneTesting = false;
     [SerializeField] bool Save;
