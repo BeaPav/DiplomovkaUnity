@@ -14,7 +14,7 @@ public class GeneratingDensityTesting : MonoBehaviour
     [SerializeField] bool DoneTesting = false;
     [SerializeField] bool Save;
 
-    float[] FractionRatios;
+    [SerializeField]  float[] FractionRatios;
     List<Fraction> Fractions;
     int ActiveFractionIndex;
 
@@ -28,7 +28,7 @@ public class GeneratingDensityTesting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        FractionRatios = new float[3] { 0.3f, 0.3f, 0.4f };
+        //FractionRatios = new float[3] { 0.3f, 0.3f, 0.4f };
 
         Fractions = new List<Fraction>();
         //uvadzane v cm //?
