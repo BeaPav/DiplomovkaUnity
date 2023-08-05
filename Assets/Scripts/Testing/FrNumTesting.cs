@@ -392,7 +392,7 @@ public class FrNumTesting : MonoBehaviour
                 //bez skalovania ukldanie   
                 ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction,
                                         "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations", textResults, false, 1,
-                                        "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations + "_Scale" + meshScaleFactor);
+                                        "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations);
             }
 
             DoneTesting = true;
