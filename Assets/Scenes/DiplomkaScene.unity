@@ -1330,17 +1330,17 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: FractionRatios.Array.data[0]
-      value: 0
+      value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: FractionRatios.Array.data[1]
-      value: 0.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: FractionRatios.Array.data[2]
-      value: 0.6
+      value: 0.2
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1355,6 +1355,11 @@ PrefabInstance:
     - target: {fileID: 1469304561413869844, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1734368902446392795, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
+      propertyPath: m_Convex
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1734368902446392795, guid: 85461c3e96ae6ee41b650f6f9fd11187,

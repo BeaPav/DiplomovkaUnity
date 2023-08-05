@@ -334,7 +334,7 @@ public class EllipsoidsSpawning : MonoBehaviour
             for (int i = 0; i < Fractions.Count; i++)
             {
                 float dif = Fractions[i].ActualFractionVolume / EllipsoidsActualVolume - Fractions[i].RequiredVolumePart;
-                if (dif < min)
+                if (dif < min && Fractions[i].RequiredVolumePart != 0f)
                 {
                     min = dif;
                     index = i;

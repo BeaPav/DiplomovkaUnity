@@ -376,6 +376,8 @@ public class FrNumTesting : MonoBehaviour
 
             if (Save)
             {
+                //s meniacou sa skalou ukladanie
+                /*
                 if (!Directory.Exists("Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor))
                 {
                     Directory.CreateDirectory("Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor);
@@ -384,6 +386,12 @@ public class FrNumTesting : MonoBehaviour
 
                 ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor,
                                         "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations_" + meshScaleFactor + "Scale",textResults, false, 1,
+                                        "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations + "_Scale" + meshScaleFactor);
+                */
+
+                //bez skalovania ukldanie   
+                ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction,
+                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations", textResults, false, 1,
                                         "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations + "_Scale" + meshScaleFactor);
             }
 
