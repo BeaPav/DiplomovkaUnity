@@ -698,9 +698,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Ellipsoid: {fileID: 6723977870690384835, guid: ca8b144083ecdef40aa3fb9fa9377e51,
     type: 3}
-  Fraction: '[4,8]'
+  Fraction: '[8,16]'
   noOfStonesToGenerate: 10000
-  noRotations: 20
+  noRotations: 1600
   WriteInConsole: 0
   DoneTesting: 0
   Save: 1
@@ -719,14 +719,17 @@ MonoBehaviour:
   GeneratedVolumeInRotFraction: 0
   errorBiggerFractionVolume: 0
   errorSmallerFractionVolume: 0
+  errorOtherFractionVolume: 0
   errorGrFractionStonesVolume: 0
   errorShFractionStonesVolume: 0
   errorFlFractionStonesVolume: 0
   errorBiggerFractionVolumePercentage: 0
   errorSmallerFractionVolumePercentage: 0
+  errorOtherFractionVolumePercentage: 0
   errorGrFractionStonesVolumePercentage: 0
   errorShFractionStonesVolumePercentage: 0
   errorFlFractionStonesVolumePercentage: 0
+  averageDifferenceOfFrNum: 0
   GradingCurveFrNames: []
   GradingCurveEllPercentage: []
   GradingCurveEllVolumes:
@@ -919,7 +922,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1381190226}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 782f6b48e028d6f4fb756e90f9602481, type: 3}
   m_Name: 
@@ -1436,12 +1439,12 @@ PrefabInstance:
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: FractionRatios.Array.data[1]
-      value: 0.1
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: FractionRatios.Array.data[2]
-      value: 0.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1174425112610476690, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
@@ -1528,17 +1531,17 @@ PrefabInstance:
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 10.9
+      value: 8.7
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 13.625001
+      value: 10.875001
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 10.9
+      value: 8.7
       objectReference: {fileID: 0}
     - target: {fileID: 3669556867395280750, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

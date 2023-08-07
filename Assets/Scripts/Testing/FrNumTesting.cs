@@ -51,15 +51,19 @@ public class FrNumTesting : MonoBehaviour
 
     [ReadOnly] public float errorBiggerFractionVolume = 0;      //ak by sa zaradil do vacsej ako aktualna (4/8,8/16,16/22), pricom je to vacsie ako nadsit
     [ReadOnly] public float errorSmallerFractionVolume = 0;     //ak by sa zaradil do mensej ako aktualna (4/8,8/16,16/22), pricom je to mensie ako podsit
+    [ReadOnly] public float errorOtherFractionVolume = 0;       // suma predchadzajucich dvoch
     [ReadOnly] public float errorGrFractionStonesVolume = 0;    //ak sa inak zaradi do grading v danej frakcii
     [ReadOnly] public float errorShFractionStonesVolume = 0;    //ak sa inak zaradi do shape v danej frakcii
     [ReadOnly] public float errorFlFractionStonesVolume = 0;    //ak sa inak zaradi do flat v danej frakcii
 
     [ReadOnly] public float errorBiggerFractionVolumePercentage = 0;      //% ak by sa zaradil do vacsej ako aktualna (4/8,8/16,16/22), pricom je to vacsie ako nadsit
     [ReadOnly] public float errorSmallerFractionVolumePercentage = 0;     //% ak by sa zaradil do mensej ako aktualna (4/8,8/16,16/22), pricom je to mensie ako podsit
+    [ReadOnly] public float errorOtherFractionVolumePercentage = 0;
     [ReadOnly] public float errorGrFractionStonesVolumePercentage = 0;    //% ak sa inak zaradi do grading v danej frakcii
     [ReadOnly] public float errorShFractionStonesVolumePercentage = 0;    //% ak sa inak zaradi do shape v danej frakcii
     [ReadOnly] public float errorFlFractionStonesVolumePercentage = 0;    //% ak sa inak zaradi do flat v danej frakcii
+
+    [ReadOnly] public float averageDifferenceOfFrNum = 0;
 
 
     [ReadOnly] public string[] GradingCurveFrNames;
@@ -233,6 +237,7 @@ public class FrNumTesting : MonoBehaviour
                     fractionError = true;
                     errorBiggerFraction++;
                     errorBiggerFractionVolume += volume;
+                    errorOtherFractionVolume += volume;
                     //Debug.Log("Zaradili by sme kamen do vacsej frakcie");
                 }
                 else if (ActiveFraction.GradingSubfractions[0].FractionBoundaries.Item1 > frNumRotation)
@@ -240,9 +245,11 @@ public class FrNumTesting : MonoBehaviour
                     fractionError = true;
                     errorSmallerFraction++;
                     errorSmallerFractionVolume += volume;
+                    errorOtherFractionVolume += volume;
                     //Debug.Log("Zaradili by sme kamen do mensej frakcie");
                 }
 
+                averageDifferenceOfFrNum += frNumRotation - frNumEllipsoid;
 
 
                 if (!fractionError)
@@ -303,7 +310,7 @@ public class FrNumTesting : MonoBehaviour
 
             //pocetnost
             errorBiggerFractionPercentage = errorBiggerFraction / (float)noOfStonesToGenerate * 100;
-            errorSmallerFractionPercentage = errorSmallerFraction / (float)noOfStonesToGenerate * 100;
+            errorSmallerFractionPercentage = errorSmallerFraction / (float)noOfStonesToGenerate * 100;            
             int errorFractionStones = errorBiggerFraction + errorSmallerFraction;
             int notErrorFractionStones = noOfStonesToGenerate - errorFractionStones;
 
@@ -317,6 +324,7 @@ public class FrNumTesting : MonoBehaviour
             //objemy
             errorBiggerFractionVolumePercentage = errorBiggerFractionVolume / GeneratedVolume * 100;
             errorSmallerFractionVolumePercentage = errorSmallerFractionVolume / GeneratedVolume * 100;
+            errorOtherFractionVolumePercentage = errorOtherFractionVolume / GeneratedVolume * 100;
 
             float errorFractionStonesVolume = errorBiggerFractionVolume + errorSmallerFractionVolume;
             double notErrorFractionStonesVolume = (double)GeneratedVolume - (double)errorFractionStonesVolume;
@@ -326,28 +334,33 @@ public class FrNumTesting : MonoBehaviour
             errorShFractionStonesVolumePercentage = errorShFractionStonesVolume / (float)notErrorFractionStonesVolume * 100f;
             errorFlFractionStonesVolumePercentage = errorFlFractionStonesVolume / (float)notErrorFractionStonesVolume * 100f;
 
-
+            averageDifferenceOfFrNum /= (float)noOfStonesToGenerate;
 
 
             //toto sa rata ze zo vsetkeho co bolo vygenerovane, tu nam to takto nevadi, v modeli treba ratat len z kamenov v nadobe
             ActiveFraction.GradingCurve(out GradingCurveFrNames, out GradingCurveEllPercentage, out GradingCurveEllVolumes, out string TextGradingEllipsoidResults);
             RotFrNumFraction.GradingCurve(out GradingCurveRotPercentage, out GradingCurveRotVolumes, out string TextGradingRotResults);
 
-            string textResults = "FrNum TESTING \n\n\n" + "ELL GRADING CURVE\n\n" + TextGradingEllipsoidResults + "\n\n\n" + "ROT GRADING CURVE\n\n" + TextGradingRotResults + "\n\n\n";
 
+            string textResults = "No Of Rot \t" + noRotations + "\n\n\n";
+            textResults += "FrNum TESTING \n\n\n" + "ELL GRADING CURVE\n\n" + TextGradingEllipsoidResults + "\n\n\n" + "ROT GRADING CURVE\n\n" + TextGradingRotResults + "\n\n\n";
+
+            /*
             textResults += "CHYBY V POCETNOSTI \n\n\n";
             textResults += "ERROR BIGGER FRACTION % \t" + errorBiggerFractionPercentage + "\n";
             textResults += "ERROR SMALLER FRACTION % \t" + errorSmallerFractionPercentage + "\n";
             textResults += "ERROR GRADING FRACTION % \t" + errorGrFractionStonesPercentage + "\n";
             textResults += "ERROR FLAT FRACTION % \t" + errorFlFractionStonesPercentage + "\n";
             textResults += "ERROR SHAPE FRACTION % \t" + errorShFractionStonesPercentage + "\n\n\n";
-
+            */
             textResults += "CHYBY V OBJEMOCH \n\n\n";
-            textResults += "ERROR BIGGER FRACTION % \t" + errorBiggerFractionVolumePercentage + "\n";
-            textResults += "ERROR SMALLER FRACTION % \t" + errorSmallerFractionVolumePercentage + "\n";
+            //textResults += "ERROR BIGGER FRACTION % \t" + errorBiggerFractionVolumePercentage + "\n";
+            //textResults += "ERROR SMALLER FRACTION % \t" + errorSmallerFractionVolumePercentage + "\n";
+            textResults += "ERROR OTHER FRACTION % \t" + errorOtherFractionVolumePercentage + "\n";
             textResults += "ERROR GRADING FRACTION % \t" + errorGrFractionStonesVolumePercentage + "\n";
-            textResults += "ERROR FLAT FRACTION % \t" + errorFlFractionStonesVolumePercentage + "\n";
-            textResults += "ERROR SHAPE FRACTION % \t" + errorShFractionStonesVolumePercentage + "\n\n\n";
+            //textResults += "ERROR FLAT FRACTION % \t" + errorFlFractionStonesVolumePercentage + "\n";
+            //textResults += "ERROR SHAPE FRACTION % \t" + errorShFractionStonesVolumePercentage + "\n\n\n";
+            textResults += "AVERAGE FRNUM DIFFERENCE \t" + averageDifferenceOfFrNum + "\n";
 
 
 

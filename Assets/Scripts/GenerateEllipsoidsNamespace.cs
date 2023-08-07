@@ -198,16 +198,17 @@ namespace GenerateEllipsoidsNamespace
                     ellX = Random.Range(frNum / Mathf.Sqrt(20), flatSieveSize / 2f);
                 }
 
+
                 /*
                 Debug.Log("isFlat , m/4 " + flatSieveSize / 4f + " frNum/sqrt20 " + frNum / Mathf.Sqrt(20) + " rozdiel " + (flatSieveSize / 4f- frNum / Mathf.Sqrt(20)));
                 Debug.Log("dlzka intervalu pre m/4 " + (flatSieveSize / 2f - flatSieveSize / 4f));
                 Debug.Log("dlzka intervalu pre sqrt20 " + (flatSieveSize / 2f - frNum / Mathf.Sqrt(20)));
                 */
                 //konstanta pre dolne ohranicenie intervalu - nechceme uzsie kamene ako polovica medzery na harfovom site (zvolili sme)
-                
+
                 //generovanie pre zvysenu hornu hranicu aby nebol problem s plochym aj dlhym zrnom naraz
                 //ellX = Random.Range(frNum / (2f*Mathf.Sqrt(5f)), flatSieveSize / 2f);
-                
+
                 //Debug.Log("Flat");
             }
             else
