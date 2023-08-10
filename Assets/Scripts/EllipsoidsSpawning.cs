@@ -140,6 +140,7 @@ public class EllipsoidsSpawning : MonoBehaviour
                                    new float[2] { 0.4f,  1.6f },                                    //OK        //tvarovy index - hranice
                                    new float[1] { 0.1198f },                                        //OK        //tvarovy index - hodnoty
 
+
                                    new float[7] { 0.4f, 0.5f, 0.63f, 0.8f, 1.0f, 1.25f, 1.6f },     //OK        //index plochosti - hranice
                                    new float[6] { 0.25f, 0.315f, 0.4f, 0.5f, 0.63f, 0.8f },         //OK        //index plochosti - harfove sita medzery
                                    new float[6] { 0.1f, 0.1f, 0.1f, 0.1f, 0.1f, 0.1f }              //ODHADNUTE //index plochosti - hodnoty
