@@ -123,6 +123,52 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &191772201
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 191772203}
+  - component: {fileID: 191772202}
+  m_Layer: 0
+  m_Name: PrefabModifikation
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &191772202
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191772201}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 90829c18105fa1b4babd9a1edf4f249e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  path: Assets/SavedModels/StoneModels/Model_100%_[4,8]_100%_[8,16]_100%_[16,22]_VypnuteImprovedPatchFriction
+  modelIter: 1
+--- !u!4 &191772203
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 191772201}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 2.1782112, y: 10.170506, z: 2.5481222}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 16
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &296053549
 GameObject:
   m_ObjectHideFlags: 0
@@ -1635,6 +1681,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826346350378643887, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
+      propertyPath: SaveModel
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7826346350378643887, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
       propertyPath: m_Enabled
       value: 0
       objectReference: {fileID: 0}
@@ -1655,8 +1706,13 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7826346350378643887, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}
+      propertyPath: MaxNumerOfDestroyedStones
+      value: 20
+      objectReference: {fileID: 0}
+    - target: {fileID: 7826346350378643887, guid: 85461c3e96ae6ee41b650f6f9fd11187,
+        type: 3}
       propertyPath: MaxNumberOfAttemptsToFillTopOfTheBox
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7830802899899105519, guid: 85461c3e96ae6ee41b650f6f9fd11187,
         type: 3}

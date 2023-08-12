@@ -124,7 +124,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6723977870690384835}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0.026850482, y: -0.9483067, z: -0.31592315, w: 0.013643407}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -162,9 +162,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Volume: 0.022409616
-  FractionNumber: 0.35718477
-  Length: 0.43003848
-  Width: 0.26734987
+  FractionNumber: 0.36034584
+  Length: 0.43066457
+  Width: 0.26817095
   IsLong: 0
   IsFlat: 0
   axes: {x: 0, y: 0, z: 0}
@@ -185,5 +185,5 @@ MonoBehaviour:
   color_bounds: {r: 1, g: 1, b: 0, a: 0.12941177}
   color_bounds_renderer: {r: 1, g: 0, b: 0, a: 0.5}
   Hierarchical: 0
-  Disable: 0
+  Disable: 1
   DrawRenderer: 0
