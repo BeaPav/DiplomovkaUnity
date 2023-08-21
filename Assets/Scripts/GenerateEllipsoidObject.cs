@@ -4,10 +4,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 //using Unity.EditorCoroutines.Editor;
-using UnityEditor;
+//using UnityEditor;
 using UnityEngine;
-using Object = UnityEngine.Object;
-using MeshProcess;
+//using Object = UnityEngine.Object;
+//using MeshProcess;
 
 using GenerateEllipsoidsNamespace;
 using PropertiesCounter;
@@ -17,35 +17,21 @@ public class GenerateEllipsoidObject : MonoBehaviour
 {
     [SerializeField] int noParallelsOnSphere; //6
     [SerializeField] int noMeridiansOnSphere; //12
-    //[SerializeField] float DensityOfStoneMaterial = 2600;
     [SerializeField] PhysicMaterial mat;
+
 
     public void GenerateEllipsoid(Fraction fraction, float meshScaleFactor = 1f)
     {
-        //urcenie rozmerov podla frakcie
+        //dimensions of ellipsoid according to fraction
         (Vector3 axes, float frNum, (int, int, int) indGrFlSh, (bool, bool) shapeFlatLong) = genE.AxesOfEllipsoid(fraction, meshScaleFactor);
 
-        /*
-        //gula s priemerom jedna
-        axes = new Vector3(0.5f, 0.5f, 0.5f);
-        frNum = 1f;
-        */
-
-        /*
-        if(axes == new Vector3(1f,1f,1f))
-        {
-            Debug.Log("frNum " + frNum);
-            Debug.Log("indexes Gr,Fl,Sh " + indGrFlSh);
-            Debug.Log("FlatLong " + shapeFlatLong);
-        }
-        */
         GetComponent<StoneMeshProperties>().axes = new Vector3(axes.x, axes.y, axes.z);
         GetComponent<StoneMeshProperties>().indGrFlSh = indGrFlSh;
 
-        //vygenerovanie meshu
+        //generate mesh
         genE.GenerateEllipsoidMesh(this.gameObject, noMeridiansOnSphere, noParallelsOnSphere, axes);
 
-        //vydeletovanie colliderov
+        //delete existing colliders
         MeshFilter mf = GetComponentInChildren<MeshFilter>();
         var existingColliders = mf.gameObject.GetComponents<MeshCollider>();
         if (existingColliders.Length > 0)
@@ -56,13 +42,13 @@ public class GenerateEllipsoidObject : MonoBehaviour
             }
         }
 
-        //collider
-        //GenerateVHACDColliders();
+        //create collider
+        //GenerateVHACDColliders();         //convex aproximation of non-convex object
         mf.gameObject.AddComponent<MeshCollider>().cookingOptions = MeshColliderCookingOptions.UseFastMidphase | MeshColliderCookingOptions.CookForFasterSimulation;
         GetComponentInChildren<MeshCollider>().convex = true;
         GetComponentInChildren<MeshCollider>().material = mat;
 
-        //nastavenie a vypocet vlastnosti zrna
+        //properties of grain
         StoneMeshProperties s = GetComponent<StoneMeshProperties>();
         float volume = Prop.VolumeOfEllipsoidMesh(GetComponentInChildren<MeshFilter>());
         s.SetVolume(volume);
@@ -71,11 +57,19 @@ public class GenerateEllipsoidObject : MonoBehaviour
         s.SetWidth(2f * axes[0]);
         s.SetIsFlat(shapeFlatLong.Item1);
         s.SetIsLong(shapeFlatLong.Item2);
-        //GetComponent<Rigidbody>().mass = s.GetVolume() * DensityOfStoneMaterial; //toto neviem ci nie je v hlavnom scripte
 
         fraction.ActualizeVolume(volume, indGrFlSh, shapeFlatLong);
     }
 
+
+
+    #region VHACD runtime convex aproximation of object to create collider
+    /* For runtime generating convex aproximation of the object
+     * this package is needed https://github.com/Unity-Technologies/VHACD/tree/mesh-generator
+    */
+
+
+    /*
     public void GenerateVHACDColliders()
     {
         //inicialization of variables
@@ -111,4 +105,6 @@ public class GenerateEllipsoidObject : MonoBehaviour
 
         DestroyImmediate(child.GetComponent<VHACD>());
     }
+    */
+    #endregion
 }

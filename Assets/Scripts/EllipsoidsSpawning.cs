@@ -6,8 +6,6 @@ using System.IO;
 using FractionDefinition;
 using PropertiesCounter;
 
-using UnityEditor;
-
 public class EllipsoidsSpawning : MonoBehaviour
 {
 
@@ -21,9 +19,6 @@ public class EllipsoidsSpawning : MonoBehaviour
     [SerializeField] float[] FractionRatios;
     int ActiveFractionIndex;
 
-    /*
-    [SerializeField] float DensityOfStoneMaterial = 2600;
-    */
 
 
     Vector3 SpawnPoint;
@@ -41,8 +36,8 @@ public class EllipsoidsSpawning : MonoBehaviour
     public int NoDestroyedStones = 0;
 
 
-    //kg/m^3
-    [SerializeField] float DensityOfStoneMaterial;
+    
+    [SerializeField] float DensityOfStoneMaterial; //kg/m^3
 
     [SerializeField] bool SaveModel = false;
     [SerializeField] int iterStonesNames = 0;

@@ -5,11 +5,14 @@ using PropertiesCounter;
 using System.IO;
 using UnityEditor;
 
+
+
+/* For convex aproximate decomposition for colliders of stones
+ * this package is needed https://github.com/Unity-Technologies/VHACD/tree/mesh-generator
+*/
+
 public class StoneSpawning : MonoBehaviour
 {
-
-    //!!!!!!!!!!!!!!!!!!!!
-    //  Kamene nemaju VHACD collidre
 
 
     #region VARIABLES
@@ -25,7 +28,7 @@ public class StoneSpawning : MonoBehaviour
     float[] GradingCurveVolumes;
     */
 
-    Vector3 SpawnPoint;
+Vector3 SpawnPoint;
     [SerializeField] float SpawnRelativeYOffset;
     [SerializeField] float SpawnRelativeXZOffset;
     float SpawnOffset;
