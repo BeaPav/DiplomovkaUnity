@@ -9,9 +9,9 @@ namespace PropertiesCounter
     public static class Prop
     {
         #region COUNTING OF MESH VOLUME
+        
         private static float SignedVolumeOfTriangle(Vector3 v1, Vector3 v2, Vector3 v3)
-        {
-            
+        {            
             float v321 = v3.x * v2.y * v1.z;
             float v231 = v2.x * v3.y * v1.z;
             float v312 = v3.x * v1.y * v2.z;
@@ -20,12 +20,9 @@ namespace PropertiesCounter
             float v123 = v1.x * v2.y * v3.z;
 
             return (1.0f / 6.0f) * (-v321 + v231 + v312 - v132 - v213 + v123);
-
-
-
         }
 
-
+        //volume of general mesh
         public static float VolumeOfMesh(Mesh mesh, float xScale = 1f, float yScale = 1f, float zScale = 1f)
         {
             float volume = 0;
@@ -59,7 +56,7 @@ namespace PropertiesCounter
             return Mathf.Abs(volume);
         }
 
-        //objem sa rata z lokalneho meshu na ktory je aplikovana transformacia az po root parentov
+        //counting volume of ellipsoid`s mesh, taking parents transformations into consideration 
         public static float VolumeOfEllipsoidMesh(MeshFilter mf)
         {
             Transform transformMeshObject = mf.transform;
@@ -85,9 +82,12 @@ namespace PropertiesCounter
 
         #endregion
 
+        //Not used for ellipsoids, NOT ACTUAL for stones
         #region LENGTH AND WIDTH    
         //COUNTING OF STONE`S    WIDTH = minimal distance of two paralell planes
         //                       LENGTH = maximal distance of two paralell planes
+
+        //used with general stone mesh, is NOT ACTUAL (counting of bounding box is not precise, it is needed to count it from mesh like in frNum)
         public static Vector2 LengthAndWidthOfStone(GameObject stone)
         {
             MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
@@ -140,12 +140,13 @@ namespace PropertiesCounter
         }
         #endregion
 
+
+        //frNum obtained through rotations -- minimum from maximal dimensions of xz AABB of rotated object
         #region FRACTION NUMBER
 
         public static float FrNumber(GameObject stone, int numOfRot)
         {
             MeshFilter meshFilter = stone.GetComponentInChildren<MeshFilter>();
-            //Bounds b;
 
             /*
             // Saving of original transformations for later
@@ -157,20 +158,16 @@ namespace PropertiesCounter
             //Inicialization of FrNumber
             float frNum = float.MaxValue;
 
-            //Rotating stone and finding the square witch the stone falls through
+            //Rotating stone and finding the minimal square aligned with xz which the stone falls through
             for (int i = 0; i < numOfRot; i++)
             {
                 stone.transform.rotation = Random.rotationUniform;
-                //b = GeometryUtility.CalculateBounds(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
-                //float max = Mathf.Max(b.size.x, b.size.z);
 
                 Vector2 xzBoundingBox = AxisAlignesXZBox(meshFilter.sharedMesh.vertices, meshFilter.transform.localToWorldMatrix);
                 float max = Mathf.Max(xzBoundingBox.x, xzBoundingBox.y);
 
                 //Searching for minimum of all maximums
                 if (max < frNum) frNum = max;
-
-
             }
 
             /*
@@ -204,20 +201,24 @@ namespace PropertiesCounter
 
         #endregion
 
+        //model properties -- voids and related
+        //fraction properties -- grading curve, flat index, shape index
         #region MODEL PROPERTIES
         public static void CountPropertiesOfModel(GameObject ellipsoidsParent, float boxVolume, out string textModelResults)
         {
+            //variables inicialization
             ModelProperties mp = ellipsoidsParent.GetComponentInParent<ModelProperties>();
             StoneMeshProperties[] AllStonesProperties = ellipsoidsParent.GetComponentsInChildren<StoneMeshProperties>();
             int noOfStones = AllStonesProperties.Length;
             float stonesVolume = 0f;
+
 
             string materialPropertiesText = "FRICTION \n" + "Dynamic: " + ellipsoidsParent.GetComponentInChildren<MeshCollider>().sharedMaterial.dynamicFriction + "\n"
                                                           + "Static: " + ellipsoidsParent.GetComponentInChildren<MeshCollider>().sharedMaterial.staticFriction + "\n"
                                                           + "Bounciness: " + ellipsoidsParent.GetComponentInChildren<MeshCollider>().sharedMaterial.bounciness + "\n" + "\n" + "\n";
 
 
-
+            //volume of all stones
             for (int i = 0; i < noOfStones; i++)
             {
                 float volume = AllStonesProperties[i].GetVolume();
@@ -226,6 +227,7 @@ namespace PropertiesCounter
 
             }
 
+            //counting properties of model
             float voids = (boxVolume - stonesVolume) / boxVolume * 100f;
             mp.NumberOfStones = noOfStones;
             mp.BoxVolume = boxVolume;
@@ -233,6 +235,7 @@ namespace PropertiesCounter
             mp.EmptyVolume = boxVolume - stonesVolume;
             mp.Voids = voids;
 
+            //text -- properties for txt file
             textModelResults = materialPropertiesText + mp.ModelPropertiesToString();
 
             /*
@@ -250,10 +253,10 @@ namespace PropertiesCounter
             StoneMeshProperties[] AllStonesProperties = ellipsoidsParent.GetComponentsInChildren<StoneMeshProperties>();
             int noOfStones = AllStonesProperties.Length;
 
-            //inicializacia properties pre vsetky frakcie
+            //properties inicialization for all fractions
             mp.FrProperties = new FractionProperties[fractions.Count];
 
-            //inicializacia premennych ktore ideme ratat
+            //inicialization of variables
             float stonesVolume = 0f;
 
             for(int i = 0; i < fractions.Count; i++)
@@ -264,7 +267,7 @@ namespace PropertiesCounter
                 mp.FrProperties[i].ShapeIndex = new ShapeIndex(fractions[i].ShapeSubfractions.Length);
                 mp.FrProperties[i].FlatIndex = new FlatInex(fractions[i].FlatSubfractions.Length);
 
-                //mena pre hranice frakcii
+                //fractions names
                 for (int j = 0; j < fractions[i].GradingSubfractions.Length; j++)
                 {
                     mp.FrProperties[i].GradingCurve.FrNames[j] = new string(fractions[i].GradingSubfractions[j].FractionBoundaries.ToString());
@@ -279,7 +282,7 @@ namespace PropertiesCounter
                 }
             }
 
-            //cyklus cez vsetky kamene, pripocitavaju sa objemy ku grading, shape a flat, kontroluje sa aj plochost a nekubickost
+            //summing volumes for grading categories, shape and flat indices of fractions
             for (int i = 0; i < noOfStones; i++)
             {
                 float volume = AllStonesProperties[i].GetVolume();
@@ -304,7 +307,7 @@ namespace PropertiesCounter
                 }
             }
 
-            //zratanie percent a indexov celkovo pre velke frakcie
+            //counting percentage from volumes
             for (int i = 0; i < fractions.Count; i++)
             {
                 
@@ -323,7 +326,7 @@ namespace PropertiesCounter
                 }
 
                 
-                //shape index celej frakcie
+                //shape index for "big" fraction
                 mp.FrProperties[i].ShapeIndex.FractionShapeIndex = mp.FrProperties[i].VolumeInModel == 0f ? 0f : LongEllipsoidsVolumeSum / mp.FrProperties[i].VolumeInModel * 100f;
 
 
@@ -335,10 +338,12 @@ namespace PropertiesCounter
                 }
 
 
-                //flat index celej frakcie
+                //flat index for "big" fraction
                 mp.FrProperties[i].FlatIndex.FractionFlatIndex = mp.FrProperties[i].VolumeInModel == 0f ? 0f : FlatEllipsoidsVolumeSum / mp.FrProperties[i].VolumeInModel * 100f;
             }
 
+
+            //text -- properties for txt file
             textFractionsResults = mp.FractionPropertiesToString();
 
         }

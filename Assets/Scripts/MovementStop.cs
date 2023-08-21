@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//for ellipsoids to set Sleep mode (is kinematic) when not moving "a lot" -- tiny movements for defined period of time
+
 public class MovementStop : MonoBehaviour
 {
     [SerializeField] float StopTime = 50f;
@@ -27,10 +30,9 @@ public class MovementStop : MonoBehaviour
         rb = GetComponent<Rigidbody>();
     }
 
-    // Update is called once per frame
     void Update()
     {
-        //cez is kinematic
+        //using is kinematic
         /*
         if (!isKinematic)
         {
@@ -56,6 +58,8 @@ public class MovementStop : MonoBehaviour
 
         }
         */
+
+        //variables for controlling values in inspector
         velocityMagnitude = rb.velocity.magnitude;
         DurationOfLowVelocity = Time.time - LowVelocityTimeStart;
         DurationFromAwake = Time.time - InvokeTime;
@@ -66,8 +70,8 @@ public class MovementStop : MonoBehaviour
     private void FixedUpdate()
     {
 
-        //cez Sleep
-        //kazdy piaty fixed update aby ked sa zobudi mohla sa nabrat rychlost
+        //using Sleep
+        //every fifth frame
         if (fixedUpdateCounter % 5 == 0)
         {
             if (!rb.IsSleeping())

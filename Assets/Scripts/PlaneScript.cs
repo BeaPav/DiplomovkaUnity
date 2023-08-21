@@ -2,12 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
+//destroy ellipsoids which are out of the box
+
 public class PlaneScript : MonoBehaviour
 {
     StoneSpawning SpawningScript;
     EllipsoidsSpawning EllipsoidSpawningScript;
 
-    // Start is called before the first frame update
+    
     void Start()
     {
         SpawningScript = GameObject.Find("Box").gameObject.GetComponent<StoneSpawning>();

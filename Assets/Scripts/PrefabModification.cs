@@ -3,12 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
+//use when ellipsoids mesh references are missing in saved prefab of model
+//this function adds reference from collider mesh
+
+
 public class PrefabModification : MonoBehaviour
 {
     [SerializeField] string path;
     [SerializeField] string modelIter;
 
-    // Start is called before the first frame update
+   
     void Start()
     {
         using (var editingScope = new PrefabUtility.EditPrefabContentsScope(path + "/Model_" + modelIter + "/Model_" + modelIter + ".prefab"))

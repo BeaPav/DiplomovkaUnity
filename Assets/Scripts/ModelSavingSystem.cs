@@ -8,10 +8,12 @@ public static class ModelSavingSystem
 {
     public static void SaveModel(Transform parent, int folderIter, string path, (float, float, float) fractionsRatios, string textResults, bool generatingEllipsoids, bool controlPrefabReference)
     {
+        //name of model directory according to fractions ratios
         string modelTypeName = "Model_" + (fractionsRatios.Item1 * 100f) + "%_[4,8]_" + (fractionsRatios.Item2 * 100f) + "%_[8,16]_" + (fractionsRatios.Item3 * 100f) + "%_[16,22]";
         modelTypeName += "_VypnuteImprovedPatchFriction";
 
-        if(!Directory.Exists(path + "/" + modelTypeName))
+        //create directory according to fractions ratios if it is needed
+        if (!Directory.Exists(path + "/" + modelTypeName))
         {
             Directory.CreateDirectory(path + "/" + modelTypeName);
             AssetDatabase.Refresh();
@@ -19,14 +21,15 @@ public static class ModelSavingSystem
 
         path += "/" + modelTypeName;
 
-        //najdenie kolky to je model
+
+
+        //finding the number of existing models in this directory to set number in models name
         while (Directory.Exists(path + "/Model_" + folderIter))
         {
             folderIter++;
-            //Debug.Log("zvysujeme folderIter");
         }
 
-        //vytvorenie priecinku
+        //directory for model
         Directory.CreateDirectory(path + "/Model_" + folderIter);
         if (generatingEllipsoids)
             Directory.CreateDirectory(path + "/Model_" + folderIter + "/Meshes");
@@ -36,7 +39,7 @@ public static class ModelSavingSystem
         path += "/Model_" + folderIter;
 
         
-        //ulozenie vsetkych vygenerovanych meshov (pre elipsoidy)
+        //save all generated meshes of ellipsoids if needed (by default NOT -- meshes can repeat and has reference)
         if (generatingEllipsoids)
         {
             MeshFilter[] mf = parent.GetComponentsInChildren<MeshFilter>();
@@ -48,23 +51,13 @@ public static class ModelSavingSystem
             }
         }
 
-        /*
-        //iba kontrola ci je nieco bez referencie pred ulozenim
-        MeshFilter[] meshfiltTemp = parent.GetComponentsInChildren<MeshFilter>();
-        foreach (MeshFilter childMesh in meshfiltTemp)
-        {
-            if (childMesh.mesh == null)
-                Debug.Log("nulovy mesh pre elipsoid " + childMesh.transform.parent.name);
-        }
-        */
 
-        //ulozenie modelu ako prefab
+        //save model as prefab
         //PrefabUtility.SaveAsPrefabAssetAndConnect(parent.parent.gameObject, path + "/Model" + folderIter + ".prefab", InteractionMode.AutomatedAction);
         PrefabUtility.SaveAsPrefabAsset(parent.parent.gameObject, path + "/Model_" + folderIter + ".prefab");
         SaveTextFile(path, "/Model_" + folderIter + "_TextResults", textResults);
 
-        //kontrola ze na konci maju vsetky meshe referenciu
-        
+        //control of ellipsoids mesh references, adding reference from collider mesh if needed
         if (controlPrefabReference)
         {
             using (var editingScope = new PrefabUtility.EditPrefabContentsScope(path + "/Model_" + folderIter + ".prefab"))
@@ -95,7 +88,7 @@ public static class ModelSavingSystem
 
     public static void SaveTestingModel(Transform TestingObject, string path, string name, string textResults, bool createDirForModel, int modelIter = 0,  string directoryName = "!noName")
     {
-        //ak chceme vytvorit specialny priecinok
+        //create special directory  for model if needed
         if (directoryName != "!noName")
         {
             if(!Directory.Exists(path + "/" + directoryName))
@@ -107,16 +100,14 @@ public static class ModelSavingSystem
             path += "/" + directoryName;
         }
 
+        //directory for model
         if (createDirForModel)
         {
-            //najdenie kolky to je model
+            //finding the number of existing models in this directory to set number in models name
             while (Directory.Exists(path + "/Model_" + modelIter))
             {
                 modelIter++;
-                //Debug.Log("zvysujeme folderIter");
             }
-
-            //vytvorenie priecinku
             Directory.CreateDirectory(path + "/Model_" + modelIter);
             AssetDatabase.Refresh();
 
@@ -124,13 +115,15 @@ public static class ModelSavingSystem
         }
         else
         {
+            //finding the number of existing models in this directory to set number in models name
             while (File.Exists(path + "/" + name + "_" + modelIter + ".prefab"))
             {
                 modelIter++;
-                //Debug.Log("zvysujeme folderIter");
             }
         }
 
+
+        //save
         PrefabUtility.SaveAsPrefabAsset(TestingObject.gameObject, path + "/" + name + "_" + modelIter + ".prefab");
         SaveTextFile(path, name + "_" + modelIter + "_TextResults", textResults);
 

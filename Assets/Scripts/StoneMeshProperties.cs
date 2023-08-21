@@ -12,14 +12,10 @@ public class StoneMeshProperties : MonoBehaviour
     public bool IsLong;
     public bool IsFlat;
     public Vector3 axes;
-
-    //bolo pri testovani frNumRot a Ell, pozeralo sa na kamene ktore boli podla Rot zaradene do nizsej grading
-    //public bool EllGrFrIndexIsMoreRotGrFrIndex = false;
-
+    
     public int fractionIndex;
     public (int, int, int) indGrFlSh;
 
-    //Mesh StoneMesh;
 
     #region METHODS FOR GET & SET PROPERTIES 
 
