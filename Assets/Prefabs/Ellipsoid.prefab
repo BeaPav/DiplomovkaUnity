@@ -94,11 +94,11 @@ GameObject:
   - component: {fileID: 6204709674024313209}
   - component: {fileID: 3583090130715661454}
   - component: {fileID: 2290599100456156375}
-  - component: {fileID: -7280534978353905845}
   - component: {fileID: 6910654029551458042}
+  - component: {fileID: 181128736979491839}
+  - component: {fileID: -7280534978353905845}
   - component: {fileID: 4705338044345292275}
   - component: {fileID: 7962594685959840349}
-  - component: {fileID: 181128736979491839}
   m_Layer: 0
   m_Name: Ellipsoid
   m_TagString: Stone
@@ -158,6 +158,41 @@ MonoBehaviour:
   IsFlat: 0
   axes: {x: 0, y: 0, z: 0}
   fractionIndex: 0
+--- !u!114 &6910654029551458042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723977870690384835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 886cf9acbb25a4e4181e7c5d947cb344, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  noParallelsOnSphere: 6
+  noMeridiansOnSphere: 12
+  mat: {fileID: 13400000, guid: 13d11e4a52f259e44bc88bf3e55f78e6, type: 2}
+--- !u!114 &181128736979491839
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6723977870690384835}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 17d7de97a47cbb14b91d63385a5b9b84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  StopTime: 20
+  LowVelocityBeforeStopDuration: 20
+  LowVelocityMagnitudeLevel: 0.4
+  velocityMagnitude: 0
+  DurationOfLowVelocity: 0
+  DurationFromAwake: 0
+  LowVelocityInterval: 0
+  isKinematic: 0
 --- !u!114 &-7280534978353905845
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,21 +211,6 @@ MonoBehaviour:
   Hierarchical: 1
   Disable: 1
   DrawRenderer: 0
---- !u!114 &6910654029551458042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6723977870690384835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 886cf9acbb25a4e4181e7c5d947cb344, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  noParallelsOnSphere: 6
-  noMeridiansOnSphere: 12
-  mat: {fileID: 13400000, guid: 13d11e4a52f259e44bc88bf3e55f78e6, type: 2}
 --- !u!114 &4705338044345292275
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,23 +236,3 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Drag: 0.5
---- !u!114 &181128736979491839
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6723977870690384835}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 17d7de97a47cbb14b91d63385a5b9b84, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  StopTime: 20
-  LowVelocityBeforeStopDuration: 20
-  LowVelocityMagnitudeLevel: 0.4
-  velocityMagnitude: 0
-  DurationOfLowVelocity: 0
-  DurationFromAwake: 0
-  LowVelocityInterval: 0
-  isKinematic: 0

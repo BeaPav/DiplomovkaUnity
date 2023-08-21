@@ -10,9 +10,6 @@ public class ModelProperties : MonoBehaviour
     [ReadOnly] public float StonesVolume;
     [ReadOnly] public float EmptyVolume;
 
-    /// pozoooooooor tu toto chce byt pre kazdu frakciu zvlast!!!!!!!!!!!!!!!!!
-
-
     [SerializeField] public FractionProperties[] FrProperties;
 
     public string ResultsToString()

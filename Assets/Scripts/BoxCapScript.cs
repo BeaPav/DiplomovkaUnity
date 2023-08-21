@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class BoxCapScript : MonoBehaviour
 {
-    StoneSpawning SpawningScript;
+    //StoneSpawning SpawningScript;
     EllipsoidsSpawning EllipsoidSpawningScript;
 
     Collider BoxCapCollider;
@@ -26,7 +26,7 @@ public class BoxCapScript : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        SpawningScript = transform.parent.gameObject.GetComponent<StoneSpawning>();
+        //SpawningScript = transform.parent.gameObject.GetComponent<StoneSpawning>();
         EllipsoidSpawningScript = transform.parent.gameObject.GetComponent<EllipsoidsSpawning>();
         BoxCapCollider = GetComponent<Collider>();
         BoxCapCollider.enabled = false;
@@ -48,6 +48,9 @@ public class BoxCapScript : MonoBehaviour
 
     private void Update()
     {
+        #region OLD VERSION
+        //old version when stones were used
+        /*
         if (SpawningScript.isActiveAndEnabled)
         {
             if (SpawningScript.ProcessPaused && Time.time - SpawningScript.ProcessPausedTime > 3f)
@@ -113,13 +116,19 @@ public class BoxCapScript : MonoBehaviour
 
             }
         }
+        */
+        //else if (EllipsoidSpawningScript.isActiveAndEnabled)
+        //{
 
-        else if (EllipsoidSpawningScript.isActiveAndEnabled)
-        {
-            if (EllipsoidSpawningScript.ProcessPaused && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 3f)
+        #endregion
+
+
+        if (EllipsoidSpawningScript.ProcessPaused && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 3f)
             {
+                //sliding collider, sweeping stones
                 if (SlideCollider)
                 {
+                    //prepare sliding
                     if (BoxCapCollider.enabled == false)
                     {
                         transform.position = StartPos;
@@ -127,16 +136,18 @@ public class BoxCapScript : MonoBehaviour
                         MoveToTargetPos = true;
                         StartOfMovementTime = Time.time;
                     }
+                    //end sliding
                     if ((transform.position - TargetPos).magnitude < 0.1f)
                     {
                         MoveToTargetPos = false;
-
+                        
+                        //adding more stones if needed
                         if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
                         {
                             if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
                             {
                                 NumberOfAttemptsToFillTopOfTheBox++;
-                                Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+                                //Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
 
                                 EllipsoidSpawningScript.NoDestroyedStones = 0;
                                 BoxCapCollider.enabled = false;
@@ -150,20 +161,21 @@ public class BoxCapScript : MonoBehaviour
                         }
                     }
                 }
+                //enable deleting stones above the box
                 else
                 {
                     if (BoxCapCollider.enabled == false)
                     {
                         BoxCapCollider.enabled = true;
                     }
+                    //adding more stones if needed
                     if (Time.time - DestroyTime > 10f && Time.time - EllipsoidSpawningScript.ProcessPausedTime > 10f)
                     {
                         if (NumberOfAttemptsToFillTopOfTheBox < EllipsoidSpawningScript.MaxNumberOfAttemptsToFillTopOfTheBox)
                         {
                             NumberOfAttemptsToFillTopOfTheBox++;
-                            Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
+                            //Debug.Log("Attepmts to fill top: " + NumberOfAttemptsToFillTopOfTheBox);
 
-                            //EllipsoidSpawningScript.BoxVibr.enabled = false;
                             EllipsoidSpawningScript.NoDestroyedStones = 0;
                             BoxCapCollider.enabled = false;
                             EllipsoidSpawningScript.ProcessPaused = false;
@@ -171,16 +183,16 @@ public class BoxCapScript : MonoBehaviour
                         }
                         else
                         {
-                            //EllipsoidSpawningScript.BoxVibr.enabled = false;
                             EllipsoidSpawningScript.ProcessEnded = true;
                         }
                     }
                 }
 
             }
-        }
+        //}
     }
 
+    //sliding the collider
     private void FixedUpdate()
     {
         if(MoveToTargetPos)
@@ -196,6 +208,7 @@ public class BoxCapScript : MonoBehaviour
         }
     }
 
+    //deleting objects while sliding if needed
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.transform.tag != "BoxMesh")
@@ -209,12 +222,13 @@ public class BoxCapScript : MonoBehaviour
         }
     }
 
+    //deleting stones which centre of gravity is above the box
     private void OnTriggerEnter(Collider other)
     {
         GameObject stone = other.transform.parent.gameObject;
         if (stone.tag == "Stone")
         {
-            //Debug.Log(stone.name + " BoxCap Trigger");
+            //gravity centre from mesh
             Mesh m = other.GetComponent<MeshFilter>().mesh;
             Matrix4x4 localToWorld = other.transform.localToWorldMatrix;
             Vector3 AverageGravityCentre = Vector3.zero;
@@ -225,6 +239,7 @@ public class BoxCapScript : MonoBehaviour
             AverageGravityCentre /= m.vertexCount;
             AverageGravityCentre = localToWorld.MultiplyPoint3x4(AverageGravityCentre);
 
+            //controlling stones position
             float controlHightLevel = transform.parent.position.y + 2f * transform.parent.localScale.y;
 
             if (AverageGravityCentre.y > controlHightLevel)

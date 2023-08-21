@@ -139,7 +139,6 @@ namespace GenerateEllipsoidsNamespace
             GameObject meshObject = parent.GetComponentInChildren<MeshFilter>().gameObject;
 
             //generate/load unit sphere with certain number of meridians ane parallels
-            //meshObject.GetComponent<MeshFilter>().mesh = GenerateSphereMesh(1f, noMeridians, noParallels);
             Mesh mesh = Resources.Load<Mesh>("Ellipsoids/EllipsoidMesh_" + noParallels + "Parallels_" + noMeridians + "Meridians");
             if (mesh == null)
             {
@@ -156,10 +155,6 @@ namespace GenerateEllipsoidsNamespace
             meshObject.transform.localScale = new Vector3(ellAxeX, ellAxeY, ellAxeZ);
 
             //meshObject.GetComponent<MeshFilter>().mesh.RecalculateNormals();
-            //deformation of vertices
-
-            //add mesh collider
-            //meshObject.AddComponent<MeshCollider>(); //asi este convex
 
         }
         #endregion
@@ -167,29 +162,26 @@ namespace GenerateEllipsoidsNamespace
         #region DETERMINE AXES AND FRNUM OF ELLIPSOID ACCORDING TO FRACTION PROPERTIES (GRADING CURVE, FLAT INDEX, SHAPE INDEX)
         public static (Vector3 axes, float frNum, (int,int,int) indGradingFlatShape, (bool, bool) shapeFlatLong) AxesOfEllipsoid(Fraction fraction, float meshScaleFactor = 1f)
         {
-            //??????      //cista frakcia (oznacujeme i, chapeme d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
-
-            //generujeme elipsoid z frakcie fraction
+            //grading category (fraction) d/D (index i, meaning d = GradingCurveIndexes[i] , D = GradingCurveIndexes[i + 1] )
+            //generating ellipsoid from "fraction"
             
-            //volba podfrakcie podla ciary zrnitosti
+            //choice of category from grading informations
             int frGrIndex = fraction.GradingChoice();
 
-            //nahodna volba frNum podla podfrakcie zrnitosti
+            //random choice of frNum according to selected grading category
             float frNum = Random.Range(fraction.GradingSubfractions[frGrIndex].FractionBoundaries.Item1, 
                                        fraction.GradingSubfractions[frGrIndex].FractionBoundaries.Item2);
 
-            //teraz sa urci ci bude plochy podla pravdepodobnosti v danej frakcii
+            //is flat determination
             (int frFlIndex, bool isFlat, float flatSieveSize) = fraction.IsFlat(frNum);
 
-            //teraz sa urci ci bude dlhy podla pravdepodobnosti v danej frakcii
+            //is long determination
             (int frShIndex, bool isLong) = fraction.IsLong(frNum);
 
-            //vygenerujeme ellX podla plochosti
-            //deli sa dvomi pretoze ell je vzdy polomer a flatSieveSize predstavuje priemer kade sa kamen prepcha
+            //dimension ellX considering flatness
             float ellX = 0f;
             if (isFlat)
-            {
-                
+            {                
                 if (isLong)
                 {
                     ellX = Random.Range(flatSieveSize / 2f, flatSieveSize) / 2f;
@@ -199,43 +191,22 @@ namespace GenerateEllipsoidsNamespace
                     ellX = Random.Range(frNum / Mathf.Sqrt(20), flatSieveSize / 2f);
                 }
 
-
-                /*
-                Debug.Log("isFlat , m/4 " + flatSieveSize / 4f + " frNum/sqrt20 " + frNum / Mathf.Sqrt(20) + " rozdiel " + (flatSieveSize / 4f- frNum / Mathf.Sqrt(20)));
-                Debug.Log("dlzka intervalu pre m/4 " + (flatSieveSize / 2f - flatSieveSize / 4f));
-                Debug.Log("dlzka intervalu pre sqrt20 " + (flatSieveSize / 2f - frNum / Mathf.Sqrt(20)));
-                */
-                //konstanta pre dolne ohranicenie intervalu - nechceme uzsie kamene ako polovica medzery na harfovom site (zvolili sme)
-
-                //generovanie pre zvysenu hornu hranicu aby nebol problem s plochym aj dlhym zrnom naraz
-                //ellX = Random.Range(frNum / (2f*Mathf.Sqrt(5f)), flatSieveSize / 2f);
-
                 //Debug.Log("Flat");
             }
             else
             {
                 ellX = Random.Range(flatSieveSize / 2f, frNum / 2f);
 
-                //Debug.Log("Not Flat and ox is in interval " + flatSieveSize / 2f + "," + frNum / 2f + " a rovna sa      " + ellX);
             }
 
-            //vygenerujeme ellZ v zavislosti od zvoleneho ellX tak, aby ostala zachovana frakcia zodpovedajuca frNum
-            //(lebo podla ellZ je myslienkovo urcene frNum)
-            //float ellZ = Random.Range(frNum / 2f, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
             
-            //float average = (frNum / 2f) / 4f + (Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX)) * 3f / 4f;
-            //float ellZ = Random.Range(average, Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX));
-            
-            
-            //generovanie ze oz je len cislo nie interval
+            //dimension ellZ considering frNum and ellX
             float ellZ = Mathf.Sqrt(frNum * frNum / 2f - ellX * ellX);
 
-            //vygenerovanie najdlhsieho rozmeru ellY podla shape indexu
+            //dimension ellY considering if the stone is long
             float ellY = 0f;
             if (isLong)
             {
-                
-                //koeficient pre horne ohr intervalu - elipsoidy maju najdlhsi rozmer max 4,5 krat vacsi ako najkratsi (zvolili sme)
                 if (3f * ellX >= ellZ)
                 {
                     ellY = Random.Range(3f * ellX, 4f * ellX);
@@ -247,52 +218,19 @@ namespace GenerateEllipsoidsNamespace
                     //Debug.Log("horna hranica: " + upperBoundCoeff);
                 }
                 
-                
-                
-                //generovanie ked nie je problem s plochym a dlhym zrnom naraz
-                //ellY = Random.Range(3f * ellX, 4.5f * ellX);
-                
                 //Debug.Log("Long");
             }
             else
             {
-                //if (ellZ > 3 * ellX) Debug.Log("zle hranice pre Oy, nie je Long");
                 ellY = Random.Range(ellZ, 3f * ellX);
-                //Debug.Log("Not Long and oy is in interval " + ellZ + "," + 3f*ellX + " a rovna sa      " + ellY);
             }
 
-            //ellZ = Random.Range(ellZ, 3/4f * ellZ + 1/4f * ellY);
-            /*
-            string s1 = "Oz < Oy     ";
-            string s2 = "Oz < 3*Ox    ";
-            string s3 = "Ox > frNum/sqrt(20)    ";
+           
 
-            if (ellZ > ellY)
-            {
-                 s1 = "Oz > Oy     ";
-                Debug.Log(s1);
-            }
-            if(ellZ > 3f*ellX)
-            {
-                s2 = "Oz > 3*Ox    ";
-                Debug.Log(s2);
-                Debug.Log("Oz > Oy " + (ellZ > ellY));
-            }
-            if(ellX < frNum/Mathf.Sqrt(20))
-            {
-                s3 = "Ox < frNum/sqrt(20)    ";
-                Debug.Log(s3);
-                Debug.Log("isLong " + isLong + " isFlat " + isFlat);
-            }
-            */
-          //Debug.Log(s3 + s2 + s1);
-
-            //Debug.Log("2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);
+            //Debug.Log("dimensions => 2*ellX: " + 2*ellX + " 2*ellY: " + 2*ellY + " 3*(2*ellX): " + 3*2*ellX + " 2*ellZ: " + 2*ellZ);
             (int, int, int) indices = (frGrIndex, frFlIndex, frShIndex);
             (bool, bool) shape = (isFlat, isLong);
-            //return (new Vector3(ellX * 0.95f, ellY * 0.95f, ellZ * 0.95f), frNum, indices, shape);
             return (new Vector3(ellX, ellY, ellZ) * meshScaleFactor, frNum, indices, shape);
-            //return (new Vector3(ellX * 1.05f, ellY * 1.05f, ellZ * 1.05f), frNum, indices, shape);
 
         }
 
