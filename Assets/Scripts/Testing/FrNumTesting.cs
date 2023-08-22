@@ -19,7 +19,6 @@ public class FrNumTesting : MonoBehaviour
     [SerializeField] string Fraction = "[4,8]";
     [SerializeField] int noOfStonesToGenerate = 0;
     [SerializeField] int noRotations;
-    [ReadOnly] float meshScaleFactor = 1f;
     [SerializeField] bool WriteInConsole = false;
     [SerializeField] bool DoneTesting = false;
     [SerializeField] bool Save;
@@ -30,7 +29,7 @@ public class FrNumTesting : MonoBehaviour
     Fraction ActiveFraction;
     Fraction RotFrNumFraction;
 
-    //pocetnost
+    //quantity
     [ReadOnly] public float errorFrNumDifference;       //rozdiel dvoch ziskanych frNum
     [ReadOnly] public int errorBiggerFraction = 0;      //ak by sa zaradil do vacsej ako aktualna (4/8,8/16,16/22), pricom je to vacsie ako nadsit
     [ReadOnly] public int errorSmallerFraction = 0;     //ak by sa zaradil do mensej ako aktualna (4/8,8/16,16/22), pricom je to mensie ako podsit
@@ -45,7 +44,7 @@ public class FrNumTesting : MonoBehaviour
     [ReadOnly] public float errorFlFractionStonesPercentage = 0;    //% ak sa inak zaradi do flat v danej frakcii
 
 
-    //objem
+    //volume
     [ReadOnly] public float GeneratedVolume = 0f;
     [ReadOnly] public float GeneratedVolumeInRotFraction = 0f;
 
@@ -65,39 +64,34 @@ public class FrNumTesting : MonoBehaviour
 
     [ReadOnly] public float averageDifferenceOfFrNum = 0;
 
-
+    //grading curve
     [ReadOnly] public string[] GradingCurveFrNames;
     [ReadOnly] public float[] GradingCurveEllPercentage;
     [ReadOnly] public float[] GradingCurveEllVolumes;
     [ReadOnly] public float[] GradingCurveRotPercentage;
     [ReadOnly] public float[] GradingCurveRotVolumes;
 
-    public int nesediGrAEllJeViacAkoRot = 0;
-    public float nesediGrAEllJeViacAkoRotPercentage;
+    public int differentGrAndEllIsMoreThanRot = 0;
+    public float differentGrAndEllIsMoreThanRotPercentage;
 
     // Start is called before the first frame update
     void Start()
     {
         #region FRACTIONS INICIALIZATION
+
         float[] FractionRatios = new float[3] { 0f, 0f, 0f};
         FractionIndex = new Dictionary<string, int>()
                 { {"[4,8]", 0 }, {"[8,16]", 1 }, {"[16,22]", 2 } };
         FractionRatios[FractionIndex[Fraction]] = 1f;
 
         Fractions = new List<Fraction>();
-        //uvadzane v cm //?
+        //cm
         Fractions.Add(new Fraction((0.4f, 0.8f), //d/D
-                                   FractionRatios[0],           //kolko % tejto frakcie miesat
+                                   FractionRatios[0],                                           //kolko % tejto frakcie miesat
                                    
                                    new float[5] { 0.2f, 0.4f, 0.56f, 0.8f, 1.12f },             //OK        //sitovy rozbor - hranice
                                    new float[4] { 0.0809f, 0.3699f, 0.461f, 0.0858f },          //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
-                                   /*
-                                   new float[3] { 0.4f, 0.6f, 0.8f },   //sitovy rozbor - hranice
-                                   new float[2] { 0.8f, 0.2f },
-                                   */
-
-
-
+                                   
                                    new float[2] { 0.2f, 1.12f },                                //OK        //tvarovy index - hranice
                                    new float[1] { 0.0505f },                                    //OK        //tvarovy index - hodnoty
 
@@ -109,18 +103,13 @@ public class FrNumTesting : MonoBehaviour
                                    ));
 
         Fractions.Add(new Fraction((0.8f, 1.6f), //d/D
-                                   FractionRatios[1],         //kolko % tejto frakcie miesat
+                                   FractionRatios[1],                                               //kolko % tejto frakcie miesat
 
                                    
-                                   new float[5] { 0.4f, 0.56f, 0.8f, 1.12f, 1.6f },                  //OK        //sitovy rozbor - hranice
-                                   new float[4] { 0.0005f, 0.0148f, 0.2388f, 0.7446f },               //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
-                                   /*
-                                   new float[3] { 0.8f, 1.12f, 1.6f },   //sitovy rozbor - hranice
-                                   new float[2] { 0.4f, 0.6f },
-                                   */
-
-
-                                   new float[2] { 0.4f, 1.6f },                                    //OK        //tvarovy index - hranice
+                                   new float[5] { 0.4f, 0.56f, 0.8f, 1.12f, 1.6f },                 //OK        //sitovy rozbor - hranice
+                                   new float[4] { 0.0005f, 0.0148f, 0.2388f, 0.7446f },             //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
+                                   
+                                   new float[2] { 0.4f, 1.6f },                                     //OK        //tvarovy index - hranice
                                    new float[1] { 0.1198f },                                        //OK        //tvarovy index - hodnoty
 
                                    new float[7] { 0.4f, 0.5f, 0.63f, 0.8f, 1.0f, 1.25f, 1.6f },     //OK        //index plochosti - hranice
@@ -129,7 +118,7 @@ public class FrNumTesting : MonoBehaviour
                                    ));
 
         Fractions.Add(new Fraction((1.6f, 2.2f), //d/D
-                                   FractionRatios[2],         //kolko % tejto frakcie miesat
+                                   FractionRatios[2],                           //kolko % tejto frakcie miesat
 
                                    new float[3] { 1.6f, 2.24f, 3.15f },         //OK        //sitovy rozbor - hranice
                                    new float[2] { 0.7672f, 0.2328f },           //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
@@ -149,7 +138,7 @@ public class FrNumTesting : MonoBehaviour
         if (FractionIndex[Fraction] == 0)
         {
             RotFrNumFraction = new Fraction((0.4f, 0.8f), //d/D
-                                   FractionRatios[0],           //kolko % tejto frakcie miesat
+                                   FractionRatios[0],                                           //kolko % tejto frakcie miesat
 
                                    new float[5] { 0.2f, 0.4f, 0.56f, 0.8f, 1.12f },             //OK        //sitovy rozbor - hranice
                                    new float[4] { 0.0809f, 0.3699f, 0.461f, 0.0858f },          //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
@@ -167,13 +156,12 @@ public class FrNumTesting : MonoBehaviour
         else if(FractionIndex[Fraction] == 1)
         {
             RotFrNumFraction = new Fraction((0.8f, 1.6f), //d/D
-                                   FractionRatios[1],         //kolko % tejto frakcie miesat
+                                   FractionRatios[1],                                               //kolko % tejto frakcie miesat
 
-
-                                   new float[5] { 0.4f, 0.56f, 0.8f, 1.12f, 1.6f },                  //OK        //sitovy rozbor - hranice
-                                   new float[4] { 0.0005f, 0.0148f, 0.2388f, 0.7446f },               //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
+                                   new float[5] { 0.4f, 0.56f, 0.8f, 1.12f, 1.6f },                 //OK        //sitovy rozbor - hranice
+                                   new float[4] { 0.0005f, 0.0148f, 0.2388f, 0.7446f },             //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
                                    
-                                   new float[2] { 0.4f, 1.6f },                                    //OK        //tvarovy index - hranice
+                                   new float[2] { 0.4f, 1.6f },                                     //OK        //tvarovy index - hranice
                                    new float[1] { 0.1198f },                                        //OK        //tvarovy index - hodnoty
 
                                    new float[7] { 0.4f, 0.5f, 0.63f, 0.8f, 1.0f, 1.25f, 1.6f },     //OK        //index plochosti - hranice
@@ -184,7 +172,7 @@ public class FrNumTesting : MonoBehaviour
         else
         {
             RotFrNumFraction = new Fraction((1.6f, 2.2f), //d/D
-                                   FractionRatios[1],         //kolko % tejto frakcie miesat
+                                   FractionRatios[1],                           //kolko % tejto frakcie miesat
 
                                    new float[3] { 1.6f, 2.24f, 3.15f },         //OK        //sitovy rozbor - hranice
                                    new float[2] { 0.7672f, 0.2328f },           //OK        //sitovy rozbor - zostatok na site - je to "rozklad" 1 - vyjadruje percenta
@@ -214,9 +202,10 @@ public class FrNumTesting : MonoBehaviour
             stone.name = "EllipsoidFrNumTesting";
             stone.GetComponent<Rigidbody>().isKinematic = true;
 
+            //repeat generating stones and count errors of grading
             for (int i = 0; i < noOfStonesToGenerate; i++)
             {
-                stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(ActiveFraction, meshScaleFactor);
+                stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(ActiveFraction, 1f);
                 
 
                 StoneMeshProperties s = stone.GetComponent<StoneMeshProperties>();
@@ -224,11 +213,6 @@ public class FrNumTesting : MonoBehaviour
                 GeneratedVolume += volume;
                 float frNumEllipsoid = s.GetFractionNumber();
                 float frNumRotation = Prop.FrNumber(stone, noRotations);
-
-                //ratanie chyby - rozdiel dvoch frNum
-                //errorFrNumDifference = Mathf.Abs(frNumEllipsoid - frNumRotation);
-                //if (WriteInConsole) Debug.Log("rozdiel dvoch frNum: " + errorFrNumDifference);
-
 
                 //ak prekroci frNum cez rotacie najmensiu/najvacsiu hranicu pri grading - zaradili by sme ho do inej frakcie, tj ani nevysetrujeme dalej
                 bool fractionError = false;
@@ -269,23 +253,7 @@ public class FrNumTesting : MonoBehaviour
                     {
                         errorGrFractionStones++;
                         errorGrFractionStonesVolume += volume;
-                        /*
-                        //toto bolo pri rieseni problemu ze frNumRot zaraduje kamene do mensej frakcie ako frNumEll, 
-                        //ktora teraz vyjadruje najmensi stvorec kade kamen prepadne, tj, frNumRot by malo byt viac... 
-                        //Asi chyba pri vypoctoch a numerike
-
-                        if (frGrIndexEllipsoid > frGrIndexRotation)
-                        {
-                            nesediGrAEllJeViacAkoRot++;
-                            GameObject kamen = Instantiate(stone, transform.position, Quaternion.identity, transform);
-                            kamen.GetComponent<StoneMeshProperties>().EllGrFrIndexIsMoreRotGrFrIndex = true;
-                            Debug.Log("EllFrNum " + frNumEllipsoid + " RotFrNum " + frNumRotation);
-                            Debug.Log("EllGrIndex " + frGrIndexEllipsoid + " RotGrIndex " + frGrIndexRotation);
-                            Debug.Log("axes " + kamen.GetComponent<StoneMeshProperties>().axes);
-                        }
-                        */
                     }
-
 
                     int errorShIndex = Mathf.Abs(frShIndexEllipsoid - frShIndexRotation);
                     if (errorShIndex != 0)
@@ -301,14 +269,13 @@ public class FrNumTesting : MonoBehaviour
                         errorFlFractionStonesVolume += volume; 
                     }
 
-                    //////////////////////////este tto doriesit
-                     RotFrNumFraction.ActualizeVolume(s.GetVolume(), (frGrIndexRotation, frFlIndexRotation, frShIndexRotation), (s.GetIsFlat(), s.GetIsLong()));
+                    RotFrNumFraction.ActualizeVolume(s.GetVolume(), (frGrIndexRotation, frFlIndexRotation, frShIndexRotation), (s.GetIsFlat(), s.GetIsLong()));
                     GeneratedVolumeInRotFraction += volume;
                 }
 
             }
 
-            //pocetnost
+            //quantity
             errorBiggerFractionPercentage = errorBiggerFraction / (float)noOfStonesToGenerate * 100;
             errorSmallerFractionPercentage = errorSmallerFraction / (float)noOfStonesToGenerate * 100;            
             int errorFractionStones = errorBiggerFraction + errorSmallerFraction;
@@ -318,10 +285,10 @@ public class FrNumTesting : MonoBehaviour
             errorShFractionStonesPercentage = errorShFractionStones / (float)notErrorFractionStones * 100;
             errorFlFractionStonesPercentage = errorFlFractionStones / (float)notErrorFractionStones * 100;
 
-            nesediGrAEllJeViacAkoRotPercentage = nesediGrAEllJeViacAkoRot / (float)errorGrFractionStones * 100;
+            differentGrAndEllIsMoreThanRotPercentage = differentGrAndEllIsMoreThanRot / (float)errorGrFractionStones * 100;
 
 
-            //objemy
+            //volume
             errorBiggerFractionVolumePercentage = errorBiggerFractionVolume / GeneratedVolume * 100;
             errorSmallerFractionVolumePercentage = errorSmallerFractionVolume / GeneratedVolume * 100;
             errorOtherFractionVolumePercentage = errorOtherFractionVolume / GeneratedVolume * 100;
@@ -389,20 +356,6 @@ public class FrNumTesting : MonoBehaviour
 
             if (Save)
             {
-                //s meniacou sa skalou ukladanie
-                /*
-                if (!Directory.Exists("Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor))
-                {
-                    Directory.CreateDirectory("Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor);
-                    AssetDatabase.Refresh();
-                }
-
-                ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction + "/Scale" + meshScaleFactor,
-                                        "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations_" + meshScaleFactor + "Scale",textResults, false, 1,
-                                        "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations + "_Scale" + meshScaleFactor);
-                */
-
-                //bez skalovania ukldanie   
                 ModelSavingSystem.SaveTestingModel(transform, "Assets/SavedModels/TestingModels/FrNumTest/Fraction" + Fraction,
                                         "Model_" + Fraction + "_" + noOfStonesToGenerate + "stones_" + noRotations + "rotations", textResults, false, 1,
                                         "Stones" + noOfStonesToGenerate + "_Rotations" + noRotations);

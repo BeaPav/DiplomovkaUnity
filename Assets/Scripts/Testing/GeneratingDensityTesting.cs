@@ -28,10 +28,10 @@ public class GeneratingDensityTesting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        //FractionRatios = new float[3] { 0.3f, 0.3f, 0.4f };
+        #region FRACTIONS INICIALIZATION
 
         Fractions = new List<Fraction>();
-        //uvadzane v cm //?
+        //cm 
         Fractions.Add(new Fraction((0.4f, 0.8f), //d/D
                                    FractionRatios[0],           //kolko % tejto frakcie miesat
 
@@ -79,7 +79,7 @@ public class GeneratingDensityTesting : MonoBehaviour
         if (FractionRatios.Length != Fractions.Count)
             Debug.LogError("ina dlzka vektorov pre frakcie a vektora pomerov pre miesanie frakcii");
 
-        //inicializacia vlastnosti frakcii
+        //fractions properties inicialization
         FrProperties = new FractionProperties[Fractions.Count];
 
         for (int i = 0; i < Fractions.Count; i++)
@@ -90,23 +90,8 @@ public class GeneratingDensityTesting : MonoBehaviour
             FrProperties[i].ShapeIndex = new ShapeIndex(Fractions[i].ShapeSubfractions.Length);
             FrProperties[i].FlatIndex = new FlatInex(Fractions[i].FlatSubfractions.Length);
 
-            //// mena dame do funkcii ako je to v grading
-            /*
-            //mena pre hranice frakcii
-            for (int j = 0; j < Fractions[i].GradingSubfractions.Length; j++)
-            {
-                FrProperties[i].GradingCurve.FrNames[j] = new string(Fractions[i].GradingSubfractions[j].FractionBoundaries.ToString());
-            }
-            for (int j = 0; j < Fractions[i].ShapeSubfractions.Length; j++)
-            {
-                FrProperties[i].ShapeIndex.FrNames[j] = new string(Fractions[i].ShapeSubfractions[j].FractionBoundaries.ToString());
-            }
-            for (int j = 0; j < Fractions[i].FlatSubfractions.Length; j++)
-            {
-                FrProperties[i].FlatIndex.FrNames[j] = new string(Fractions[i].FlatSubfractions[j].FractionBoundaries.ToString());
-            }
-            */
         }
+        #endregion
     }
 
     // Update is called once per frame
@@ -122,6 +107,7 @@ public class GeneratingDensityTesting : MonoBehaviour
             stone.name = "EllGeneratingDensityTesting";
             stone.GetComponent<Rigidbody>().isKinematic = true;
 
+            //repeat generating stones and counting volumes to test final properties
             for (int i = 0; i < noOfStonesToGenerate; i++)
             {
                 ActiveFractionIndex = FractionChoice();
@@ -131,6 +117,7 @@ public class GeneratingDensityTesting : MonoBehaviour
 
             }
 
+            //create text results
             string textResults = "";
             string textTMPResults;
             for(int i = 0; i< Fractions.Count; i++)

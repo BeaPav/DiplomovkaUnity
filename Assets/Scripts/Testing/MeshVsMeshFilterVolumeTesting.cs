@@ -25,6 +25,7 @@ public class MeshVsMeshFilterVolumeTesting : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        #region FRACTIONS INICIALIZATION
         FractionRatios = new float[3] { 0.3f, 0.3f, 0.4f };
 
         Fractions = new List<Fraction>();
@@ -72,6 +73,7 @@ public class MeshVsMeshFilterVolumeTesting : MonoBehaviour
                                    new float[3] { 1.0f, 1.25f, 1.6f },          //OK        //index plochosti - harfove sita medzery
                                    new float[3] { 0.1f, 0.1f, 0.1f }            //ODHADNUTE //index plochosti - hodnoty
                                    ));
+        #endregion
     }
 
     // Update is called once per frame
@@ -87,6 +89,7 @@ public class MeshVsMeshFilterVolumeTesting : MonoBehaviour
             stone.name = "MeshVsMeshFilterVolumeTesting";
             stone.GetComponent<Rigidbody>().isKinematic = true;
 
+            //generate stone mesh and compare volume
             for (int i = 0; i < noOfStonesToGenerate; i++)
             {
                 ActiveFractionIndex = FractionChoice();
