@@ -68,29 +68,20 @@ public class EllipsoidsSpawning : MonoBehaviour
     {
         #region INITIALIZE VARIABLES
 
-        //zmena gravitacneho zrychlenia kvoli jednotkam, z metrov ideme a cm
-        //Physics.gravity = new Vector3(0f, -980f, 0f);
 
         ProcessPaused = false;
-        /*
-        BoxVibr = GetComponent<BoxVibrations>();
-        BoxVibr.enabled = false;
-        */
 
-        //BoxVolume sa urci pomocou urcenia objemu telesa, ktore sa nezobrazuje ale vyplna objem
+        //BoxVolume -- according to box-volume object (not rendered)
         Transform boxVolumeObject = transform.Find("BoxVolume");
         BoxVolume = Prop.VolumeOfEllipsoidMesh(boxVolumeObject.GetComponent<MeshFilter>());
-        Debug.Log("ObjemNadoby: " + BoxVolume);
-
+        //Debug.Log("ObjemNadoby: " + BoxVolume);
 
 
         SpawnPoint = transform.position;
         SpawnPoint.y += 2f * transform.localScale.y + 2f * transform.localScale.y * SpawnRelativeYOffset;
         SpawnOffset = Mathf.Min(transform.localScale.x, transform.localScale.z) * SpawnRelativeXZOffset;
 
-        //pomery v akych miesame
-        //FractionRatios = new float[3] { 0f, 0.6f, 0.4f };
-
+        //control of defined ratios
         float sumOfRatioList = 0f;
         foreach (float f in FractionRatios)
         {
@@ -99,8 +90,12 @@ public class EllipsoidsSpawning : MonoBehaviour
         if (sumOfRatioList != 1f)
             Debug.LogError("suma pomerov, ako chceme miesat frakcie nie je jedna");
 
+        #endregion
+
+        #region FRACTIONS INICIALIZATION
+
         Fractions = new List<Fraction>();
-        //uvadzane v cm //?
+        //cm
         Fractions.Add(new Fraction(( 0.4f, 0.8f ), //d/D
                                    FractionRatios[0],           //kolko % tejto frakcie miesat
 
@@ -152,8 +147,9 @@ public class EllipsoidsSpawning : MonoBehaviour
 
         if (FractionRatios.Length != Fractions.Count)
             Debug.LogError("ina dlzka vektorov pre frakcie a vektora pomerov pre miesanie frakcii");
-
         #endregion
+
+        
 
     }
 
@@ -164,7 +160,8 @@ public class EllipsoidsSpawning : MonoBehaviour
         {
             if (!ProcessPaused)
             {
-                if (NoDestroyedStones < MaxNumerOfDestroyedStones)
+                
+                if (NoDestroyedStones < MaxNumerOfDestroyedStones)  //end criterion
                 {
                     if (Time.time > TimeLastSpawn + TimePause)
                     {
@@ -179,18 +176,14 @@ public class EllipsoidsSpawning : MonoBehaviour
                         iterStonesNames++;
                         noOfGeneratedStones++;
 
-                        //urcenie aku frakciu ideme primiesat podla zelaneho pomeru
+                        //Selecting fraction according to fraction ratios
                         ActiveFractionIndex = FractionChoice();
                        
+                        //Generating mesh of ellipsoid and defining its other properties
                         stone.GetComponent<GenerateEllipsoidObject>().GenerateEllipsoid(Fractions[ActiveFractionIndex]);
                         stone.GetComponent<StoneMeshProperties>().fractionIndex = ActiveFractionIndex;
-
-
                         stone.transform.rotation = Random.rotationUniform;
                         stone.GetComponent<Rigidbody>().useGravity = true;
-
-
-                        //hlupo mera hmotnost
                         stone.GetComponent<Rigidbody>().mass = DensityOfStoneMaterial * stone.GetComponent<StoneMeshProperties>().GetVolume();
 
                         EllipsoidsActualVolume += stone.GetComponent<StoneMeshProperties>().GetVolume();
@@ -202,25 +195,19 @@ public class EllipsoidsSpawning : MonoBehaviour
                 {
                     ProcessPaused = true;
                     ProcessPausedTime = Time.time;
-                    /*
-                    if(Vibration)
-                    {
-                        BoxVibr.enabled = true;
-                    }
-                    */
                 }
             }
         }
         //Calculation of propertiesof completed model
         else if (!PropertiesCalculated)
         {
-            Debug.Log("zaciatok ratania properties");
+            //Debug.Log("zaciatok ratania properties");
             PropertiesCalculated = true;
 
             Prop.CountPropertiesOfModel(EllipsoidParent, BoxVolume, out string textModelResults);
             Prop.CountPropertiesOfModelFractions(EllipsoidParent, Fractions, out string textFractionsResults);
 
-
+            //saving
             if(SaveModel)
                 ModelSavingSystem.SaveModel(EllipsoidParent.transform, folderIterStarter, SavePath, (FractionRatios[0], FractionRatios[1], FractionRatios[2]),
                                             textModelResults + textFractionsResults, false, false);
@@ -270,22 +257,5 @@ public class EllipsoidsSpawning : MonoBehaviour
         return index;
     }
 
-    //urcenie indexu zo zoznamu frakcii podla zaradenia cez frNum
-    int IndexFromFractionVector(float num, Fraction[] frac)
-    {
-        int i = 0;
-        if (frac[frac.Length - 1].FractionBoundaries.Item2 < num)
-        {
-            //Debug.Log("prekrocenie hranic pri zaradovani do frakcie");
-            return 1000;
-        }
-
-        while (frac[i].FractionBoundaries.Item2 < num)
-        {
-            i++;
-        }
-
-        return i;
-    }
 
 }
