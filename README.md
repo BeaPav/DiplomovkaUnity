@@ -18,5 +18,5 @@ of aggregate mixtures and their subsequent optimization.
 
 These files constitute a Unity project in which the stone mixing algorithm has been implemented, intended for generating models for a diploma thesis.
 
-<img src="Assets/Pictures/Model0-10-90.png" width="300"/> <img src="Assets/Pictures/Model50-50-0.png" width="300"/>
-<img src="Assets/Pictures/Model90-0-10_1.png" width="300"/>
+<img src="Assets/Pictures/Model0-10-90.png" width="200"/> <img src="Assets/Pictures/Model50-50-0.png" width="200"/>
+<img src="Assets/Pictures/Model90-0-10_1.png" width="200"/>
